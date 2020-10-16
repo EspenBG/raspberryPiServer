@@ -1,6 +1,6 @@
 # Raspberry Pi Server
 
-This is the server application made for Raspberry Pi to receive communication from an arduino clien and display the values on a webpage.
+This is the server application made for Raspberry Pi to receive communication from an arduino client and display the values on a webpage.
 
 [comment]: <> (TODO: Add a complete guide and description for the module)
 
