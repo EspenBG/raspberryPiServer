@@ -1,18 +1,58 @@
-const app = require('express')();
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
 
 
-io.on('connect', socket => {
-    console.log("User connected");
+var wsUri = "wss://echo.websocket.org/";
+var output;
 
-    let clientId = socket.id;
-    console.log(clientId);
-    let client = io.sockets.connected[clientId];
+function init()
+{
+    output = document.getElementById("output");
+    testWebSocket();
+}
 
-    client.emit('test', 5)
+function testWebSocket()
+{
+    websocket = new WebSocket(wsUri);
+    websocket.onopen = function(evt) { onOpen(evt) };
+    websocket.onclose = function(evt) { onClose(evt) };
+    websocket.onmessage = function(evt) { onMessage(evt) };
+    websocket.onerror = function(evt) { onError(evt) };
+}
 
-})
+function onOpen(evt)
+{
+    writeToScreen("CONNECTED");
+    doSend("WebSocket rocks");
+}
 
-server.listen(3000);
+function onClose(evt)
+{
+    writeToScreen("DISCONNECTED");
+}
+
+function onMessage(evt)
+{
+    writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+    websocket.close();
+}
+
+function onError(evt)
+{
+    writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+}
+
+function doSend(message)
+{
+    writeToScreen("SENT: " + message);
+    websocket.send(message);
+}
+
+function writeToScreen(message)
+{
+    var pre = document.createElement("p");
+    pre.style.wordWrap = "break-word";
+    pre.innerHTML = message;
+    output.appendChild(pre);
+}
+
+window.addEventListener("load", init, false);
 
