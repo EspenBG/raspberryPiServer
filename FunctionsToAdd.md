@@ -20,7 +20,7 @@ When the unit has  been authenticated it can start transmitting sensor data to t
 Where sensorData is formatted in JSON and need to include the unitId as a number between 000 and 999, 
 sensorId as a number between 000 and 999 and 
 temperature as a number between -50 and 250 (degrees celsius). 
-See the example below. (You are NOT required to include the zeroes.)
+See the example below. (You are NOT required to include the zeroes.) 
 
     {
     "unitId": 001,
