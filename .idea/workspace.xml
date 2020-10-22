@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="f105291f-2a0b-4d27-a81b-b5b77c2c2a5c" name="Default Changelist" comment="" />
+    <list default="true" id="f105291f-2a0b-4d27-a81b-b5b77c2c2a5c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,11 +62,61 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602862078879</updated>
-      <workItem from="1602862079905" duration="937000" />
+      <workItem from="1602862079905" duration="2594000" />
+      <workItem from="1603354020962" duration="2204000" />
     </task>
+    <task id="LOCAL−00001" summary="Added a README.md to the project">
+      <created>1602863413421</created>
+      <option name="number" value="LOCAL−00001" />
+      <option name="presentableId" value="LOCAL−00001" />
+      <updated>1602863413421</updated>
+    </task>
+    <task id="LOCAL−00002" summary="Added a README.md to the project">
+      <created>1602863453643</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1602863453643</updated>
+    </task>
+    <task id="LOCAL−00003" summary="Merge remote-tracking branch 'origin/master'">
+      <created>1602863492311</created>
+      <option name="number" value="LOCAL−00003" />
+      <option name="presentableId" value="LOCAL−00003" />
+      <updated>1602863492311</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added a README.md to the project" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/master'" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/master'" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="815" y="418" width="594" height="204" key="Github.ShareDialog" timestamp="1602863008627">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="815" y="418" width="594" height="204" key="Github.ShareDialog/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1602863008627" />
+    <state x="746" y="225" key="Github.UntrackedFilesDialog" timestamp="1602863016528">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="746" y="225" key="Github.UntrackedFilesDialog/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1602863016528" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1602863496448">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1602863496448" />
   </component>
 </project>
