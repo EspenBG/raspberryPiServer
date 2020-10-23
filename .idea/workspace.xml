@@ -31,12 +31,15 @@
       <path>
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
         <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="BRANCH:master" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:wip" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:wip/test-project" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f105291f-2a0b-4d27-a81b-b5b77c2c2a5c" name="Default Changelist" comment="Started on the script for the server.&#10;-Added a new file FunctionsToAdd.md containing information of future implementations to the server" />
+    <list default="true" id="f105291f-2a0b-4d27-a81b-b5b77c2c2a5c" name="Default Changelist" comment="Added branches to the README.md">
+      <change afterPath="$PROJECT_DIR$/FunctionsToAdd.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,7 +56,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="wip/test-project" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -143,13 +146,7 @@
       <option name="presentableId" value="LOCAL−00006" />
       <updated>1603371205958</updated>
     </task>
-    <task id="LOCAL−00007" summary="Started on the script for the server.&#10;-Added a new file FunctionsToAdd.md containing information of future implementations to the server">
-      <created>1603394930254</created>
-      <option name="number" value="LOCAL−00007" />
-      <option name="presentableId" value="LOCAL−00007" />
-      <updated>1603394930254</updated>
-    </task>
-    <option name="localTasksCounter" value="8" />
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,7 +163,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="wip/test-project" />
                       </list>
                     </value>
                   </entry>
@@ -186,8 +183,7 @@
     <MESSAGE value="Added example code to the project" />
     <MESSAGE value="Fixed TODOs in README.md" />
     <MESSAGE value="Added branches to the README.md" />
-    <MESSAGE value="Started on the script for the server.&#10;-Added a new file FunctionsToAdd.md containing information of future implementations to the server" />
-    <option name="LAST_COMMIT_MESSAGE" value="Started on the script for the server.&#10;-Added a new file FunctionsToAdd.md containing information of future implementations to the server" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added branches to the README.md" />
   </component>
   <component name="WindowStateProjectService">
     <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603387035481">
@@ -202,22 +198,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="746" y="225" key="Github.UntrackedFilesDialog/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1602863016528" />
-    <state width="1899" height="281" key="GridCell.Tab.0.bottom" timestamp="1603390010170">
+    <state width="1899" height="281" key="GridCell.Tab.0.bottom" timestamp="1603462936450">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1603390010170" />
-    <state width="1899" height="281" key="GridCell.Tab.0.center" timestamp="1603390010170">
+    <state width="1899" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1603462936450" />
+    <state width="1899" height="281" key="GridCell.Tab.0.center" timestamp="1603462936450">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1603390010170" />
-    <state width="1899" height="281" key="GridCell.Tab.0.left" timestamp="1603390010170">
+    <state width="1899" height="281" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1603462936450" />
+    <state width="1899" height="281" key="GridCell.Tab.0.left" timestamp="1603462936450">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1603390010170" />
-    <state width="1899" height="281" key="GridCell.Tab.0.right" timestamp="1603390010170">
+    <state width="1899" height="281" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1603462936450" />
+    <state width="1899" height="281" key="GridCell.Tab.0.right" timestamp="1603462936450">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1603390010170" />
+    <state width="1899" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1603462936450" />
     <state width="1899" height="348" key="GridCell.Tab.1.bottom" timestamp="1603388472620">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -270,9 +266,13 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="598" y="281" key="MultipleFileMergeDialog/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1603369527071" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1603371210902">
+    <state x="159" y="253" width="1687" height="534" key="Vcs.Push.Dialog.v2" timestamp="1603463043222">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1603371210902" />
+    <state x="159" y="253" width="1687" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1603463043222" />
+    <state x="740" y="233" key="git4idea.branch.GitSmartOperationDialog" timestamp="1603462949349">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="233" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1603462949349" />
   </component>
 </project>
