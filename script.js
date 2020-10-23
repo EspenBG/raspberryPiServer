@@ -1,58 +1,46 @@
+const app = require('express')();
+const server = require('http').createServer(app);
+const io = require('socket.io').listen(server);
+
+const roomForAuthentication = 'unsafeClients';
+let unusedPasscodes = [123456789, 123456788];
 
 
-var wsUri = "wss://echo.websocket.org/";
-var output;
 
-function init()
-{
-    output = document.getElementById("output");
-    testWebSocket();
+io.on('connection', socket => {
+
+    // When a client connects to the server it gets sent to the room for unsafe clients
+    let clientId = socket.id;
+    let client = io.sockets.connected[clientId];
+    console.log("Client connected with id: " + clientId)
+    //client.join(roomForAuthentication);
+    socket.emit('connected', true);
+    client.emit('test', 'fsfsfdf');
+    io.on('test', data => {
+        console.log(data);
+    });
+    socket.on('dataFromBoard', function(data) { //This is function that actually receives the data. The earlier one only starts the function.
+        
+        console.log('user ' + ' gained the data: ' + data);
+
+    });
+});
+
+
+
+
+server.listen(3000);
+
+
+// TODO add parsing of JSON
+
+/**
+ * Prints all the connected sockets in the room
+ * @param roomName
+ */
+function printRoomClients(roomName) {
+    let clients = io.in(roomName).connected;
+    for (const socket in clients) {
+        console.log(socket);
+    }
 }
-
-function testWebSocket()
-{
-    websocket = new WebSocket(wsUri);
-    websocket.onopen = function(evt) { onOpen(evt) };
-    websocket.onclose = function(evt) { onClose(evt) };
-    websocket.onmessage = function(evt) { onMessage(evt) };
-    websocket.onerror = function(evt) { onError(evt) };
-}
-
-function onOpen(evt)
-{
-    writeToScreen("CONNECTED");
-    doSend("WebSocket rocks");
-}
-
-function onClose(evt)
-{
-    writeToScreen("DISCONNECTED");
-}
-
-function onMessage(evt)
-{
-    writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
-    websocket.close();
-}
-
-function onError(evt)
-{
-    writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
-}
-
-function doSend(message)
-{
-    writeToScreen("SENT: " + message);
-    websocket.send(message);
-}
-
-function writeToScreen(message)
-{
-    var pre = document.createElement("p");
-    pre.style.wordWrap = "break-word";
-    pre.innerHTML = message;
-    output.appendChild(pre);
-}
-
-window.addEventListener("load", init, false);
-
