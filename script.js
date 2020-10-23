@@ -5,7 +5,37 @@ const io = require('socket.io').listen(server);
 const roomForAuthentication = 'unsafeClients';
 let unusedPasscodes = [123456789, 123456788];
 
+const adminNamespace = io.of('/admin');
 
+adminNamespace.use((socket, next) => {
+    // ensure the user has sufficient rights
+    // TODO add logic to check if the admin has the correct rights
+    console.log("Admin Logged in")
+    next();
+});
+
+
+adminNamespace.on('connection', socket => {
+    socket.on('getData', settings => {
+        let containsTime = false;
+        let containsUnitIds = false;
+        let containsSensorIds = false;
+        let parsedSettings = JSON.parse(settings)
+
+
+        if (parsedSettings.hasOwnProperty('timeInterval'))  {
+            containsTime = true;
+        }
+        if (parsedSettings.hasOwnProperty('unitIds'))  {
+            containsUnitIds = true;
+        }
+        if (parsedSettings.hasOwnProperty('sensorIds'))  {
+            containsSensorIds = true;
+        }
+
+        let sensorData = getData();
+    });
+});
 
 io.on('connection', socket => {
 
@@ -14,15 +44,17 @@ io.on('connection', socket => {
     let client = io.sockets.connected[clientId];
     console.log("Client connected with id: " + clientId)
     //client.join(roomForAuthentication);
-    socket.emit('connected', true);
+    //socket.emit('connected', true);
     client.emit('test', 'fsfsfdf');
     io.on('test', data => {
         console.log(data);
     });
-    socket.on('dataFromBoard', function(data) { //This is function that actually receives the data. The earlier one only starts the function.
-        
-        console.log('user ' + ' gained the data: ' + data);
-
+    socket.on('temperature', (data) => {
+        console.log("Received data from: " + clientId);
+        // The data from the unit get parsed from JSON to a JS object
+        let parsedData = JSON.parse(data)
+        //TODO: Make function for sending of the data to the database
+        //console.log(parsedData.temperature);
     });
 });
 
@@ -43,4 +75,28 @@ function printRoomClients(roomName) {
     for (const socket in clients) {
         console.log(socket);
     }
+}
+
+
+/**
+ * Function to get data from the database, and returns the data as a JSON file
+ * The data that is returned is controlled by the parameters. If there are any missing parameters
+ * or is invalid (i.e. the stop time is before start time) the default values are used.
+ * @param timeInterval  array containing the start time and the stop time
+ * @param unitIds       array containing the unitIds
+ * @param sensorIds     array containing the sensorIds
+ * @returns {string}    the encoded JSON string
+ */
+function getData(timeInterval, unitIds, sensorIds) {
+    //TODO set default parameters
+    //TODO add logic to get data form database
+    let data = {
+        "time": "12:30",
+        "unitId": 1,
+        "sensorId": 1,
+        "temperature": 23.4,
+    };
+
+    let encodedData = JSON.stringify(data);
+    return encodedData
 }
