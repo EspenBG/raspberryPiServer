@@ -16,7 +16,9 @@ adminNamespace.use((socket, next) => {
 
 
 adminNamespace.on('connection', socket => {
+    console.log('TESTETETERFDC');
     socket.on('getData', settings => {
+        console.log('Data request received from admin')
         let timeInterval = [0];   // is an array containing the start time and stop time
         let unitIds = [0];        // is an array containing all the unitIds to get sensor data for
         let sensorIds = [0];      // is an array containing all the sensorIds to get data for
@@ -34,6 +36,7 @@ adminNamespace.on('connection', socket => {
         }
 
         let sensorData = getData(timeInterval, unitIds, sensorIds);
+        socket.emit('dataResponse', sensorData);
     });
 });
 
@@ -50,6 +53,7 @@ io.on('connection', socket => {
         console.log(data);
     });
     socket.on('temperature', (data) => {
+        // TODO: Add the timestamp to the object
         console.log("Received data from: " + clientId);
         // The data from the unit get parsed from JSON to a JS object
         let parsedData = JSON.parse(data)
