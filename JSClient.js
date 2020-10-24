@@ -1,21 +1,22 @@
-const io = require('socket.io-client')
+const io = require('socket.io-client');
 
-const socket = io('http://localhost:3000', {
+const socket = io('http://localhost:3000/admin', {
     reconnectionDelayMax: 10000,
     //namespace: '/admin',
 });
 
 function getData() {
     socket.emit('getData', settings => {
-        let timeInterval = ;
-        let unitIds = 001;
-        let sensorIds = 001;
+        let timeInterval = 0;
+        let unitIds = 1;
+        let sensorIds = 1;
     });
 }
 
 socket.on('connect', () => {
     console.log(socket.id); // 'G5p5...'
-    let myVar = setInterval(alertFunc, 3000);
+    console.log(socket.namespace); // 'G5p5...'
+    //let myVar = setInterval(alertFunc, 3000);
     let myVarNew = setInterval(getData, 3000);
     //console.log('temperature');
 
