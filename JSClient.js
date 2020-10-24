@@ -5,10 +5,18 @@ const socket = io('http://localhost:3000', {
     //namespace: '/admin',
 });
 
+function getData() {
+    socket.emit('getData', settings => {
+        let timeInterval = ;
+        let unitIds = 001;
+        let sensorIds = 001;
+    });
+}
+
 socket.on('connect', () => {
     console.log(socket.id); // 'G5p5...'
     let myVar = setInterval(alertFunc, 3000);
-
+    let myVarNew = setInterval(getData, 3000);
     //console.log('temperature');
 
     });
