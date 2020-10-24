@@ -17,23 +17,23 @@ adminNamespace.use((socket, next) => {
 
 adminNamespace.on('connection', socket => {
     socket.on('getData', settings => {
-        let containsTime = false;
-        let containsUnitIds = false;
-        let containsSensorIds = false;
+        let timeInterval = [0];   // is an array containing the start time and stop time
+        let unitIds = [0];        // is an array containing all the unitIds to get sensor data for
+        let sensorIds = [0];      // is an array containing all the sensorIds to get data for
         let parsedSettings = JSON.parse(settings)
 
 
         if (parsedSettings.hasOwnProperty('timeInterval'))  {
-            containsTime = true;
+            timeInterval = parsedSettings.timeInterval;
         }
         if (parsedSettings.hasOwnProperty('unitIds'))  {
-            containsUnitIds = true;
+            unitIds = parsedSettings.unitIds;
         }
         if (parsedSettings.hasOwnProperty('sensorIds'))  {
-            containsSensorIds = true;
+            sensorIds = parsedSettings.sensorIds;
         }
 
-        let sensorData = getData();
+        let sensorData = getData(timeInterval, unitIds, sensorIds);
     });
 });
 
