@@ -41,6 +41,7 @@ adminNamespace.on('connection', socket => {
 });
 
 io.on('connection', socket => {
+    // TODO: Make the logic for authentication of the clients i.e use passcodes
 
     // When a client connects to the server it gets sent to the room for unsafe clients
     let clientId = socket.id;
@@ -53,11 +54,11 @@ io.on('connection', socket => {
         console.log(data);
     });
     socket.on('temperature', (data) => {
-        // TODO: Add the timestamp to the object
+        // TODO 1: Add the timestamp to the object
         console.log("Received data from: " + clientId);
         // The data from the unit get parsed from JSON to a JS object
         let parsedData = JSON.parse(data)
-        //TODO: Make function for sending of the data to the database
+        //TODO 2: Make function for sending of the data to the database
         //console.log(parsedData.temperature);
     });
 });
@@ -67,8 +68,9 @@ io.on('connection', socket => {
 
 server.listen(3000);
 
-
-// TODO add parsing of JSON
+/*************
+ * FUNCTIONS *
+ *************/
 
 /**
  * Prints all the connected sockets in the room
@@ -92,8 +94,10 @@ function printRoomClients(roomName) {
  * @returns {string}    the encoded JSON string
  */
 function getData(timeInterval, unitIds, sensorIds) {
-    //TODO set default parameters
-    //TODO add logic to get data form database
+    //TODO: set default parameters
+    //TODO: add logic to get data form database
+    //TODO 3: Get stored data from JSON file and return the correct data
+
     let data = {
         "time": "12:30",
         "unitId": 1,
