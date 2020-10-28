@@ -18,10 +18,45 @@ There was multiple function that needed to be implemented to accomplish this goa
 
 ### Communication between the unit and the main server
 [//]: # (TODO: Wirte a breef description of the communication protocol)
-   
+The communication between the robot server and the robots uses socket.io. The following socket-io events need to work:
+
+#### Sending of sensor data to server
+The event to send data to the server is 'temperature', were the sensor data that is sent is packaged as a JSON string.
+The following example is to send a temperature with a JS robot:
+
+    socket.emit('temperature', '{
+        "sensorId": "#####1", 
+        "temperature": 23.5,
+        }'
+    );
+     
+Change #####1 and 23.5 to the values for the sensor. Were the sensorId is a unique identifier. 
+The sensor identifiers use is for the server to identify and store the value of the correct sensor.
+
 
 ### Storing of the sensor data
 [//]: # (TODO: Wirte a breef description of the database usage)
+
+The sensor data should be stored in a local .json file, or on an external service (like Firebase). 
+The structure of the database is a hierarchy were the top-level is sensorId. 
+Every unique sensorId has an entry under sensorId, that stores all the sensor data. 
+Every data entry contains the value of the sensor and a timestamp. See example below for the database setup. 
+In the test project there will only be one sensor. 
+
+    {
+      "SensorID": {
+        "#####1": [
+          {
+            "value": 25.2,
+            "time": 3214214
+          },
+          {
+            "value": 25.2,
+            "time": 3214214
+          }
+        ]
+      }
+    }
 
 
 ### Access of the sensor data
@@ -66,6 +101,8 @@ See the example below. (You are NOT required to include the zeroes.)
 ### Configuration of units/sensors
 The server-config.json in the config directory is the setup file for the server, and contains all the configuration for the sensors and what the sensors control.
 There is also the user configuration in the file, this part contains all the userIds for the server and what sensors each user can monitor and control. 
+
+[//]: # (TODO: Fix JSON format..)
 
     {
         "sensor-config": {
@@ -120,7 +157,7 @@ The structure of the database is like the example below:
             }
     } 
     
-    {
+    {   
         "SenorID": {
             "uniqeSensorID": {
                     "timestamp": 132321412,

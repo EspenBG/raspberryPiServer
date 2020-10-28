@@ -1,9 +1,62 @@
 const io = require('socket.io-client');
 
-const socket = io('http://localhost:3000/admin', {
+/********************
+ * TEST PARAMETERS
+ ********************/
+const sensorIDs = ['#####1', '#####2'];
+const serverURI = 'http://localhost:3000'; // Alternative: http://localhost/admin:3000
+const sendingOfRandomData = true;
+
+/********************
+ * MAIN PROGRAM
+ ********************/
+
+// Connect to the server specified
+const socket = io(serverURI, {
     reconnectionDelayMax: 10000,
     //namespace: '/admin',
 });
+
+
+socket.on('connect', () => {
+    console.log(socket.id);
+    console.log(socket.nsp);
+    let myVarNew = setInterval(getData, 3000);
+    if (sendingOfRandomData) {
+        let myVar = setInterval(sendTemperature, 3000);
+
+    }
+
+});
+
+
+socket.on('connected', () => {
+    socket.emit('changeDriveState', true);
+
+});
+
+socket.on('clientConnected', (data, tefdg) => {
+    console.log(data + " " + tefdg); // 'G5p5...'
+})
+
+
+/******************
+ * FUNCTIONS
+ ******************/
+
+function sendTemperature() {
+    // Make a random temperature between 20 and 30 degrees
+    let temperatureToSend = 20 + 10 * Math.random();
+
+    // Select a random sensor ID
+    // numberOfSensors(randomNum) round to closest int...
+    let sensorNumber = Math.floor(Math.random() * sensorIDs.length);
+    let sensorID = sensorIDs[sensorNumber];
+    let stringToSend = '{ "sensorId": "' + sensorID + '", "temperature": ' + temperatureToSend.toFixed(2) + '}';
+    socket.emit('temperature', stringToSend);
+    console.log("Sending temperature data: " + stringToSend);
+};
+
 
 function getData() {
     socket.emit('getData', settings => {
@@ -12,31 +65,3 @@ function getData() {
         let sensorIds = 1;
     });
 }
-
-socket.on('connect', () => {
-    console.log(socket.id); // 'G5p5...'
-    console.log(socket.namespace); // 'G5p5...'
-    //let myVar = setInterval(alertFunc, 3000);
-    let myVarNew = setInterval(getData, 3000);
-    //console.log('temperature');
-
-    });
-
-function myFunction() {
-}
-
-function alertFunc() {
-    console.log("Hello!");
-    socket.emit('temperature', '{ "unitId": "001", "sensorId": "001", "temperature": 25}');
-
-}
-
-socket.on('connected', () => {
-    socket.emit('changeDriveState', true);
-
-});
-
-
-socket.on('clientConnected', (data, tefdg) => {
-    console.log(data +" " + tefdg); // 'G5p5...'
-})

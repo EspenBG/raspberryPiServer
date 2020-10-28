@@ -1,11 +1,84 @@
+/*********************************************************************
+ * IMPORTS AND CONSTANTS
+ *********************************************************************/
+
 const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io').listen(server);
+const _ = require('underscore');
+const fs = require('fs');
+//const jQuery = require('jQuery') // NOT USED
+const sensorDatabase = 'database/sensor-data.json'; // This is the path to the sensor database
+let newSensorData = {SensorID:{}};  // Make the SensorID object where each sensor has there own object, see README for structure.
+
+
+let test = {
+    "value": 24.2,
+    "time": 3214214
+};
+
+//let data = fs.readFileSync('database/sensor-data.json');
+//const parsedData = JSON.parse(data);
+
+// var b = parsedData.SensorID["#####1"][0];
+// parsedData.SensorID["#####1"].push(b);
+
+newSensorData.SensorID = newSensorData.SensorID || {};
+newSensorData.SensorID["#####1"] = newSensorData.SensorID["#####1"] || [];
+newSensorData.SensorID['#####1'].push(test);
+
+
+//let oldSensorData = readSensorDatabase();
+
+//const sensorDatabase = require('/Users/espen/WebstormProjects/raspberry_pi_server/database/sensor-data.json');
+
+//console.log(sensorDatabase.SensorID["#####1"]);
+//var a = sensorDatabase;//JSON.parse('{"SensorID": {"#####1": [{"value": 25.2, "time": 3214214}, {"value": 25.2, "time": 3214214}]}}');
+
+//a.SensorID["#####1"].push(b)//{"value": 25.2, "time": 3214214};
+//var c = _.extend(a.SensorID, b);
+
+
+
+
+
+function writeNewDataToDB(newData) {
+    // For every sensor in the new data array
+    // Read the database using
+    getDatabase(sensorDatabase,(response) => {
+        Object.keys(response.SensorID).map((index, value) => {
+         console.log(index);
+        })
+    });
+
+
+
+    // Merge old file with new data
+
+
+    // const stringyfy = JSON.stringify(parsedData, null, 2);
+    // fs.writeFile('database/sensor-data.json', stringyfy, (err) => {
+    //     if (err) throw err;
+    //     console.log('Data written to file');
+    // });
+
+}
+writeNewDataToDB(newSensorData);
+
+
 
 const roomForAuthentication = 'unsafeClients';
 let unusedPasscodes = [123456789, 123456788];
 
 const adminNamespace = io.of('/admin');
+
+
+// const sensorData = fs.readFile( 'database/sensor-data.json', (err, data) => {
+//     if (err) throw err;
+//     //console.log(data.toString())
+//     return data;
+// });
+//const parsedFile = JSON.parse(sensorData);
 
 adminNamespace.use((socket, next) => {
     // ensure the user has sufficient rights
@@ -25,13 +98,13 @@ adminNamespace.on('connection', socket => {
         let parsedSettings = JSON.parse(settings)
 
 
-        if (parsedSettings.hasOwnProperty('timeInterval'))  {
+        if (parsedSettings.hasOwnProperty('timeInterval')) {
             timeInterval = parsedSettings.timeInterval;
         }
-        if (parsedSettings.hasOwnProperty('unitIds'))  {
+        if (parsedSettings.hasOwnProperty('unitIds')) {
             unitIds = parsedSettings.unitIds;
         }
-        if (parsedSettings.hasOwnProperty('sensorIds'))  {
+        if (parsedSettings.hasOwnProperty('sensorIds')) {
             sensorIds = parsedSettings.sensorIds;
         }
 
@@ -39,6 +112,7 @@ adminNamespace.on('connection', socket => {
         socket.emit('dataResponse', sensorData);
     });
 });
+
 
 io.on('connection', socket => {
     // TODO: Make the logic for authentication of the clients i.e use passcodes
@@ -57,20 +131,33 @@ io.on('connection', socket => {
         // TODO 1: Add the timestamp to the object
         console.log("Received data from: " + clientId);
         // The data from the unit get parsed from JSON to a JS object
-        let parsedData = JSON.parse(data)
+        let parsedData = JSON.parse(data);
+
+        let sensorId = parsedData.sensorId;
+        // the data to add is temperature and timestamp
+        let dataObject = {
+            value: parsedData.temperature,
+            time: Date.now(),
+        };
+        let sensorData = {};
+        sensorData[sensorId] = dataObject;
+
+        console.log(sensorData);
+        var data = _.extend(sensorData);
+
+        // the data is added to the sensorId
+
         //TODO 2: Make function for sending of the data to the database
         //console.log(parsedData.temperature);
     });
 });
 
 
-
-
 server.listen(3000);
 
-/*************
- * FUNCTIONS *
- *************/
+/*********************************************************************
+ * PROGRAM FUNCTIONS
+ *********************************************************************/
 
 /**
  * Prints all the connected sockets in the room
@@ -108,3 +195,21 @@ function getData(timeInterval, unitIds, sensorIds) {
     let encodedData = JSON.stringify(data);
     return encodedData
 }
+
+
+/**
+ * Function that retrieves a JSON database from a file path.
+ * This is an asynchronous function, and executes the callback after loading and parsing the database.
+ * @param pathToDb
+ * @param callback
+ */
+function getDatabase(pathToDb, callback) {
+
+    fs.readFile(pathToDb, (err, dataBuffer) => {
+        if (err) throw err;
+        const database = JSON.parse(dataBuffer);
+        console.log(database);
+        if(callback) callback(database);
+    });
+}
+
