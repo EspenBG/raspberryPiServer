@@ -13,6 +13,7 @@ let newSensorData = {SensorID: {}};  // Make the SensorID object where each sens
 
 const roomForAuthentication = 'unsafeClients';
 let unusedPasscodes = [123456789, 123456788];
+const serverPort = 3000;
 
 const adminNamespace = io.of('/admin');
 
@@ -21,67 +22,20 @@ let test = {
     "time": 3214214
 };
 
-//let data = fs.readFileSync('database/sensor-data.json');
-//const parsedData = JSON.parse(data);
-
-// var b = parsedData.SensorID["#####1"][0];
-// parsedData.SensorID["#####1"].push(b);
 
 newSensorData.SensorID = newSensorData.SensorID || {};
-newSensorData.SensorID["#####2"] = newSensorData.SensorID["#####2"] || [];
-newSensorData.SensorID['#####2'].push(test);
-console.log(newSensorData["SensorID"]["#####2"]);
+// newSensorData.SensorID["#####2"] = newSensorData.SensorID["#####2"] || [];
+// newSensorData.SensorID['#####2'].push(test);
+// newSensorData.SensorID['#####2'].push(test);
+// newSensorData.SensorID['#####2'].push(test);
+// newSensorData.SensorID['#####2'].push(test);
+// newSensorData.SensorID['#####2'].push(test);
+
+// console.log(newSensorData["SensorID"]["####3"]);
 
 
-//let oldSensorData = readSensorDatabase();
+//addDataToDB(sensorDatabase, newSensorData);
 
-//const sensorDatabase = require('/Users/espen/WebstormProjects/raspberry_pi_server/database/sensor-data.json');
-
-//console.log(sensorDatabase.SensorID["#####1"]);
-//var a = sensorDatabase;//JSON.parse('{"SensorID": {"#####1": [{"value": 25.2, "time": 3214214}, {"value": 25.2, "time": 3214214}]}}');
-
-//a.SensorID["#####1"].push(b)//{"value": 25.2, "time": 3214214};
-//var c = _.extend(a.SensorID, b);
-
-
-function addDataToDB(databasePath, newData) {
-    // Assumes there is only one type of data, where the first object is the same as the parent object in the database.
-
-
-    // Read the newest version of the database.
-    let dataName = Object.keys(newData)[0];
-    getDatabase(databasePath, (database) => {
-        // Merge the new data one sensor at the time
-        Object.keys(newData[dataName]).map((index, value) => {
-            console.log('Adding data form sensor: ' + index);
-            database[dataName][index] = database[dataName][index] || [];
-            newData[dataName][index].forEach((measurement) => {
-                database[dataName][index].push(measurement);
-            });
-        });
-
-    });
-
-    // Merge old file with new data
-
-
-    // const stringyfy = JSON.stringify(parsedData, null, 2);
-    // fs.writeFile('database/sensor-data.json', stringyfy, (err) => {
-    //     if (err) throw err;
-    //     console.log('Data written to file');
-    // });
-
-}
-
-addDataToDB(sensorDatabase, newSensorData);
-
-
-// const sensorData = fs.readFile( 'database/sensor-data.json', (err, data) => {
-//     if (err) throw err;
-//     //console.log(data.toString())
-//     return data;
-// });
-//const parsedFile = JSON.parse(sensorData);
 
 /****************************************
  * MAIN PROGRAM
@@ -99,6 +53,7 @@ adminNamespace.use((socket, next) => {
 adminNamespace.on('connection', socket => {
     console.log('TESTETETERFDC');
     socket.on('getData', settings => {
+        addDataToDB(sensorDatabase, newSensorData);
         console.log('Data request received from admin')
         let timeInterval = [0];   // is an array containing the start time and stop time
         let unitIds = [0];        // is an array containing all the unitIds to get sensor data for
@@ -137,6 +92,7 @@ io.on('connection', socket => {
     });
     socket.on('temperature', (data) => {
         // TODO 1: Add the timestamp to the object
+        // TODO: format print
         console.log("Received data from: " + clientId);
         // The data from the unit get parsed from JSON to a JS object
         let parsedData = JSON.parse(data);
@@ -151,7 +107,9 @@ io.on('connection', socket => {
         sensorData[sensorId] = dataObject;
 
         console.log(sensorData);
-        var data = _.extend(sensorData);
+        newSensorData.SensorID[sensorId] = newSensorData.SensorID[sensorId] || [];
+        newSensorData.SensorID[sensorId].push(dataObject);
+
 
         // the data is added to the sensorId
 
@@ -160,12 +118,27 @@ io.on('connection', socket => {
     });
 });
 
-
+let var1 = setInterval(addSensorsToDB, 60000);
 server.listen(3000);
+
 
 /*********************************************************************
  * PROGRAM FUNCTIONS
  *********************************************************************/
+
+function addSensorsToDB() {
+    addDataToDB(sensorDatabase, newSensorData, (numberOfRecords) => {
+        // Get how many measurements that was added to the database
+
+        Object.keys(numberOfRecords).map((sensor, index) => {
+            // Cycle thru every sensor with measurements that was added
+            let numberToDelete = numberOfRecords[sensor];
+            // Delete the same number of records that was added to the database (deletes from first)
+            newSensorData.SensorID[sensor].splice(0, numberToDelete)
+        });
+
+    })
+}
 
 /**
  * Prints all the connected sockets in the room
@@ -193,14 +166,19 @@ function getData(timeInterval, unitIds, sensorIds) {
     //TODO: add logic to get data form database
     //TODO 3: Get stored data from JSON file and return the correct data
 
-    let data = {
-        "time": "12:30",
-        "unitId": 1,
-        "sensorId": 1,
-        "temperature": 23.4,
+    let lastSensorReading = Object.keys(newSensorData.SensorID['#####2']).length - 1;
+    let lastSensorValue = newSensorData.SensorID['#####2'];
+    let test = {
+        SensorID:
+            {
+                '#####2': [
+                    lastSensorValue[lastSensorReading]
+                ]
+            }
+
     };
 
-    let encodedData = JSON.stringify(data);
+    let encodedData = JSON.stringify(test);
     return encodedData
 }
 
@@ -211,13 +189,72 @@ function getData(timeInterval, unitIds, sensorIds) {
  * @param pathToDb
  * @param callback
  */
-function getDatabase(pathToDb, callback) {
+function getDatabase(pathToDb, callback, error) {
 
     fs.readFile(pathToDb, (err, dataBuffer) => {
         if (err) throw err;
-        const database = JSON.parse(dataBuffer);
-        console.log(database);
-        if (callback) callback(database);
+        try {
+            const database = JSON.parse(dataBuffer);
+
+            console.log(database);
+            if (callback) callback(database);
+        // } catch (SyntaxError) {
+        //     //Run error code if there is a SyntaxError in the DB. E.g. DB is not in JSON format
+        //     console.error('Syntax error in database');
+        //     if (error) error();
+        } finally {
+
+        }
     });
 }
 
+
+/**
+ * Function that
+ * @param databasePath
+ * @param newData
+ */
+function addDataToDB(databasePath, newData, callback) {
+    // Assumes there is only one type of data, where the first object is the same as the parent object in the database.
+    // Variable to store the sensor name and how many records to delete after import to the database
+    let deletedRecords = {};
+
+    // First object is always the dataId, e.g. SensorID
+    let dataName = Object.keys(newData)[0];
+
+    // Read the newest version of the database.
+    getDatabase(databasePath, (database) => {
+        // Merge the new data one sensor at the time
+        Object.keys(newData[dataName]).map((sensor, index) => {
+            deletedRecords[sensor] = 0;
+
+            //Create the data type in the database if it is not there
+            database[dataName] = database[dataName] || {};
+            console.log('Adding data form sensor: ' + sensor);
+
+            // Create the sensor name in the database if it is not there
+            database[dataName][sensor] = database[dataName][sensor] || [];
+
+            // Add every measurement to the database
+            newData[dataName][sensor].forEach((measurement) => {
+                database[dataName][sensor].push(measurement);
+
+                // Count how many records that is added
+                deletedRecords[sensor]++;
+            });
+        });
+
+        //Convert the new database to JSON
+        const jsonDatabase = JSON.stringify(database, null, 2);
+        // Write the new database to the path
+        fs.writeFile(databasePath, jsonDatabase, (err) => {
+            if (err) throw err;
+            console.log('Data written to file');
+        });
+
+        // Callback after the database has been updated, if it is use
+        if (callback) callback(deletedRecords);
+    });
+
+    // Merge old file with new data
+}

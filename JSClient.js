@@ -3,9 +3,11 @@ const io = require('socket.io-client');
 /********************
  * TEST PARAMETERS
  ********************/
-const sensorIDs = ['#####1', '#####2'];
+const sensorIDs = ['#####1', '#####2','#####3', '#####4'];
 const serverURI = 'http://localhost:3000'; // Alternative: http://localhost/admin:3000
-const sendingOfRandomData = true;
+const sendingOfRandomData = false;
+const sendingData = true;
+const admin = false;
 
 /********************
  * MAIN PROGRAM
@@ -21,12 +23,24 @@ const socket = io(serverURI, {
 socket.on('connect', () => {
     console.log(socket.id);
     console.log(socket.nsp);
-    let myVarNew = setInterval(getData, 3000);
-    if (sendingOfRandomData) {
-        let myVar = setInterval(sendTemperature, 3000);
-
+    if (admin) {
+        let myVarNew = setInterval(getData, 3000);
     }
-
+    if (sendingData) {
+        if (sendingOfRandomData) {
+            let myVar = setInterval(sendTemperature, 3000);
+        } else {
+            let numberOfRecords = 100;
+            Object.keys(sensorIDs).map((index, value) => {
+                let record = 0;
+                for (record = 0; record < numberOfRecords; record++) {
+                    let stringToSend = '{ "sensorId": "' + sensorIDs[index] + '", "temperature": ' + record + '}';
+                    socket.emit('temperature', stringToSend);
+                    console.log('sending data for sensor: ' + sensorIDs[index] +' Value: '+ record);
+                }
+            });
+        }
+    }
 });
 
 
@@ -59,9 +73,12 @@ function sendTemperature() {
 
 
 function getData() {
-    socket.emit('getData', settings => {
-        let timeInterval = 0;
-        let unitIds = 1;
-        let sensorIds = 1;
-    });
+    let setting = {
+        timeInterval: 0,
+        unitIds: 1,
+        sensorIds: 1
+    }
+    const dataSetting = JSON.stringify(setting);
+    socket.emit('getData', dataSetting);
 }
+
