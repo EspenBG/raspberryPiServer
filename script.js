@@ -9,8 +9,12 @@ const _ = require('underscore');
 const fs = require('fs');
 //const jQuery = require('jQuery') // NOT USED
 const sensorDatabase = 'database/sensor-data.json'; // This is the path to the sensor database
-let newSensorData = {SensorID:{}};  // Make the SensorID object where each sensor has there own object, see README for structure.
+let newSensorData = {SensorID: {}};  // Make the SensorID object where each sensor has there own object, see README for structure.
 
+const roomForAuthentication = 'unsafeClients';
+let unusedPasscodes = [123456789, 123456788];
+
+const adminNamespace = io.of('/admin');
 
 let test = {
     "value": 24.2,
@@ -24,8 +28,9 @@ let test = {
 // parsedData.SensorID["#####1"].push(b);
 
 newSensorData.SensorID = newSensorData.SensorID || {};
-newSensorData.SensorID["#####1"] = newSensorData.SensorID["#####1"] || [];
-newSensorData.SensorID['#####1'].push(test);
+newSensorData.SensorID["#####2"] = newSensorData.SensorID["#####2"] || [];
+newSensorData.SensorID['#####2'].push(test);
+console.log(newSensorData["SensorID"]["#####2"]);
 
 
 //let oldSensorData = readSensorDatabase();
@@ -39,19 +44,23 @@ newSensorData.SensorID['#####1'].push(test);
 //var c = _.extend(a.SensorID, b);
 
 
+function addDataToDB(databasePath, newData) {
+    // Assumes there is only one type of data, where the first object is the same as the parent object in the database.
 
 
+    // Read the newest version of the database.
+    let dataName = Object.keys(newData)[0];
+    getDatabase(databasePath, (database) => {
+        // Merge the new data one sensor at the time
+        Object.keys(newData[dataName]).map((index, value) => {
+            console.log('Adding data form sensor: ' + index);
+            database[dataName][index] = database[dataName][index] || [];
+            newData[dataName][index].forEach((measurement) => {
+                database[dataName][index].push(measurement);
+            });
+        });
 
-function writeNewDataToDB(newData) {
-    // For every sensor in the new data array
-    // Read the database using
-    getDatabase(sensorDatabase,(response) => {
-        Object.keys(response.SensorID).map((index, value) => {
-         console.log(index);
-        })
     });
-
-
 
     // Merge old file with new data
 
@@ -63,14 +72,8 @@ function writeNewDataToDB(newData) {
     // });
 
 }
-writeNewDataToDB(newSensorData);
 
-
-
-const roomForAuthentication = 'unsafeClients';
-let unusedPasscodes = [123456789, 123456788];
-
-const adminNamespace = io.of('/admin');
+addDataToDB(sensorDatabase, newSensorData);
 
 
 // const sensorData = fs.readFile( 'database/sensor-data.json', (err, data) => {
@@ -79,6 +82,11 @@ const adminNamespace = io.of('/admin');
 //     return data;
 // });
 //const parsedFile = JSON.parse(sensorData);
+
+/****************************************
+ * MAIN PROGRAM
+ ****************************************/
+
 
 adminNamespace.use((socket, next) => {
     // ensure the user has sufficient rights
@@ -209,7 +217,7 @@ function getDatabase(pathToDb, callback) {
         if (err) throw err;
         const database = JSON.parse(dataBuffer);
         console.log(database);
-        if(callback) callback(database);
+        if (callback) callback(database);
     });
 }
 
