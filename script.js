@@ -17,25 +17,6 @@ const serverPort = 3000;
 
 const adminNamespace = io.of('/admin');
 
-let test = {
-    "value": 24.2,
-    "time": 3214214
-};
-
-
-newSensorData.SensorID = newSensorData.SensorID || {};
-// newSensorData.SensorID["#####2"] = newSensorData.SensorID["#####2"] || [];
-// newSensorData.SensorID['#####2'].push(test);
-// newSensorData.SensorID['#####2'].push(test);
-// newSensorData.SensorID['#####2'].push(test);
-// newSensorData.SensorID['#####2'].push(test);
-// newSensorData.SensorID['#####2'].push(test);
-
-// console.log(newSensorData["SensorID"]["####3"]);
-
-
-//addDataToDB(sensorDatabase, newSensorData);
-
 
 /****************************************
  * MAIN PROGRAM
@@ -165,7 +146,7 @@ function getData(timeInterval, unitIds, sensorIds) {
     //TODO: set default parameters
     //TODO: add logic to get data form database
     //TODO 3: Get stored data from JSON file and return the correct data
-
+    // Error if there are no sensor data
     let lastSensorReading = Object.keys(newSensorData.SensorID['#####2']).length - 1;
     let lastSensorValue = newSensorData.SensorID['#####2'];
     let test = {
@@ -198,10 +179,10 @@ function getDatabase(pathToDb, callback, error) {
 
             console.log(database);
             if (callback) callback(database);
-        // } catch (SyntaxError) {
-        //     //Run error code if there is a SyntaxError in the DB. E.g. DB is not in JSON format
-        //     console.error('Syntax error in database');
-        //     if (error) error();
+        } catch (SyntaxError) {
+            //Run error code if there is a SyntaxError in the DB. E.g. DB is not in JSON format
+            console.error('Error loading database. No changes has been made to the file.');
+            if (error) error();
         } finally {
 
         }
