@@ -33,86 +33,20 @@
     <select>
       <path>
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
         <item name="GROUP_NODE:wip" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="BRANCH:wip/test-project" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:origin/wip/test-project" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </select>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f105291f-2a0b-4d27-a81b-b5b77c2c2a5c" name="Default Changelist" comment="Added branches to the README.md">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_22_10_2020_21_24__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_22_10_2020_21_24__Default_Changelist_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_22_10_2020_21_36__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_22_10_2020_21_36__Default_Changelist_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_10_2020_14_25_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_10_2020_14_25__Default_Changelist_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/sensor-data.json" beforeDir="false" afterPath="$PROJECT_DIR$/database/sensor-data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/engine.io-client/node_modules/parseqs/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/engine.io-client/node_modules/parseqs/Makefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/engine.io-client/node_modules/parseqs/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/engine.io-client/node_modules/parseqs/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/engine.io-client/node_modules/parseqs/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/engine.io-client/node_modules/parseqs/test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/engine.io-client/node_modules/parseuri/History.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/engine.io-client/node_modules/parseuri/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/engine.io-client/node_modules/parseuri/Makefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/engine.io-client/node_modules/parseuri/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/engine.io-client/node_modules/parseuri/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/engine.io-client/node_modules/parseuri/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/engine.io-client/node_modules/parseuri/test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/parseqs/.npmignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/parseqs/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/parseqs/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/parseqs/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/parseqs/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/parseqs/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/parseqs/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/parseqs/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/parseqs/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/parseqs/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/parseqs/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/parseqs/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/parseqs/test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/parseuri/.npmignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/parseuri/History.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/parseuri/History.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/parseuri/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/parseuri/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/parseuri/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/parseuri/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/parseuri/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/parseuri/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FunctionsToAdd.md" beforeDir="false" afterPath="$PROJECT_DIR$/FunctionsToAdd.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JSClient.js" beforeDir="false" afterPath="$PROJECT_DIR$/JSClient.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/node_modules/parseuri/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/parseuri/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/parseuri/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/parseuri/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/parseuri/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/parseuri/test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/socket.io-client/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/dist/socket.io.dev.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/socket.io-client/dist/socket.io.dev.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/dist/socket.io.dev.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/socket.io-client/dist/socket.io.dev.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/dist/socket.io.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/socket.io-client/dist/socket.io.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/dist/socket.io.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/socket.io-client/dist/socket.io.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/dist/socket.io.slim.dev.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/socket.io-client/dist/socket.io.slim.dev.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/dist/socket.io.slim.dev.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/socket.io-client/dist/socket.io.slim.dev.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/dist/socket.io.slim.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/socket.io-client/dist/socket.io.slim.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/dist/socket.io.slim.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/socket.io-client/dist/socket.io.slim.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/lib/manager.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/socket.io-client/lib/manager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/lib/socket.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/socket.io-client/lib/socket.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/base64-arraybuffer/.npmignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/base64-arraybuffer/.travis.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/base64-arraybuffer/LICENSE-MIT" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/base64-arraybuffer/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/base64-arraybuffer/lib/base64-arraybuffer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/base64-arraybuffer/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/component-emitter/History.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/component-emitter/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/component-emitter/Readme.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/component-emitter/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/component-emitter/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/debug/.coveralls.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/debug/.eslintrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/debug/.npmignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/debug/.travis.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/debug/CHANGELOG.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/debug/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/debug/Makefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/debug/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/debug/karma.conf.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/debug/node.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/debug/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/debug/src/browser.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/debug/src/debug.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/debug/src/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/node_modules/socket.io-parser/node_modules/debug/src/node.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/socket.io-client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/socket.io-client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -175,11 +109,11 @@
       <recent name="C:\Users\Espen\WebstormProjects\server_raspberry_pi" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.script.js">
-    <configuration name="JSClient.js" type="NodeJSConfigurationType" singleton="false" temporary="true" path-to-node="$APPLICATION_CONFIG_DIR$/node/node-v12.13.1-win-x64/node" nameIsGenerated="true" path-to-js-file="JSClient.js" working-dir="$PROJECT_DIR$">
+  <component name="RunManager" selected="Node.js.JSClient.js">
+    <configuration name="JSClient.js" type="NodeJSConfigurationType" singleton="false" temporary="true" path-to-node="$APPLICATION_CONFIG_DIR$/node/node-v12.13.1-darwin-x64/bin/node" nameIsGenerated="true" path-to-js-file="JSClient.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
-    <configuration name="script.js" type="NodeJSConfigurationType" singleton="false" temporary="true" path-to-node="$APPLICATION_CONFIG_DIR$/node/node-v12.13.1-win-x64/node" nameIsGenerated="true" path-to-js-file="script.js" working-dir="$PROJECT_DIR$">
+    <configuration name="script.js" type="NodeJSConfigurationType" singleton="false" temporary="true" path-to-node="$APPLICATION_CONFIG_DIR$/node/node-v12.13.1-darwin-x64/bin/node" nameIsGenerated="true" path-to-js-file="script.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
     <list>
@@ -341,10 +275,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="Can now store sensor data in a local JSON database.&#10;- added a server-config.json, not used yet." />
   </component>
   <component name="WindowStateProjectService">
-    <state x="414" y="175" width="1092" height="762" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603985607288">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="311" y="157" width="819" height="633" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604179480570">
+      <screen x="0" y="23" width="1440" height="798" />
     </state>
     <state x="414" y="175" width="1092" height="762" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1603985607288" />
+    <state x="311" y="157" width="819" height="633" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.798@0.23.1440.798" timestamp="1604179480570" />
     <state x="-214" y="-1799" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.804/-1235.-2137.3840.2137@-1235.-2137.3840.2137" timestamp="1603888001319" />
     <state x="311" y="153" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.806@0.23.1440.806" timestamp="1603482020553" />
     <state x="406" y="230" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1603797508901">
@@ -529,10 +464,11 @@
     <state x="-1235" y="-1619" key="Vcs.Push.Dialog.v2/0.23.1440.806/-1235.-2137.3840.2137@-1235.-2137.3840.2137" timestamp="1603899698446" />
     <state x="119" y="219" key="Vcs.Push.Dialog.v2/0.23.1440.806@0.23.1440.806" timestamp="1603574255998" />
     <state x="0" y="219" width="1440" height="536" key="Vcs.Push.Dialog.v2/0.23.1440.808@0.23.1440.808" timestamp="1603647720327" />
-    <state x="688" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603984728256">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="516" y="347" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1604304984167">
+      <screen x="0" y="23" width="1440" height="801" />
     </state>
     <state x="688" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1603984728256" />
+    <state x="516" y="347" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1440.801@0.23.1440.801" timestamp="1604304984167" />
     <state x="516" y="349" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1440.806@0.23.1440.806" timestamp="1603562089756" />
     <state x="516" y="350" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1440.808@0.23.1440.808" timestamp="1603739244559" />
     <state x="197" y="205" width="1628" height="721" key="dock-window-1" timestamp="1603985154264">

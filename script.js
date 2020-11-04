@@ -2,13 +2,14 @@
  * IMPORTS AND CONSTANTS
  *********************************************************************/
 
+// TODO Add some of the options to the server-config
 const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io').listen(server);
 const _ = require('underscore');
 const fs = require('fs');
-//const jQuery = require('jQuery') // NOT USED
-const sensorDatabase = 'database/sensor-data.json'; // This is the path to the sensor database
+//const jQuery = require('jQuery') // NOT USED ANYMORE
+const sensorDatabase = 'database/sensor-data.json'; // This is the path to the sensor database //TODO move to server-config
 let newSensorData = {SensorID: {}};  // Make the SensorID object where each sensor has there own object, see README for structure.
 
 const roomForAuthentication = 'unsafeClients';
@@ -16,12 +17,11 @@ let unusedPasscodes = [123456789, 123456788];
 const serverPort = 3000;
 
 const adminNamespace = io.of('/admin');
+// TODO add the ability to logg other datasets
 
-
-/****************************************
+/*********************************************************************
  * MAIN PROGRAM
- ****************************************/
-
+ *********************************************************************/
 
 adminNamespace.use((socket, next) => {
     // ensure the user has sufficient rights
@@ -31,75 +31,78 @@ adminNamespace.use((socket, next) => {
 });
 
 
+// If there is an connection from an admin this runs
 adminNamespace.on('connection', socket => {
-    console.log('TESTETETERFDC');
     socket.on('getData', settings => {
         addDataToDB(sensorDatabase, newSensorData);
         console.log('Data request received from admin')
         let timeInterval = [0];   // is an array containing the start time and stop time
-        let unitIds = [0];        // is an array containing all the unitIds to get sensor data for
-        let sensorIds = [0];      // is an array containing all the sensorIds to get data for
+        let unitIDs = [0];        // is an array containing all the unitIDs to get sensor data for
+        let sensorIDs = [0];      // is an array containing all the sensorIDs to get data for
         let parsedSettings = JSON.parse(settings)
 
 
         if (parsedSettings.hasOwnProperty('timeInterval')) {
             timeInterval = parsedSettings.timeInterval;
         }
-        if (parsedSettings.hasOwnProperty('unitIds')) {
-            unitIds = parsedSettings.unitIds;
+        if (parsedSettings.hasOwnProperty('unitIDs')) {
+            unitIDs = parsedSettings.unitIDs;
         }
-        if (parsedSettings.hasOwnProperty('sensorIds')) {
-            sensorIds = parsedSettings.sensorIds;
+        if (parsedSettings.hasOwnProperty('sensorIDs')) {
+            sensorIDs = parsedSettings.sensorIDs;
         }
 
-        let sensorData = getData(timeInterval, unitIds, sensorIds);
+        let sensorData = getData(timeInterval, unitIDs, sensorIDs);
         socket.emit('dataResponse', sensorData);
     });
 });
 
 
+// This is what runs on all the connections that is NOT in the admin namespace
 io.on('connection', socket => {
     // TODO: Make the logic for authentication of the clients i.e use passcodes
 
     // When a client connects to the server it gets sent to the room for unsafe clients
-    let clientId = socket.id;
-    let client = io.sockets.connected[clientId];
-    console.log("Client connected with id: " + clientId)
+    let clientID = socket.id;
+    let client = io.sockets.connected[clientID];
+    console.log("Client connected with ID: " + clientID)
     //client.join(roomForAuthentication);
     //socket.emit('connected', true);
-    client.emit('test', 'fsfsfdf');
+    //client.emit('test', 'test text');
     io.on('test', data => {
         console.log(data);
     });
+    // TODO: Change the structure of the event, to make i more uniform
     socket.on('temperature', (data) => {
-        // TODO 1: Add the timestamp to the object
         // TODO: format print
-        console.log("Received data from: " + clientId);
+        console.log("Received data from: " + clientID);
         // The data from the unit get parsed from JSON to a JS object
         let parsedData = JSON.parse(data);
 
-        let sensorId = parsedData.sensorId;
+        let sensorID = parsedData.sensorID;
         // the data to add is temperature and timestamp
         let dataObject = {
-            value: parsedData.temperature,
+            value: parsedData.value,
             time: Date.now(),
         };
         let sensorData = {};
-        sensorData[sensorId] = dataObject;
+        sensorData[sensorID] = dataObject;
 
+        // TODO: format the measurement in a cleaner way
         console.log(sensorData);
-        newSensorData.SensorID[sensorId] = newSensorData.SensorID[sensorId] || [];
-        newSensorData.SensorID[sensorId].push(dataObject);
-
-
-        // the data is added to the sensorId
+        // Creates the sensor name object in the new sensor array if it doesn't exist, and adds the new measurement
+        newSensorData.SensorID[sensorID] = newSensorData.SensorID[sensorID] || [];
+        newSensorData.SensorID[sensorID].push(dataObject);
 
         //TODO 2: Make function for sending of the data to the database
         //console.log(parsedData.temperature);
     });
 });
 
+// Write new sensor data to the database every 60 seconds
 let var1 = setInterval(addSensorsToDB, 60000);
+// Start the server on port specified in the server-config
+// TODO: Add port to server-config
 server.listen(3000);
 
 
@@ -107,6 +110,9 @@ server.listen(3000);
  * PROGRAM FUNCTIONS
  *********************************************************************/
 
+/**
+ * Function to add sensor data to the database
+ */
 function addSensorsToDB() {
     addDataToDB(sensorDatabase, newSensorData, (numberOfRecords) => {
         // Get how many measurements that was added to the database
@@ -117,9 +123,9 @@ function addSensorsToDB() {
             // Delete the same number of records that was added to the database (deletes from first)
             newSensorData.SensorID[sensor].splice(0, numberToDelete)
         });
-
-    })
+    });
 }
+
 
 /**
  * Prints all the connected sockets in the room
@@ -138,11 +144,11 @@ function printRoomClients(roomName) {
  * The data that is returned is controlled by the parameters. If there are any missing parameters
  * or is invalid (i.e. the stop time is before start time) the default values are used.
  * @param timeInterval  array containing the start time and the stop time
- * @param unitIds       array containing the unitIds
- * @param sensorIds     array containing the sensorIds
+ * @param unitIDs       array containing the unitIDs
+ * @param sensorIDs     array containing the sensorIDs
  * @returns {string}    the encoded JSON string
  */
-function getData(timeInterval, unitIds, sensorIds) {
+function getData(timeInterval, unitIDs, sensorIDs) {
     //TODO: set default parameters
     //TODO: add logic to get data form database
     //TODO 3: Get stored data from JSON file and return the correct data
@@ -169,9 +175,10 @@ function getData(timeInterval, unitIds, sensorIds) {
  * This is an asynchronous function, and executes the callback after loading and parsing the database.
  * @param pathToDb
  * @param callback
+ * @param error Runs if there is an error on reading the database
  */
 function getDatabase(pathToDb, callback, error) {
-
+    // Read the database and parse it from JSON format to JS object.
     fs.readFile(pathToDb, (err, dataBuffer) => {
         if (err) throw err;
         try {
@@ -191,16 +198,19 @@ function getDatabase(pathToDb, callback, error) {
 
 
 /**
- * Function that
+ * Function that first reads the database stored on the supplied path and add the data supplied to the database.
+ * The function assumes there is only one type of data that is going to be added to the database.
+ * You need to delete the data after it is added to the database, the callback function can be used for this.
  * @param databasePath
- * @param newData
+ * @param newData  - Object contains all the sensor data the first object is the same as the parent object in the database.
+ * @param callback  - The callback function supplies the number of records that is deleted
  */
 function addDataToDB(databasePath, newData, callback) {
-    // Assumes there is only one type of data, where the first object is the same as the parent object in the database.
+    // Assumes there is only one type of data,
     // Variable to store the sensor name and how many records to delete after import to the database
     let deletedRecords = {};
 
-    // First object is always the dataId, e.g. SensorID
+    // First object is always the dataID, e.g. SensorID
     let dataName = Object.keys(newData)[0];
 
     // Read the newest version of the database.
@@ -233,9 +243,7 @@ function addDataToDB(databasePath, newData, callback) {
             console.log('Data written to file');
         });
 
-        // Callback after the database has been updated, if it is use
+        // Callback after the database has been updated, if it is in use
         if (callback) callback(deletedRecords);
     });
-
-    // Merge old file with new data
 }
