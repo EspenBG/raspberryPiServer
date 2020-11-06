@@ -6,7 +6,7 @@ const io = require('socket.io-client');
  *********************************************************************/
 const sensorIDs = ['#####1', '#####2','#####3', '#####4'];
 const serverURI = 'http://localhost:3000'; // Alternative: http://localhost/admin:3000
-const sendingOfRandomData = false;
+const sendingOfRandomData = true;
 const sendingData = true;
 const admin = false;
 //TODO 1: Add the possibility to send a passcode to authenticate the connection to the robot server

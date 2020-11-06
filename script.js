@@ -82,7 +82,7 @@ io.on('connection', socket => {
         let sensorID = parsedData.sensorID;
         // the data to add is temperature and timestamp
         let dataObject = {
-            value: parsedData.value,
+            value: parsedData.temperature,
             time: Date.now(),
         };
         let sensorData = {};

@@ -96,7 +96,7 @@ Setpoint is the event, and the setpointMessage is a string in JSON format, with 
 
     {
         "uniqeSensorID": setpoint,
-        "uniqeSensorID": setpoint2,
+        "uniqeSensorID2": setpoint2,
     }
          
 Where uniqeSensorID is replaced by the sensorID of the first sensor for the unit, and setpoint is replaced by the value of the
@@ -197,17 +197,17 @@ The structure of the database is like the example below:
                 }
             },
             
-            "uniqeSensorID2": {
+            "uniqeSensorID1": {
                     "timestamp": 5684521862,
-                    "temperature": "24.3"
+                    "temperature": "23.2"
                 },
                 {
                     "timestamp": 785768767865,
-                    "temperature": "25.3"
+                    "temperature": "20"
                 },
                 {
                     "timestamp": 344565678867823,
-                    "temperature": "24.3"
+                    "temperature": "95"
                 }
             }
         }
