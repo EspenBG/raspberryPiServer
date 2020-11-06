@@ -71,6 +71,7 @@ io.on('connection', socket => {
     //client.emit('test', 'test text');
     io.on('test', data => {
         console.log(data);
+
     });
     // TODO: Change the structure of the event, to make i more uniform
     socket.on('temperature', (data) => {
