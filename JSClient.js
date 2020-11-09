@@ -1,5 +1,10 @@
-const io = require('socket.io-client');
+/***********************************************************************************************************************
+ * JS ROBOT CLIENT
+ * THIS IS A PROGRAM FOR TESTING OF THE ROBOT SERVER
+ * WRITTEN AS A PART OF THE SUBJECT IELEA2001
+ ***********************************************************************************************************************/
 
+const io = require('socket.io-client');
 
 /*********************************************************************
  * TEST PARAMETERS

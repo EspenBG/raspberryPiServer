@@ -1,19 +1,43 @@
+/***********************************************************************************************************************
+ * ROBOT SERVER
+ * THIS IS A PROGRAM FOR CONTROLLING ROBOTS AND COMMUNICATING WITH A WEBSERVER
+ * WRITTEN AS A PART OF THE SUBJECT IELEA2001
+ ***********************************************************************************************************************/
+
 /*********************************************************************
  * IMPORTS AND CONSTANTS
  *********************************************************************/
 
 // TODO Add some of the options to the server-config
+/*
+ * Options for the server-config
+ * Port number
+ * database paths
+ * Passcodes / May be moved to a DB, then the path goes in the server-config
+ * Passcode for WebServer
+ *
+ */
+
+/*
+ * Options for the unit-config, this is used as a DB
+ * unitID: sensor1, sensor2, sensor3
+ */
+
 const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io').listen(server);
 const _ = require('underscore');
 const fs = require('fs');
 //const jQuery = require('jQuery') // NOT USED ANYMORE
+const session = require('express-session');
+const passport = require('passport');
+
 const sensorDatabase = 'database/sensor-data.json'; // This is the path to the sensor database //TODO move to server-config
 let newSensorData = {SensorID: {}};  // Make the SensorID object where each sensor has there own object, see README for structure.
 
 const roomForAuthentication = 'unsafeClients';
 let unusedPasscodes = [123456789, 123456788];
+let webserverNamespace = io.of('/webserver');
 const serverPort = 3000;
 
 const adminNamespace = io.of('/admin');
@@ -23,16 +47,22 @@ const adminNamespace = io.of('/admin');
  * MAIN PROGRAM
  *********************************************************************/
 
-adminNamespace.use((socket, next) => {
+webserverNamespace.use((socket, next) => {
     // ensure the user has sufficient rights
     // TODO add logic to check if the admin has the correct rights
+    let test = socket;
+    if (socket.request.user) {
+        next();
+    } else {
+        next(new Error('unauthorized'))
+    }
     console.log("Admin Logged in")
-    next();
+    //next();
 });
 
 
 // If there is an connection from an admin this runs
-adminNamespace.on('connection', socket => {
+webserverNamespace.on('connection', socket => {
     socket.on('getData', settings => {
         addDataToDB(sensorDatabase, newSensorData);
         console.log('Data request received from admin')
@@ -104,7 +134,7 @@ io.on('connection', socket => {
 let var1 = setInterval(addSensorsToDB, 60000);
 // Start the server on port specified in the server-config
 // TODO: Add port to server-config
-server.listen(3000);
+server.listen(serverPort);
 
 
 /*********************************************************************

@@ -249,4 +249,22 @@ Se entry [Authentication and security](#Authentication and security) for specifi
  
  ### Access sensor data
  There needs to be a place to show what sensors the user has access to. The table/graph needs to be generated from a user selection 
- of sensors and timeperiod. 
+ of sensors and timeperiod.
+ 
+ The communication between the client and the robot server to get sensor data is in the following format:
+ 
+    "getData", sensorSettings
+    
+Where getData is the event and sensorSettings is a JSON object formatted as a string. The sensorSettings can contain the 
+the following settings:
+
+- startTime: the start time in ms
+- stopTime: the stop time in ms
+- sensorID: the ID of the sensor to get information for
+ 
+ 
+            {
+            'timeInterval': "0",
+            'unitIDs': "1",
+            'sensorIDs': "#####1"n
+            }
