@@ -33,21 +33,14 @@
     <select>
       <path>
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
         <item name="GROUP_NODE:wip" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="BRANCH:origin/wip/read-from-DB" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:wip/receive-data-from-robot" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f105291f-2a0b-4d27-a81b-b5b77c2c2a5c" name="Default Changelist" comment="Finished">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FunctionsToAdd.md" beforeDir="false" afterPath="$PROJECT_DIR$/FunctionsToAdd.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/sensor-data.json" beforeDir="false" afterPath="$PROJECT_DIR$/database/sensor-data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
-    </list>
+    <list default="true" id="f105291f-2a0b-4d27-a81b-b5b77c2c2a5c" name="Default Changelist" comment="Finished" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -227,7 +220,13 @@
       <option name="presentableId" value="LOCAL−00013" />
       <updated>1603984687058</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL−00014" summary="It is now possible to ask the server for data for a sensor or a controlled item">
+      <created>1605036220661</created>
+      <option name="number" value="LOCAL−00014" />
+      <option name="presentableId" value="LOCAL−00014" />
+      <updated>1605036220661</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -247,7 +246,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="wip/read-from-DB" />
+                        <option value="wip/receive-data-from-robot" />
                       </list>
                     </value>
                   </entry>
@@ -272,7 +271,8 @@
     <MESSAGE value="Added the possibility to send data to the webpage&#10;- It does not send the correct data&#10;- Sends place holder data now&#10;- Started a draft of how the data can be stored in firebase" />
     <MESSAGE value="Started on exporting of data to a JSON database&#10;- Can read the json file&#10;- Can not write to the file yet&#10;- Added more text to multiple READMEs" />
     <MESSAGE value="Can now store sensor data in a local JSON database.&#10;- added a server-config.json, not used yet." />
-    <option name="LAST_COMMIT_MESSAGE" value="Can now store sensor data in a local JSON database.&#10;- added a server-config.json, not used yet." />
+    <MESSAGE value="It is now possible to ask the server for data for a sensor or a controlled item" />
+    <option name="LAST_COMMIT_MESSAGE" value="It is now possible to ask the server for data for a sensor or a controlled item" />
   </component>
   <component name="WindowStateProjectService">
     <state x="414" y="175" width="1092" height="858" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605021129521">
@@ -496,10 +496,10 @@
     <state x="-651" y="-2020" key="SettingsEditor/0.23.1440.804/-1235.-2137.3840.2137@-1235.-2137.3840.2137" timestamp="1603888895311" />
     <state x="219" y="67" key="SettingsEditor/0.23.1440.806@0.23.1440.806" timestamp="1603482061418" />
     <state x="219" y="67" key="SettingsEditor/1440.23.1102.719/0.23.1440.811@0.23.1440.811" timestamp="1604955292703" />
-    <state x="119" y="221" width="1440" height="536" key="Vcs.Push.Dialog.v2" timestamp="1604939104752">
-      <screen x="0" y="23" width="1440" height="812" />
+    <state x="159" y="253" width="1440" height="536" key="Vcs.Push.Dialog.v2" timestamp="1605036295006">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="159" y="253" width="1687" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1603984719001" />
+    <state x="159" y="253" width="1687" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1605036295006" />
     <state x="-1235" y="-1619" key="Vcs.Push.Dialog.v2/0.23.1440.806/-1235.-2137.3840.2137@-1235.-2137.3840.2137" timestamp="1603899698446" />
     <state x="119" y="219" key="Vcs.Push.Dialog.v2/0.23.1440.806@0.23.1440.806" timestamp="1603574255998" />
     <state x="0" y="219" width="1440" height="536" key="Vcs.Push.Dialog.v2/0.23.1440.808@0.23.1440.808" timestamp="1603647720327" />
@@ -536,7 +536,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/script.js</url>
           <line>95</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="26" />
         </line-breakpoint>
       </breakpoints>

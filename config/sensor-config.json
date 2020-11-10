@@ -1,0 +1,18 @@
+{
+  "sensor-config": {
+    "####1": {
+      "unit": "unit1",
+      "type": "temperature",
+      "controlType": "reversed",
+      "controlledItem": true,
+      "setpoint": 23.0
+    },
+    "####2": {
+      "unit": "unit1",
+      "type": "co2",
+      "controlType": "reversed",
+      "controlledItem": true,
+      "setpoint": 23.0
+    }
+  }
+}
