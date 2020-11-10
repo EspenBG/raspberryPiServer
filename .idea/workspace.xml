@@ -41,7 +41,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f105291f-2a0b-4d27-a81b-b5b77c2c2a5c" name="Default Changelist" comment="Finished">
-      <change afterPath="$PROJECT_DIR$/config/robot-config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/controlled-item-data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FunctionsToAdd.md" beforeDir="false" afterPath="$PROJECT_DIR$/FunctionsToAdd.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -234,7 +235,13 @@
       <option name="presentableId" value="LOCAL−00015" />
       <updated>1605036862466</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL−00016" summary="Added robot-config.json to store the configuration for the robots/units&#10;-Contains two example robots">
+      <created>1605037143292</created>
+      <option name="number" value="LOCAL−00016" />
+      <option name="presentableId" value="LOCAL−00016" />
+      <updated>1605037143292</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -281,7 +288,8 @@
     <MESSAGE value="Can now store sensor data in a local JSON database.&#10;- added a server-config.json, not used yet." />
     <MESSAGE value="It is now possible to ask the server for data for a sensor or a controlled item" />
     <MESSAGE value="Added sensor-config.json to store the configuration for the sensors&#10;-Contains to example sensors" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added sensor-config.json to store the configuration for the sensors&#10;-Contains to example sensors" />
+    <MESSAGE value="Added robot-config.json to store the configuration for the robots/units&#10;-Contains two example robots" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added robot-config.json to store the configuration for the robots/units&#10;-Contains two example robots" />
   </component>
   <component name="WindowStateProjectService">
     <state x="414" y="175" width="1092" height="858" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605021129521">
@@ -506,10 +514,10 @@
     <state x="-651" y="-2020" key="SettingsEditor/0.23.1440.804/-1235.-2137.3840.2137@-1235.-2137.3840.2137" timestamp="1603888895311" />
     <state x="219" y="67" key="SettingsEditor/0.23.1440.806@0.23.1440.806" timestamp="1603482061418" />
     <state x="219" y="67" key="SettingsEditor/1440.23.1102.719/0.23.1440.811@0.23.1440.811" timestamp="1604955292703" />
-    <state x="159" y="253" width="1440" height="536" key="Vcs.Push.Dialog.v2" timestamp="1605036295006">
+    <state x="159" y="253" width="1440" height="536" key="Vcs.Push.Dialog.v2" timestamp="1605037154731">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="159" y="253" width="1687" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1605036295006" />
+    <state x="159" y="253" width="1687" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1605037154731" />
     <state x="-1235" y="-1619" key="Vcs.Push.Dialog.v2/0.23.1440.806/-1235.-2137.3840.2137@-1235.-2137.3840.2137" timestamp="1603899698446" />
     <state x="119" y="219" key="Vcs.Push.Dialog.v2/0.23.1440.806@0.23.1440.806" timestamp="1603574255998" />
     <state x="0" y="219" width="1440" height="536" key="Vcs.Push.Dialog.v2/0.23.1440.808@0.23.1440.808" timestamp="1603647720327" />

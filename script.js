@@ -19,7 +19,7 @@
  */
 
 /*
- * Options for the unit-config, this is used as a DB
+ * Options for the robot-config, this is used as a DB with an overview of what sensor is connected to the different robots
  * unitID: sensor1, sensor2, sensor3
  */
 const EventEmitter = require('eventemitter3');
@@ -34,7 +34,12 @@ const session = require('express-session');
 const passport = require('passport');
 
 const sensorDatabase = 'database/sensor-data.json'; // This is the path to the sensor database //TODO move to server-config
-let newSensorData = {SensorID: {}};  // Make the SensorID object where each sensor has there own object, see README for structure.
+const controlledItemDatabase = 'database/controlled-item-data.json'; // This is the path to the controlled item database //TODO move to server-config
+
+let newSensorData = {       // Object for storing data received from robots in the same structure as the database
+    SensorID: {},           // Make the SensorID object
+    ControlledItemID: {}    // Make the ControlledItemID object
+};
 
 const roomForAuthentication = 'unsafeClients';
 let unusedPasscodes = [123456789, 123456788];
@@ -119,7 +124,7 @@ io.on('connection', socket => {
         console.log(data);
 
     });
-    // TODO: Change the structure of the event, to make i more uniform
+    // TODO: Change the structure of the event, to make it more uniform
     socket.on('temperature', (data) => {
         // TODO: format print
         console.log("Received data from: " + clientID);
@@ -148,6 +153,7 @@ io.on('connection', socket => {
 
 // Write new sensor data to the database every 60 seconds
 let var1 = setInterval(addSensorsToDB, 60000);
+
 // Start the server on port specified in the server-config
 // TODO: Add port to server-config
 server.listen(serverPort);
