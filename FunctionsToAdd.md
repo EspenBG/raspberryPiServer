@@ -259,12 +259,14 @@ Where getData is the event and sensorSettings is a JSON object formatted as a st
 the following settings:
 
 - startTime: the start time in ms
-- stopTime: the stop time in ms
+- stopTime: the stop time in ms (set to 0 to get all records)
 - sensorID: the ID of the sensor to get information for
- 
+
+An example for the sensorSettings can be as follows:
  
             {
-            'timeInterval': "0",
-            'unitIDs': "1",
-            'sensorIDs': "#####1"n
+            "startTime": 1604669200206,
+            "stopTime": 1704669200206
+            "sensorIDs": "#####1"
             }
+            
