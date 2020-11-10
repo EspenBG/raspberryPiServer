@@ -40,7 +40,9 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f105291f-2a0b-4d27-a81b-b5b77c2c2a5c" name="Default Changelist" comment="Finished" />
+    <list default="true" id="f105291f-2a0b-4d27-a81b-b5b77c2c2a5c" name="Default Changelist" comment="Finished">
+      <change afterPath="$PROJECT_DIR$/config/robot-config.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -226,7 +228,13 @@
       <option name="presentableId" value="LOCAL−00014" />
       <updated>1605036220661</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL−00015" summary="Added sensor-config.json to store the configuration for the sensors&#10;-Contains to example sensors">
+      <created>1605036862466</created>
+      <option name="number" value="LOCAL−00015" />
+      <option name="presentableId" value="LOCAL−00015" />
+      <updated>1605036862466</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -272,7 +280,8 @@
     <MESSAGE value="Started on exporting of data to a JSON database&#10;- Can read the json file&#10;- Can not write to the file yet&#10;- Added more text to multiple READMEs" />
     <MESSAGE value="Can now store sensor data in a local JSON database.&#10;- added a server-config.json, not used yet." />
     <MESSAGE value="It is now possible to ask the server for data for a sensor or a controlled item" />
-    <option name="LAST_COMMIT_MESSAGE" value="It is now possible to ask the server for data for a sensor or a controlled item" />
+    <MESSAGE value="Added sensor-config.json to store the configuration for the sensors&#10;-Contains to example sensors" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added sensor-config.json to store the configuration for the sensors&#10;-Contains to example sensors" />
   </component>
   <component name="WindowStateProjectService">
     <state x="414" y="175" width="1092" height="858" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605021129521">
@@ -284,9 +293,10 @@
     <state x="311" y="153" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.806@0.23.1440.806" timestamp="1603482020553" />
     <state x="311" y="153" key="#com.intellij.execution.impl.EditConfigurationsDialog/1440.23.1102.719/0.23.1440.811@0.23.1440.811" timestamp="1604955266014" />
     <state x="311" y="154" width="819" height="681" key="#com.intellij.execution.impl.EditConfigurationsDialog/1440.23.1102.719/0.23.1440.812@0.23.1440.812" timestamp="1604939752650" />
-    <state x="406" y="230" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1603797508901">
-      <screen x="0" y="23" width="1440" height="797" />
+    <state x="541" y="270" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1605036515106">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="541" y="270" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/-1920.0.1920.1160@0.0.1920.1040" timestamp="1605036515106" />
     <state x="406" y="230" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1440.797@0.23.1440.797" timestamp="1603797508901" />
     <state x="707" y="375" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1605034761910">
       <screen x="0" y="0" width="1920" height="1040" />
