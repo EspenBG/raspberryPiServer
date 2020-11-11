@@ -108,7 +108,7 @@ the setpoint is 23.5 degrees the JSON message would be as follows with the event
 
 When the unit has received the setpoints it can start transmitting sensor data to the server in the following format:
 
-    'SensorData': sensorData
+    'sensorData': sensorData
     
 Where sensorData is formatted in JSON and need to include the unitID as a number between 000 and 999, 
 sensorID as a number between 000 and 999 and 

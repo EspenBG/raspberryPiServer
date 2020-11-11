@@ -10,7 +10,7 @@ const io = require('socket.io-client');
  * TEST PARAMETERS
  *********************************************************************/
 const sensorIDs = ['#####1', '#####2','#####3', '#####4'];
-const serverURI = 'http://172.20.10.8:3000'; // Alternative: http://localhost/admin:3000
+const serverURI = 'http://localhost:3000/robot'; // Alternative: http://localhost/admin:3000
 const sendingOfRandomData = true;
 const sendingData = true;
 const admin = false;
@@ -81,7 +81,7 @@ function sendTemperature() {
     let sensorNumber = Math.floor(Math.random() * sensorIDs.length);
     let sensorID = sensorIDs[sensorNumber];
     let stringToSend = '{ "sensorID": "' + sensorID + '", "temperature": ' + temperatureToSend.toFixed(2) + '}';
-    socket.emit('temperature', stringToSend);
+    socket.emit('sensorData', stringToSend);
     console.log("Sending temperature data: " + stringToSend);
 };
 
