@@ -33,15 +33,20 @@
     <select>
       <path>
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
         <item name="GROUP_NODE:wip" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="BRANCH:wip/receive-data-from-robot" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:origin/wip/receive-data-from-robot" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </select>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f105291f-2a0b-4d27-a81b-b5b77c2c2a5c" name="Default Changelist" comment="Finished">
-      <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JSClient.js" beforeDir="false" afterPath="$PROJECT_DIR$/JSClient.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/webpage.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +98,7 @@
     <property name="javascript.nodejs.core.library.configured.version" value="12.13.1" />
     <property name="javascript.nodejs.core.library.typings.version" value="12.19.1" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="nodejs_interpreter_path" value="$APPLICATION_CONFIG_DIR$/node/node-v12.13.1-win-x64/node" />
+    <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="settings.nodejs" />
@@ -104,23 +109,23 @@
       <recent name="C:\Users\Espen\WebstormProjects\server_raspberry_pi" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.script.js">
+  <component name="RunManager" selected="Node.js.index.js">
     <configuration name="JSClient.js" type="NodeJSConfigurationType" singleton="false" temporary="true" path-to-node="$APPLICATION_CONFIG_DIR$/node/node-v12.13.1-win-x64/node" nameIsGenerated="true" path-to-js-file="JSClient.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
-    <configuration name="script.js" type="NodeJSConfigurationType" singleton="false" temporary="true" path-to-node="$APPLICATION_CONFIG_DIR$/node/node-v12.13.1-win-x64/node" nameIsGenerated="true" path-to-js-file="script.js" working-dir="$PROJECT_DIR$">
+    <configuration name="index.js" type="NodeJSConfigurationType" singleton="false" temporary="true" path-to-node="$APPLICATION_CONFIG_DIR$/node/node-v12.13.1-win-x64/node" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/index.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
     <list>
       <item itemvalue="Node.js.JSClient.js" />
-      <item itemvalue="Node.js.script.js" />
+      <item itemvalue="Node.js.index.js" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Node.js.script.js" />
+        <item itemvalue="Node.js.index.js" />
         <item itemvalue="Node.js.JSClient.js" />
-        <item itemvalue="Node.js.script.js" />
-        <item itemvalue="Node.js.script.js" />
+        <item itemvalue="Node.js.index.js" />
+        <item itemvalue="Node.js.index.js" />
       </list>
     </recent_temporary>
   </component>
@@ -273,7 +278,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="wip/receive-data-from-robot" />
+                        <option value="origin/wip/receive-data-from-robot" />
                       </list>
                     </value>
                   </entry>
@@ -566,9 +571,8 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/script.js</url>
+          <url>file://$PROJECT_DIR$/index.js</url>
           <line>136</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>
