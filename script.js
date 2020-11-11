@@ -22,6 +22,8 @@
  * Options for the robot-config, this is used as a DB with an overview of what sensor is connected to the different robots
  * unitID: sensor1, sensor2, sensor3
  */
+
+
 const EventEmitter = require('eventemitter3');
 const emitter = new EventEmitter();
 const app = require('express')();
@@ -36,13 +38,18 @@ const passport = require('passport');
 const sensorDatabase = 'database/sensor-data.json'; // This is the path to the sensor database //TODO move to server-config
 const controlledItemDatabase = 'database/controlled-item-data.json'; // This is the path to the controlled item database //TODO move to server-config
 
+// Import config files
+const robotConfig = getDatabaseSync('config/robot-config.json');
+const sensorConfig = getDatabaseSync('config/sensor-config.json');
+
 let newSensorData = {       // Object for storing data received from robots in the same structure as the database
     SensorID: {},           // Make the SensorID object
     ControlledItemID: {}    // Make the ControlledItemID object
 };
 
-const roomForAuthentication = 'unsafeClients';
+const safeRobotsRoom = 'safeRobots';
 let unusedPasscodes = [123456789, 123456788];
+let usedPasscodes = {};
 let webserverNamespace = io.of('/webserver');
 const serverPort = 3000;
 
@@ -124,8 +131,24 @@ io.on('connection', socket => {
         console.log(data);
 
     });
+    // TODO: move sensor data to safe robot room
+    socket.on('authentication', (passcode) => {
+        if (unusedPasscodes.includes(passcode)) {
+            // Remove the passcode so no one else can use the same passcode
+            unusedPasscodes = _.without(unusedPasscodes, passcode);
+            // Move robot to the safe robots room, and send feedback for successful authentication
+            socket.join(safeRobotsRoom);
+            // Send feedback to the robot
+            socket.emit('authentication', true)
+            // TODO: add the passcode to the used passcode array
+            printRoomClients(safeRobotsRoom); // Used to debug
+        } else {
+            // Send feedback to the robot that the authentication failed
+            socket.emit('authentication', false);
+        }
+    })
     // TODO: Change the structure of the event, to make it more uniform
-    socket.on('temperature', (data) => {
+    socket.on('SensorData', (data) => {
         // TODO: format print
         console.log("Received data from: " + clientID);
         // The data from the unit get parsed from JSON to a JS object
@@ -134,7 +157,7 @@ io.on('connection', socket => {
         let sensorID = parsedData.sensorID;
         // the data to add is temperature and timestamp
         let dataObject = {
-            value: parsedData.temperature,
+            value: parsedData.value,
             time: Date.now(),
         };
         let sensorData = {};
@@ -190,8 +213,9 @@ function addSensorsToDB() {
  */
 function printRoomClients(roomName) {
     let clients = io.in(roomName).connected;
+    console.log('Clients in room ' + roomName)
     for (const socket in clients) {
-        console.log(socket);
+        console.log('   '+socket);
     }
 }
 
@@ -282,14 +306,41 @@ function getDatabase(pathToDb, callback, error) {
             // Parse the JSON database to a JS object
             const database = JSON.parse(dataBuffer);
 
-            //console.log(database);
-            if (callback) callback(database);
+            //Run callback if it is defined
+            if (callback) {
+                callback(database);
+            } else {
+                // Return the database if there is no callback
+                return database
+            }
         } catch (SyntaxError) {
             //Run error code if there is a SyntaxError in the DB. E.g. DB is not in JSON format
             console.error('Error loading database. No changes has been made to the file.');
             if (error) error();
         }
     });
+}
+
+
+/**
+ * Function that retrieves a JSON database from a file path.
+ * This is an synchronous function, and returns the database as a JS object.
+ * @param pathToDb  Path to the database
+ * @param error Runs if there is an error on reading the database
+ * @return databse Returned as a JS object
+ */
+function getDatabaseSync(pathToDb, error) {
+    // Read the database and parse it from JSON format to JS object.
+    try {
+        let database = fs.readFileSync(pathToDb);
+        // Parse the JSON database to a JS object
+        return JSON.parse(database);
+
+    } catch (SyntaxError) {
+        //Run error code if there is a SyntaxError in the DB. E.g. DB is not in JSON format
+        console.error('Error loading database. No changes has been made to the file.');
+        if (error) error();
+    }
 }
 
 
