@@ -116,7 +116,7 @@ temperature as a number between -50 and 250 (degrees celsius). It is possible to
 See the example below.
 
     {
-    "sensorID": "####1",
+    "SensorID": "####1",
     "value": 25.3,
     }
     

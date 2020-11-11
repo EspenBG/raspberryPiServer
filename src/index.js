@@ -47,10 +47,12 @@ let newSensorData = {       // Object for storing data received from robots in t
     ControlledItemID: {}    // Make the ControlledItemID object
 };
 
-const safeRobotsRoom = 'safeRobots';
+const safeRobotRoom = 'safeRobots';
 let unusedPasscodes = [123456789, 123456788];
+let passcodesInUse = {};
 let usedPasscodes = {};
 let webserverNamespace = io.of('/webserver');
+let robotNamespace = io.of('/robot')
 const serverPort = 3000;
 
 const adminNamespace = io.of('/admin');
@@ -62,14 +64,7 @@ const adminNamespace = io.of('/admin');
 // TODO: Add a main program?
 webserverNamespace.use((socket, next) => {
     // ensure the user has sufficient rights
-    // TODO add logic to check if the admin has the correct rights
-    let test = socket;
-    if (socket.request.user) {
-        next();
-    } else {
-        next(new Error('unauthorized'))
-    }
-    console.log("Admin Logged in")
+    console.log("Client from webserver connected")
     next();
 });
 
@@ -114,6 +109,72 @@ webserverNamespace.on('connection', socket => {
         }
     });
 });
+
+robotNamespace.on('connect', (socket) => {
+    // Only robots in the robot namespace can send data to the server
+    // When a client connects to the server it gets sent to the room for unsafe clients
+    let clientID = socket.id;
+    let client = io.sockets.connected[clientID];
+    console.log("Client connected with ID: " + clientID);
+
+    socket.on('authentication', (passcode) => {
+        if (unusedPasscodes.includes(passcode)) {
+            // Remove the passcode so no one else can use the same passcode
+            unusedPasscodes = _.without(unusedPasscodes, passcode);
+            // Move robot to the safe robots room, and send feedback for successful authentication
+            socket.join(safeRobotRoom);
+            // Send feedback to the robot
+            socket.emit('authentication', true)
+            // TODO: add the passcode to the used passcode array
+            printRoomClients(safeRobotRoom); // Used to debug
+        } else {
+            // Send feedback to the robot that the authentication failed
+            socket.emit('authentication', false);
+        }
+    });
+    // TODO: Change the structure of the event, to make it more uniform
+    socket.on('sensorData', (data) => {
+        if (socket.rooms[safeRobotRoom] === safeRobotRoom) {
+            // TODO: format print
+            console.log("Received data from: " + clientID);
+            // The data from the unit get parsed from JSON to a JS object
+            let parsedData = JSON.parse(data);
+            let sensorID;
+            let dataType = 'SensorID';
+            if (parsedData['controlledItemID'] !== undefined) {
+                // if the data is for the controlled item set the sensorID from that
+                sensorID = parsedData['ControlledItemID'];
+                dataType = 'ControlledItemID';
+            } else {
+                // Else the data is from a sensor and the id is the sensorID
+                sensorID = parsedData['SensorID'];
+            }
+
+            // the data to add is temperature and timestamp
+            let dataObject = {
+                'value': parsedData.value,
+                'time': Date.now(),
+            };
+            let sensorData = {};
+            sensorData[sensorID] = dataObject;
+
+            // TODO: format the measurement in a cleaner way
+            // Creates the sensor name object in the new sensor array if it doesn't exist, and adds the new measurement
+            newSensorData[dataType][sensorID] = newSensorData[dataType][sensorID] || [];
+            newSensorData[dataType][sensorID].push(dataObject);
+            console.log('Data added to sensor data \n'
+                + 'Datatype: '
+                + dataType + 'Time: '
+                + dataObject['value'] + 'Value: '
+                + dataObject['time']);
+
+
+            //TODO 2: Make function for sending of the data to the database
+            //console.log(parsedData.temperature);
+        }
+    });
+
+})
 // TODO: add logic to check if the robot sending data has been authenticated
 // TODO: move sensorData to the correct room
 
@@ -121,10 +182,7 @@ webserverNamespace.on('connection', socket => {
 io.on('connection', socket => {
     // TODO: Make the logic for authentication of the clients i.e use passcodes
 
-    // When a client connects to the server it gets sent to the room for unsafe clients
-    let clientID = socket.id;
-    let client = io.sockets.connected[clientID];
-    console.log("Client connected with ID: " + clientID)
+
     //client.join(roomForAuthentication);
     //socket.emit('connected', true);
     //client.emit('test', 'test text');
@@ -132,47 +190,7 @@ io.on('connection', socket => {
         console.log(data);
 
     });
-    // TODO: move sensor data to safe robot room
-    socket.on('authentication', (passcode) => {
-        if (unusedPasscodes.includes(passcode)) {
-            // Remove the passcode so no one else can use the same passcode
-            unusedPasscodes = _.without(unusedPasscodes, passcode);
-            // Move robot to the safe robots room, and send feedback for successful authentication
-            socket.join(safeRobotsRoom);
-            // Send feedback to the robot
-            socket.emit('authentication', true)
-            // TODO: add the passcode to the used passcode array
-            printRoomClients(safeRobotsRoom); // Used to debug
-        } else {
-            // Send feedback to the robot that the authentication failed
-            socket.emit('authentication', false);
-        }
-    })
-    // TODO: Change the structure of the event, to make it more uniform
-    socket.on('SensorData', (data) => {
-        // TODO: format print
-        console.log("Received data from: " + clientID);
-        // The data from the unit get parsed from JSON to a JS object
-        let parsedData = JSON.parse(data);
 
-        let sensorID = parsedData.sensorID;
-        // the data to add is temperature and timestamp
-        let dataObject = {
-            value: parsedData.value,
-            time: Date.now(),
-        };
-        let sensorData = {};
-        sensorData[sensorID] = dataObject;
-
-        // TODO: format the measurement in a cleaner way
-        console.log(sensorData);
-        // Creates the sensor name object in the new sensor array if it doesn't exist, and adds the new measurement
-        newSensorData.SensorID[sensorID] = newSensorData.SensorID[sensorID] || [];
-        newSensorData.SensorID[sensorID].push(dataObject);
-
-        //TODO 2: Make function for sending of the data to the database
-        //console.log(parsedData.temperature);
-    });
 });
 
 // Write new sensor data to the database every 60 seconds
@@ -216,7 +234,7 @@ function printRoomClients(roomName) {
     let clients = io.in(roomName).connected;
     console.log('Clients in room ' + roomName)
     for (const socket in clients) {
-        console.log('   '+socket);
+        console.log('   ' + socket);
     }
 }
 
