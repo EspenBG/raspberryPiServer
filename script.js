@@ -59,7 +59,7 @@ const adminNamespace = io.of('/admin');
 /*********************************************************************
  * MAIN PROGRAM
  *********************************************************************/
-
+// TODO: Add a main program?
 webserverNamespace.use((socket, next) => {
     // ensure the user has sufficient rights
     // TODO add logic to check if the admin has the correct rights
@@ -114,7 +114,8 @@ webserverNamespace.on('connection', socket => {
         }
     });
 });
-
+// TODO: add logic to check if the robot sending data has been authenticated
+// TODO: move sensorData to the correct room
 
 // This is what runs on all the connections that is NOT in the admin namespace
 io.on('connection', socket => {
