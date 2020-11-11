@@ -10,7 +10,7 @@ const io = require('socket.io-client');
  * TEST PARAMETERS
  *********************************************************************/
 const sensorIDs = ['#####1', '#####2','#####3', '#####4'];
-const serverURI = 'http://10.0.1.42:3000'; // Alternative: http://localhost/admin:3000
+const serverURI = 'http://172.20.10.8:3000'; // Alternative: http://localhost/admin:3000
 const sendingOfRandomData = true;
 const sendingData = true;
 const admin = false;

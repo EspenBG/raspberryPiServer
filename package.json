@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "run index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,14 +14,15 @@
     "express": "^4.17.1",
     "jQuery": "^1.7.4",
     "jquery": "^3.5.1",
-    "passport": "^0.4.1"
-  },
-  "devDependencies": {
+    "passport": "^0.4.1",
     "eventemitter3": "^4.0.7",
     "express-session": "^1.17.1",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.1",
     "socketio-jwt": "^4.6.2",
     "underscore": "^1.11.0"
+  },
+  "devDependencies": {
+
   }
 }
