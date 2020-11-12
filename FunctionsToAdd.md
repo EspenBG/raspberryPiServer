@@ -94,6 +94,7 @@ The robot server then sends the setpoint to the unit in the following format:
 
 Setpoint is the event, and the setpointMessage is a string in JSON format, with one line per sensors, like this:
 
+
     {
         "uniqeSensorID": setpoint,
         "uniqeSensorID2": setpoint2,
@@ -130,6 +131,7 @@ and the structure of the sensorData is as follows:
 
 Where the ControlledItemID is the same as the ID for the sensor used to control the output. The value can ether be a binary representation (true/false)
 or in percentage (0-100). 
+
 
 ## Server
 ### Configuration of units/sensors
@@ -280,3 +282,4 @@ An example for the sensorSettings can be as follows:
             "sensorIDs": "#####1"
             }
             
+

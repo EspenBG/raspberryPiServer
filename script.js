@@ -258,6 +258,7 @@ function getSensorMeasurements(placeToCheck, startTime, stopTime, callback) {
     })
 
     if (callback) callback(correctData);
+
 }
 
 
@@ -277,11 +278,13 @@ function getDatabase(pathToDb, callback, error) {
             const database = JSON.parse(dataBuffer);
 
             //console.log(database);
+
             if (callback) callback(database);
         } catch (SyntaxError) {
             //Run error code if there is a SyntaxError in the DB. E.g. DB is not in JSON format
             console.error('Error loading database. No changes has been made to the file.');
             if (error) error();
+
         }
     });
 }

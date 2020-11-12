@@ -49,6 +49,7 @@ socket.on('connect', () => {
                 for (record = 0; record < numberOfRecords; record++) {
                     let stringToSend = '{ "sensorID": "' + sensorIDs[index] + '", "temperature": ' + record + '}';
                     socket.emit('sensorData', stringToSend);
+
                     console.log('sending data for sensor: ' + sensorIDs[index] +' Value: '+ record);
                 }
             });
