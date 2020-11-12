@@ -49,13 +49,13 @@ let newSensorData = {       // Object for storing data received from robots in t
 
 const safeRobotRoom = 'safeRobots';
 let unusedPasscodes = [123456789, 123456788];
-let passcodesInUse = {};
 let usedPasscodes = {};
 let webserverNamespace = io.of('/webserver');
-let robotNamespace = io.of('/robot')
+let robotNamespace = io.of('/robot');
+const adminNamespace = io.of('/admin');
+
 const serverPort = 3000;
 
-const adminNamespace = io.of('/admin');
 // TODO add the ability to logg other datasets
 
 /*********************************************************************
@@ -121,11 +121,13 @@ robotNamespace.on('connect', (socket) => {
         if (unusedPasscodes.includes(passcode)) {
             // Remove the passcode so no one else can use the same passcode
             unusedPasscodes = _.without(unusedPasscodes, passcode);
+            // Add client to used passcodes with the passcode used
+            usedPasscodes[clientID] = passcode;
             // Move robot to the safe robots room, and send feedback for successful authentication
             socket.join(safeRobotRoom);
             // Send feedback to the robot
             socket.emit('authentication', true)
-            // TODO: add the passcode to the used passcode array
+
             printRoomClients(safeRobotRoom); // Used to debug
         } else {
             // Send feedback to the robot that the authentication failed
@@ -134,7 +136,9 @@ robotNamespace.on('connect', (socket) => {
     });
     // TODO: Change the structure of the event, to make it more uniform
     socket.on('sensorData', (data) => {
-        if (socket.rooms[safeRobotRoom] === safeRobotRoom) {
+        // Check if the client is authenticated
+        // Only log the data if the client in the correct room and the clientId is in used passcodes
+        if (socket.rooms[safeRobotRoom] === safeRobotRoom && usedPasscodes[clientID] !== undefined) {
             // TODO: format print
             console.log("Received data from: " + clientID);
             // The data from the unit get parsed from JSON to a JS object
@@ -173,6 +177,16 @@ robotNamespace.on('connect', (socket) => {
             //console.log(parsedData.temperature);
         }
     });
+    socket.on('disconnect', (reason) => {
+        console.log('Robot:' + clientID + ' disconnected with reason: ' + reason);
+        // Remove the passcode from used passcodes and add it to unused passcodes
+        if (usedPasscodes[clientID] !== undefined) {
+
+            unusedPasscodes.push(usedPasscodes[clientID]);
+            delete usedPasscodes[clientID];
+            console.log('Deleted passcode used by robot: ' + clientID);
+        }
+    })
 
 })
 // TODO: add logic to check if the robot sending data has been authenticated
