@@ -92,7 +92,8 @@ The robot server then sends the setpoint to the unit in the following format:
 
     "Setpoint": setpointMessage
 
-Setpoint is the event, and the setpointMessage is a string in JSON format, with one line per senosor, like this:
+Setpoint is the event, and the setpointMessage is a string in JSON format, with one line per sensors, like this:
+
 
     {
         "uniqeSensorID": setpoint,
@@ -120,7 +121,18 @@ See the example below.
     "value": 25.3,
     }
     
-    
+If the sensor data is for a controlled item, e.g. heating panel or valve for air damper, you use the same event (SensorData),
+and the structure of the sensorData is as follows:
+
+    {
+    "ControlledItemID": "####1",
+    "value": 100,
+    }
+
+Where the ControlledItemID is the same as the ID for the sensor used to control the output. The value can ether be a binary representation (true/false)
+or in percentage (0-100). 
+
+
 ## Server
 ### Configuration of units/sensors
 The server-config.json in the config directory is the setup file for the server, and contains all the configuration for the sensors and what the sensors control.
@@ -259,12 +271,15 @@ Where getData is the event and sensorSettings is a JSON object formatted as a st
 the following settings:
 
 - startTime: the start time in ms
-- stopTime: the stop time in ms
+- stopTime: the stop time in ms (set to 0 to get all records)
 - sensorID: the ID of the sensor to get information for
- 
+
+An example for the sensorSettings can be as follows:
  
             {
-            'timeInterval': "0",
-            'unitIDs': "1",
-            'sensorIDs': "#####1"n
+            "startTime": 1604669200206,
+            "stopTime": 1704669200206
+            "sensorIDs": "#####1"
             }
+            
+

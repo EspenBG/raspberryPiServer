@@ -22,7 +22,8 @@
  * Options for the unit-config, this is used as a DB
  * unitID: sensor1, sensor2, sensor3
  */
-
+const EventEmitter = require('eventemitter3');
+const emitter = new EventEmitter();
 const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io').listen(server);
@@ -57,33 +58,48 @@ webserverNamespace.use((socket, next) => {
         next(new Error('unauthorized'))
     }
     console.log("Admin Logged in")
-    //next();
+    next();
 });
 
 
 // If there is an connection from an admin this runs
 webserverNamespace.on('connection', socket => {
     socket.on('getData', settings => {
-        addDataToDB(sensorDatabase, newSensorData);
-        console.log('Data request received from admin')
-        let timeInterval = [0];   // is an array containing the start time and stop time
-        let unitIDs = [0];        // is an array containing all the unitIDs to get sensor data for
-        let sensorIDs = [0];      // is an array containing all the sensorIDs to get data for
+        //addDataToDB(sensorDatabase, newSensorData);
+        console.log('Data request received from a webpage')
+        let startTime = 0;   // Default start time is 0ms
+        let stopTime = 0;    // Default stop time is 0ms
+        let sensorID;        // There NO default sensor
+        let dataType = 'SensorID' // Default datatype is sensor id
         let parsedSettings = JSON.parse(settings)
 
+        // Change the default parameters if they are specified
+        if (parsedSettings.hasOwnProperty('startTime')) {
+            startTime = parsedSettings.startTime;
+        }
+        if (parsedSettings.hasOwnProperty('stopTime')) {
+            stopTime = parsedSettings.stopTime;
+        }
+        if (parsedSettings.hasOwnProperty('dataType')) {
+            dataType = parsedSettings.dataType;
+        }
+        // If there is no sensor ID there are no sensor data to retrieve
+        if (parsedSettings.hasOwnProperty('sensorID')) {
+            sensorID = parsedSettings.sensorID;
+            // Get the sensor data
+            getData(startTime, stopTime, sensorID, dataType, (sensorData) => {
+                // Sort the data by time
+                let sortedData = _.sortBy(sensorData, 'time');
 
-        if (parsedSettings.hasOwnProperty('timeInterval')) {
-            timeInterval = parsedSettings.timeInterval;
-        }
-        if (parsedSettings.hasOwnProperty('unitIDs')) {
-            unitIDs = parsedSettings.unitIDs;
-        }
-        if (parsedSettings.hasOwnProperty('sensorIDs')) {
-            sensorIDs = parsedSettings.sensorIDs;
-        }
+                let dataToSend = {};
+                // The data is sent as an object under the name of the sensor and the datatype
+                dataToSend[dataType] = {};
+                dataToSend[dataType][sensorID] = sortedData;
 
-        let sensorData = getData(timeInterval, unitIDs, sensorIDs);
-        socket.emit('dataResponse', sensorData);
+                let encodedData = JSON.stringify(dataToSend);
+                socket.emit('dataResponse', encodedData);
+            });
+        }
     });
 });
 
@@ -152,7 +168,11 @@ function addSensorsToDB() {
             // Cycle thru every sensor with measurements that was added
             let numberToDelete = numberOfRecords[sensor];
             // Delete the same number of records that was added to the database (deletes from first)
-            newSensorData.SensorID[sensor].splice(0, numberToDelete)
+            newSensorData.SensorID[sensor].splice(0, numberToDelete);
+            // If all the records for one sensor are added delete that sensor, so there are no empty sensor arrays
+            if (Object.keys(newSensorData.SensorID[sensor]).length === 0) {
+                delete newSensorData.SensorID[sensor];
+            }
         });
     });
 }
@@ -171,33 +191,74 @@ function printRoomClients(roomName) {
 
 
 /**
- * Function to get data from the database, and returns the data as a JSON file
- * The data that is returned is controlled by the parameters. If there are any missing parameters
- * or is invalid (i.e. the stop time is before start time) the default values are used.
- * @param timeInterval  array containing the start time and the stop time
- * @param unitIDs       array containing the unitIDs
- * @param sensorIDs     array containing the sensorIDs
- * @returns {string}    the encoded JSON string
+ * Function to get data from the database and form newSensorData, and returns the data as an object
+ * The time interval for teh search is controlled by the start time and the stop time.
+ * If the stop time is 0 the search return all the sensor data from the start time to the time of the search.
+ * @param startTime     start time of the search (time in ms from 01.01.1970)
+ * @param stopTime      stop time for the search (time in ms from 01.01.1970)
+ * @param sensorID      name of the sensor, the sensorID
+ * @param dataType      Specifies the type of data to search for (e.g. SensorID or ControlledItemID)
+ * @param callback      Runs the callback with the sensor data for the sensor specified
  */
-function getData(timeInterval, unitIDs, sensorIDs) {
-    //TODO: set default parameters
-    //TODO: add logic to get data form database
-    //TODO 3: Get stored data from JSON file and return the correct data
-    // Error if there are no sensor data
-    let lastSensorReading = Object.keys(newSensorData.SensorID['#####2']).length - 1;
-    let lastSensorValue = newSensorData.SensorID['#####2'];
-    let test = {
-        SensorID:
-            {
-                '#####2': [
-                    lastSensorValue[lastSensorReading]
-                ]
-            }
+function getData(startTime, stopTime, sensorID, dataType, callback) {
+    // TODO: check for the correct datatype and add the possibility to get data from different data types
+    // let dataType = "SensorID";
+    let sensorData = [];    // Variable to store all the sensor data
 
-    };
+    // If there are no specified stop time, the stoptime is set to the time of the search
+    if (stopTime === 0 || stopTime === undefined) {
+        stopTime = Date.now();
+    }
 
-    let encodedData = JSON.stringify(test);
-    return encodedData
+    // Get all the sensor data that is not in the database
+    let dataFromSensorArray = newSensorData[dataType][sensorID];
+
+    // Check if there are any sensor data in the last sensor reading
+    if (dataFromSensorArray !== undefined) {
+        // Get all the measurements in the correct time period
+        getSensorMeasurements(dataFromSensorArray, startTime, stopTime, (measurements) => {
+            sensorData = sensorData.concat(measurements);
+        });
+    }
+
+    // Get all the records in the correct time interval from the database
+    getDatabase(sensorDatabase, (database) => {
+        let sensorDataFromDB = database[dataType][sensorID];
+        // Check if there are any sensor data for the sensor in the DB
+        if (sensorDataFromDB !== undefined) {
+            // Get all the measurements in the correct time period
+            getSensorMeasurements(sensorDataFromDB, startTime, stopTime, (measurements) => {
+                // Append the data to the array
+                sensorData = sensorData.concat(measurements);
+            });
+        }
+        // Run the callback if specified with the sensor data from BOTH the database and the new sensor data
+        if (callback) callback(sensorData);
+
+    }, error => {
+        // If there is an error accessing the database, print an error message
+        console.log("There was an error accessing the database");
+        // Run the callback if specified with only the data NOT in the database
+        if (callback) callback(sensorData);
+    });
+
+}
+
+
+function getSensorMeasurements(placeToCheck, startTime, stopTime, callback) {
+    let correctData = [];
+    // Check if the time of the reading are inline with the time requirements
+    Object.keys(placeToCheck).map((data, index) => {
+
+        // Check if the time of measurement is in the interval between startTime and stopTime
+        if (placeToCheck[index].time >= startTime && placeToCheck[index].time <= stopTime) {
+            // Add measurement to the sensorData
+            correctData.push(placeToCheck[index]);
+        }
+    })
+
+    if (callback) callback(correctData);
+
 }
 
 
@@ -213,15 +274,16 @@ function getDatabase(pathToDb, callback, error) {
     fs.readFile(pathToDb, (err, dataBuffer) => {
         if (err) throw err;
         try {
+            // Parse the JSON database to a JS object
             const database = JSON.parse(dataBuffer);
 
-            console.log(database);
+            //console.log(database);
+
             if (callback) callback(database);
         } catch (SyntaxError) {
             //Run error code if there is a SyntaxError in the DB. E.g. DB is not in JSON format
             console.error('Error loading database. No changes has been made to the file.');
             if (error) error();
-        } finally {
 
         }
     });
