@@ -80,7 +80,7 @@ function sendTemperature() {
     // numberOfSensors(randomNum) round to closest int...
     let sensorNumber = Math.floor(Math.random() * sensorIDs.length);
     let sensorID = sensorIDs[sensorNumber];
-    let stringToSend = '{ "sensorID": "' + sensorID + '", "temperature": ' + temperatureToSend.toFixed(2) + '}';
+    let stringToSend = '{ "sensorID": "' + sensorID + '", "value": ' + temperatureToSend.toFixed(2) + '}';
     socket.emit('sensorData', stringToSend);
     console.log("Sending temperature data: " + stringToSend);
 };

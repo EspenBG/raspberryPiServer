@@ -166,11 +166,10 @@ robotNamespace.on('connect', (socket) => {
             // Creates the sensor name object in the new sensor array if it doesn't exist, and adds the new measurement
             newSensorData[dataType][sensorID] = newSensorData[dataType][sensorID] || [];
             newSensorData[dataType][sensorID].push(dataObject);
-            console.log('Data added to sensor data \n'
-                + 'Datatype: '
-                + dataType + 'Time: '
-                + dataObject['value'] + 'Value: '
-                + dataObject['time']);
+            console.log('Data added: ' +
+                ' Datatype ' + dataType +
+                ', Time ' + dataObject['time'] +
+                ', Value ' + dataObject['value']);
 
 
             //TODO 2: Make function for sending of the data to the database
