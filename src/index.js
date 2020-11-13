@@ -49,7 +49,7 @@ let newSensorData = {       // Object for storing data received from robots in t
 };
 
 const safeRobotRoom = 'safeRobots';
-let unusedPasscodes = [123456789, 123456788];
+let unusedPasscodes = [123456789, 123456788];   //TODO: move passcodes to a config file to add the ability to change them
 let robotsConnected = {};
 let webserverNamespace = io.of('/webserver');
 let robotNamespace = io.of('/robot');
@@ -173,7 +173,7 @@ robotNamespace.on('connect', (socket) => {
             let dataType = 'SensorID';
             if (parsedData['controlledItemID'] !== undefined) {
                 // if the data is for the controlled item set the sensorID from that
-                sensorID = parsedData['ControlledItemID'];
+                sensorID = parsedData['controlledItemID'];
                 dataType = 'ControlledItemID';
             } else {
                 // Else the data is from a sensor and the id is the sensorID
@@ -221,16 +221,10 @@ robotNamespace.on('connect', (socket) => {
 
 })
 // TODO: add logic to check if the robot sending data has been authenticated
-// TODO: move sensorData to the correct room
 
 // This is what runs on all the connections that is NOT in the admin namespace
 io.on('connection', (socket) => {
-    // TODO: Make the logic for authentication of the clients i.e use passcodes
 
-
-    //client.join(roomForAuthentication);
-    //socket.emit('connected', true);
-    //client.emit('test', 'test text');
     io.on('test', data => {
         console.log(data);
 

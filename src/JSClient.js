@@ -118,6 +118,28 @@ function sendTemperature() {
     let sensorNumber = Math.floor(Math.random() * Object.keys(sensors).length);
     let sensorID = Object.keys(sensors)[sensorNumber];
     let stringToSend = '{ "sensorID": "' + sensorID + '", "value": ' + temperatureToSend.toFixed(2) + '}';
+
+    // check if the sensorValue is over or below the setpoint
+    let controlItem = true;
+    if (temperatureToSend < sensors[sensorID].setpoint) {
+        controlItem = false;
+    }
+
+    if (controlItem !== sensors[sensorID].controlledItem) {
+        sensors[sensorID].controlledItem = controlItem;
+        let controlObject = {
+            'controlledItemID': sensorID,
+            'value': controlItem
+        }
+        let controlString = JSON.stringify(controlObject);
+
+        socket.emit('sensorData', controlString);
+        console.log("Sending control data: " + controlString);
+
+    } else {
+
+    }
+
     socket.emit('sensorData', stringToSend);
     console.log("Sending temperature data: " + stringToSend);
 };

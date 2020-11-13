@@ -5,14 +5,28 @@
       "type": "temperature",
       "controlType": "reversed",
       "controlledItem": true,
-      "setpoint": 22.0
+      "setpoint": 24.5
     },
     "#####2": {
       "unit": "unit1",
       "type": "co2",
       "controlType": "reversed",
       "controlledItem": true,
-      "setpoint": 24.0
+      "setpoint": 24.8
+    },
+    "#####3": {
+      "unit": "unit1",
+      "type": "co2",
+      "controlType": "reversed",
+      "controlledItem": true,
+      "setpoint": 25.0
+    },
+    "#####4": {
+      "unit": "unit1",
+      "type": "co2",
+      "controlType": "reversed",
+      "controlledItem": true,
+      "setpoint": 25.2
     }
   }
 }
