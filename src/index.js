@@ -39,6 +39,12 @@ const passport = require('passport');
 const sensorDatabase = 'database/sensor-data.json'; // This is the path to the sensor database //TODO move to server-config
 const controlledItemDatabase = 'database/controlled-item-data.json'; // This is the path to the controlled item database //TODO move to server-config
 
+const databasePaths = {
+    SensorID: sensorDatabase,
+    ControlledItemID: controlledItemDatabase
+}
+
+
 // Import config files
 const robotConfig = getDatabaseSync('config/robot-config.json');
 const sensorConfig = getDatabaseSync('config/sensor-config.json');
@@ -162,22 +168,24 @@ robotNamespace.on('connect', (socket) => {
 
     // TODO: Change the structure of the event, to make it more uniform
     socket.on('sensorData', (data) => {
+        // TODO: check if the unit that is sending data are sending for a sensor that is on the robot
         // Check if the client is authenticated
-        // Only log the data if the client in the correct room and the clientId is in used passcodes
+        // Only log the data if the robot is authenticated and the clientId is valid and in use
         if (socket.rooms[safeRobotRoom] === safeRobotRoom && robotsConnected[clientID] !== undefined) {
-            // TODO: format print
             console.log("Received data from: " + clientID);
             // The data from the unit get parsed from JSON to a JS object
             let parsedData = JSON.parse(data);
             let sensorID;
-            let dataType = 'SensorID';
+            let dataType;
+
             if (parsedData['controlledItemID'] !== undefined) {
                 // if the data is for the controlled item set the sensorID from that
                 sensorID = parsedData['controlledItemID'];
                 dataType = 'ControlledItemID';
-            } else {
+            } else if (parsedData['sensorID'] !== undefined) {
                 // Else the data is from a sensor and the id is the sensorID
                 sensorID = parsedData['sensorID'];
+                dataType = 'SensorID';
             }
 
             // the data to add is temperature and timestamp
@@ -188,7 +196,6 @@ robotNamespace.on('connect', (socket) => {
             let sensorData = {};
             sensorData[sensorID] = dataObject;
 
-            // TODO: format the measurement in a cleaner way
             // Creates the sensor name object in the new sensor array if it doesn't exist, and adds the new measurement
             newSensorData[dataType][sensorID] = newSensorData[dataType][sensorID] || [];
             newSensorData[dataType][sensorID].push(dataObject);
@@ -248,20 +255,24 @@ server.listen(serverPort);
  * Function to add sensor data to the database
  */
 function addSensorsToDB() {
-    addDataToDB(sensorDatabase, newSensorData, (numberOfRecords) => {
-        // Get how many measurements that was added to the database
+    Object.keys(newSensorData).map((dataType) => {
 
-        Object.keys(numberOfRecords).map((sensor, index) => {
-            // Cycle thru every sensor with measurements that was added
-            let numberToDelete = numberOfRecords[sensor];
-            // Delete the same number of records that was added to the database (deletes from first)
-            newSensorData.SensorID[sensor].splice(0, numberToDelete);
-            // If all the records for one sensor are added delete that sensor, so there are no empty sensor arrays
-            if (Object.keys(newSensorData.SensorID[sensor]).length === 0) {
-                delete newSensorData.SensorID[sensor];
-            }
+        addDataToDB(databasePaths[dataType], newSensorData, dataType, (numberOfRecords) => {
+            // Get how many measurements that was added to the database
+
+            Object.keys(numberOfRecords).map((sensor, index) => {
+                // Cycle thru every sensor with measurements that was added
+                let numberToDelete = numberOfRecords[sensor];
+                // Delete the same number of records that was added to the database (deletes from first)
+                newSensorData[dataType][sensor].splice(0, numberToDelete);
+                // If all the records for one sensor are added delete that sensor, so there are no empty sensor arrays
+                if (Object.keys(newSensorData[dataType][sensor]).length === 0) {
+                    delete newSensorData[dataType][sensor];
+                }
+            });
         });
     });
+
 }
 
 
@@ -408,33 +419,34 @@ function getDatabaseSync(pathToDb, error) {
  * You need to delete the data after it is added to the database, the callback function can be used for this.
  * @param databasePath
  * @param newData  - Object contains all the sensor data the first object is the same as the parent object in the database.
+ * @param dataType - The type of data that is going to be added
  * @param callback  - The callback function supplies the number of records that is deleted
  */
-function addDataToDB(databasePath, newData, callback) {
+function addDataToDB(databasePath, newData, dataType, callback) {
     // TODO: Make it possible to add multiple datatypes
     // Assumes there is only one type of data,
     // Variable to store the sensor name and how many records to delete after import to the database
     let deletedRecords = {};
 
     // First object is always the dataID, e.g. SensorID
-    let dataName = Object.keys(newData)[0];
+    //let dataType = Object.keys(newData)[0];
 
     // Read the newest version of the database.
     getDatabase(databasePath, (database) => {
         // Merge the new data one sensor at the time
-        Object.keys(newData[dataName]).map((sensor, index) => {
+        Object.keys(newData[dataType]).map((sensor) => {
             deletedRecords[sensor] = 0;
 
             //Create the data type in the database if it is not there
-            database[dataName] = database[dataName] || {};
+            database[dataType] = database[dataType] || {};
             console.log('Adding data form sensor: ' + sensor);
 
             // Create the sensor name in the database if it is not there
-            database[dataName][sensor] = database[dataName][sensor] || [];
+            database[dataType][sensor] = database[dataType][sensor] || [];
 
             // Add every measurement to the database
-            newData[dataName][sensor].forEach((measurement) => {
-                database[dataName][sensor].push(measurement);
+            newData[dataType][sensor].forEach((measurement) => {
+                database[dataType][sensor].push(measurement);
 
                 // Count how many records that is added
                 deletedRecords[sensor]++;
@@ -446,7 +458,7 @@ function addDataToDB(databasePath, newData, callback) {
         // Write the new database to the path
         fs.writeFile(databasePath, jsonDatabase, (err) => {
             if (err) throw err;
-            console.log('Data written to file');
+            console.log('Data written to file: ' + databasePath);
         });
 
         // Callback after the database has been updated, if it is in use
