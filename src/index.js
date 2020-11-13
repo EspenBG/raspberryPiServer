@@ -42,7 +42,7 @@ const controlledItemDatabase = 'database/controlled-item-data.json'; // This is 
 const databasePaths = {
     SensorID: sensorDatabase,
     ControlledItemID: controlledItemDatabase
-}
+};
 
 
 // Import config files
@@ -227,7 +227,6 @@ robotNamespace.on('connect', (socket) => {
     })
 
 })
-// TODO: add logic to check if the robot sending data has been authenticated
 
 // This is what runs on all the connections that is NOT in the admin namespace
 io.on('connection', (socket) => {
@@ -423,8 +422,7 @@ function getDatabaseSync(pathToDb, error) {
  * @param callback  - The callback function supplies the number of records that is deleted
  */
 function addDataToDB(databasePath, newData, dataType, callback) {
-    // TODO: Make it possible to add multiple datatypes
-    // Assumes there is only one type of data,
+
     // Variable to store the sensor name and how many records to delete after import to the database
     let deletedRecords = {};
 
