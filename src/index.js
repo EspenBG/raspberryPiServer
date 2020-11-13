@@ -15,6 +15,7 @@
  * database paths
  * Passcodes / May be moved to a DB, then the path goes in the server-config
  * Passcode for WebServer
+ * automatic storing of data to the database true/false
  *
  */
 
@@ -49,7 +50,7 @@ let newSensorData = {       // Object for storing data received from robots in t
 
 const safeRobotRoom = 'safeRobots';
 let unusedPasscodes = [123456789, 123456788];
-let usedPasscodes = {};
+let robotsConnected = {};
 let webserverNamespace = io.of('/webserver');
 let robotNamespace = io.of('/robot');
 const adminNamespace = io.of('/admin');
@@ -112,12 +113,14 @@ webserverNamespace.on('connection', socket => {
     });
 });
 
+
 // If there in an connection from a robot this runs
 robotNamespace.on('connect', (socket) => {
     // Only robots in the robot namespace can send data to the server
     // When a client connects to the server it gets sent to the room for unsafe clients
     let clientID = socket.id;
     let client = io.sockets.connected[clientID];
+    robotsConnected[clientID] = {};
     console.log("Client connected with ID: " + clientID);
 
     socket.on('authentication', (passcode) => {
@@ -125,7 +128,7 @@ robotNamespace.on('connect', (socket) => {
             // Remove the passcode so no one else can use the same passcode
             unusedPasscodes = _.without(unusedPasscodes, passcode);
             // Add client to used passcodes with the passcode used
-            usedPasscodes[clientID] = passcode;
+            robotsConnected[clientID]['passcode'] = passcode;
             // Move robot to the safe robots room, and send feedback for successful authentication
             socket.join(safeRobotRoom); //TODO move to after sending of setpoints
             // Send feedback to the robot
@@ -140,6 +143,8 @@ robotNamespace.on('connect', (socket) => {
 
     socket.on('robotID', (robotID) => {
         // TODO: check if all the sensors is in the sensor config and if they have a setpoint
+        // Store the robot id together with the clientID
+        robotsConnected[clientID]['robotID'] = robotID;
         // Check the database for the sensors connected to the robot
         let sensorConnected = robotConfig['robot-config'][robotID];
         // Collect all the setpoints for the sensors
@@ -159,7 +164,7 @@ robotNamespace.on('connect', (socket) => {
     socket.on('sensorData', (data) => {
         // Check if the client is authenticated
         // Only log the data if the client in the correct room and the clientId is in used passcodes
-        if (socket.rooms[safeRobotRoom] === safeRobotRoom && usedPasscodes[clientID] !== undefined) {
+        if (socket.rooms[safeRobotRoom] === safeRobotRoom && robotsConnected[clientID] !== undefined) {
             // TODO: format print
             console.log("Received data from: " + clientID);
             // The data from the unit get parsed from JSON to a JS object
@@ -202,12 +207,16 @@ robotNamespace.on('connect', (socket) => {
     socket.on('disconnect', (reason) => {
         console.log('Robot:' + clientID + ' disconnected with reason: ' + reason);
         // Remove the passcode from used passcodes and add it to unused passcodes
-        if (usedPasscodes[clientID] !== undefined) {
+        if (robotsConnected[clientID] !== undefined) {
 
-            unusedPasscodes.push(usedPasscodes[clientID]);
-            delete usedPasscodes[clientID];
-            console.log('Deleted passcode used by robot: ' + clientID);
+            unusedPasscodes.push(robotsConnected[clientID]['passcode']);
+            console.log('Passcode used by client can now be reused');
         }
+
+        // Delete the client
+        delete robotsConnected[clientID];
+        console.log('Removed all information for client: ' + clientID);
+
     })
 
 })
