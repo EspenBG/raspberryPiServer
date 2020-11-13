@@ -62,6 +62,8 @@ const serverPort = 3000;
  * MAIN PROGRAM
  *********************************************************************/
 // TODO: Add a main program?
+// TODO: Refactor the program to use constants for SensorID and ControlledItemID //add to server config
+
 webserverNamespace.use((socket, next) => {
     // ensure the user has sufficient rights
     console.log("Client from webserver connected")
@@ -110,6 +112,7 @@ webserverNamespace.on('connection', socket => {
     });
 });
 
+// If there in an connection from a robot this runs
 robotNamespace.on('connect', (socket) => {
     // Only robots in the robot namespace can send data to the server
     // When a client connects to the server it gets sent to the room for unsafe clients
@@ -124,9 +127,9 @@ robotNamespace.on('connect', (socket) => {
             // Add client to used passcodes with the passcode used
             usedPasscodes[clientID] = passcode;
             // Move robot to the safe robots room, and send feedback for successful authentication
-            socket.join(safeRobotRoom);
+            socket.join(safeRobotRoom); //TODO move to after sending of setpoints
             // Send feedback to the robot
-            socket.emit('authentication', true)
+            socket.emit('authentication', true);
 
             printRoomClients(safeRobotRoom); // Used to debug
         } else {
@@ -134,6 +137,24 @@ robotNamespace.on('connect', (socket) => {
             socket.emit('authentication', false);
         }
     });
+
+    socket.on('robotID', (robotID) => {
+        // TODO: check if all the sensors is in the sensor config and if they have a setpoint
+        // Check the database for the sensors connected to the robot
+        let sensorConnected = robotConfig['robot-config'][robotID];
+        // Collect all the setpoints for the sensors
+        let setpointsToSend = {};
+        sensorConnected.forEach(sensor => {
+            console.log(sensor);
+            let setpoint = sensorConfig['sensor-config'][sensor].setpoint;
+            setpointsToSend[sensor] = setpoint;
+
+        })
+        // Send the setpoints as a JSON object to the robot
+        socket.emit('setpoints', JSON.stringify(setpointsToSend));
+
+    })
+
     // TODO: Change the structure of the event, to make it more uniform
     socket.on('sensorData', (data) => {
         // Check if the client is authenticated
@@ -151,7 +172,7 @@ robotNamespace.on('connect', (socket) => {
                 dataType = 'ControlledItemID';
             } else {
                 // Else the data is from a sensor and the id is the sensorID
-                sensorID = parsedData['SensorID'];
+                sensorID = parsedData['sensorID'];
             }
 
             // the data to add is temperature and timestamp
@@ -166,7 +187,7 @@ robotNamespace.on('connect', (socket) => {
             // Creates the sensor name object in the new sensor array if it doesn't exist, and adds the new measurement
             newSensorData[dataType][sensorID] = newSensorData[dataType][sensorID] || [];
             newSensorData[dataType][sensorID].push(dataObject);
-            console.log('Data added: ' +
+            console.log('Data added to sensor ' + sensorID + ': ' +
                 ' Datatype ' + dataType +
                 ', Time ' + dataObject['time'] +
                 ', Value ' + dataObject['value']);
@@ -176,6 +197,8 @@ robotNamespace.on('connect', (socket) => {
             //console.log(parsedData.temperature);
         }
     });
+
+
     socket.on('disconnect', (reason) => {
         console.log('Robot:' + clientID + ' disconnected with reason: ' + reason);
         // Remove the passcode from used passcodes and add it to unused passcodes
@@ -192,7 +215,7 @@ robotNamespace.on('connect', (socket) => {
 // TODO: move sensorData to the correct room
 
 // This is what runs on all the connections that is NOT in the admin namespace
-io.on('connection', socket => {
+io.on('connection', (socket) => {
     // TODO: Make the logic for authentication of the clients i.e use passcodes
 
 

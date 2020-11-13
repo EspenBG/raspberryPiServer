@@ -90,7 +90,7 @@ After the unit has been authenticated it needs to send the unitID in the followi
 The unitID do NOT need to be unique, but there may occur some problems if it is not unique. When the webserver has received and verified. 
 The robot server then sends the setpoint to the unit in the following format:
 
-    "Setpoint": setpointMessage
+    "setpoint": setpointMessage
 
 Setpoint is the event, and the setpointMessage is a string in JSON format, with one line per sensors, like this:
 

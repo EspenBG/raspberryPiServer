@@ -6,25 +6,39 @@
 
 const io = require('socket.io-client');
 
-/*********************************************************************
+/***********************************************************************************************************************
  * TEST PARAMETERS
- *********************************************************************/
-const sensorIDs = ['#####1', '#####2','#####3', '#####4'];
+ ***********************************************************************************************************************/
+//const sensorIDs = ['#####1', '#####2','#####3', '#####4'];
+// These setpoints are what the robot uses if it can't connect to the server!!!
+let sensors = {
+    '#####1': {
+        'setpoint': 0,
+        'controlledItem': false,
+
+    },
+    '#####2': {
+        'setpoint': 0,
+        'controlledItem': false,
+    },
+    '#####3': {
+        'setpoint': 0,
+        'controlledItem': false,
+    },
+    '#####4': {
+        'setpoint': 0,
+        'controlledItem': false,
+    },
+}
 const serverURI = 'http://localhost:3000/robot'; // Alternative: http://localhost/admin:3000
 const sendingOfRandomData = true;
 const sendingData = true;
 const admin = false;
-//TODO 1: Add the possibility to send a passcode to authenticate the connection to the robot server
+const robotID = 'unit1';
 
-//TODO 2: Add function to receive setpoints for the sensor
-
-//TODO 3: Add the function to send the unitId to the server
-
-//TODO 4: Add
-
-/*********************************************************************
+/***********************************************************************************************************************
  * MAIN PROGRAM
- *********************************************************************/
+ ***********************************************************************************************************************/
 
 // Connect to the server specified
 const socket = io(serverURI, {
@@ -45,12 +59,12 @@ socket.on('connect', () => {
             let myVar = setInterval(sendTemperature, 3000);
         } else {
             let numberOfRecords = 100;
-            Object.keys(sensorIDs).map((index, value) => {
+            Object.keys(sensors).map((sensor) => {
                 let record = 0;
                 for (record = 0; record < numberOfRecords; record++) {
-                    let stringToSend = '{ "sensorID": "' + sensorIDs[index] + '", "value": ' + record + '}';
+                    let stringToSend = '{ "sensorID": "' + sensor + '", "value": ' + record + '}';
                     socket.emit('sensorData', stringToSend);
-                    console.log('sending data for sensor: ' + sensorIDs[index] +' Value: '+ record);
+                    console.log('sending data for sensor: ' + sensor + ' Value: ' + record);
                 }
             });
         }
@@ -58,8 +72,31 @@ socket.on('connect', () => {
 });
 
 
+socket.on('authentication', (feedback) => {
+    // Send the robot ID to the server if authentication is successfully
+    if (feedback) {
+        socket.emit('robotID', robotID);
+    } else {
+        // Else disconnect from the server
+        socket.disconnect();
+    }
+});
+
+
+socket.on('setpoints', (setpoints) => {
+    // Set new setpoint for the sensors connected to the robot
+    let newSetpoints = JSON.parse(setpoints);
+    Object.keys(newSetpoints).map((sensor) => {
+        // Check if the sensor is connected to the robot
+        if (sensors[sensor] !== undefined) {
+            // Set new setpoint to the server
+            sensors[sensor].setpoint = newSetpoints[sensor];
+        }
+    });
+})
+
+
 socket.on('connected', () => {
-    socket.emit('changeDriveState', true);
 
 });
 
@@ -68,9 +105,9 @@ socket.on('clientConnected', (data, tefdg) => {
 })
 
 
-/*********************************************************************
+/***********************************************************************************************************************
  * FUNCTIONS
- *********************************************************************/
+ ***********************************************************************************************************************/
 
 function sendTemperature() {
     // Make a random temperature between 20 and 30 degrees
@@ -78,8 +115,8 @@ function sendTemperature() {
 
     // Select a random sensor ID
     // numberOfSensors(randomNum) round to closest int...
-    let sensorNumber = Math.floor(Math.random() * sensorIDs.length);
-    let sensorID = sensorIDs[sensorNumber];
+    let sensorNumber = Math.floor(Math.random() * Object.keys(sensors).length);
+    let sensorID = Object.keys(sensors)[sensorNumber];
     let stringToSend = '{ "sensorID": "' + sensorID + '", "value": ' + temperatureToSend.toFixed(2) + '}';
     socket.emit('sensorData', stringToSend);
     console.log("Sending temperature data: " + stringToSend);
