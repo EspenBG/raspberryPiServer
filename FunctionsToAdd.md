@@ -90,10 +90,9 @@ After the unit has been authenticated it needs to send the unitID in the followi
 The unitID do NOT need to be unique, but there may occur some problems if it is not unique. When the webserver has received and verified. 
 The robot server then sends the setpoint to the unit in the following format:
 
-    "Setpoint": setpointMessage
+    "setpoint": setpointMessage
 
 Setpoint is the event, and the setpointMessage is a string in JSON format, with one line per sensors, like this:
-
 
     {
         "uniqeSensorID": setpoint,
@@ -109,7 +108,7 @@ the setpoint is 23.5 degrees the JSON message would be as follows with the event
 
 When the unit has received the setpoints it can start transmitting sensor data to the server in the following format:
 
-    'SensorData': sensorData
+    'sensorData': sensorData
     
 Where sensorData is formatted in JSON and need to include the unitID as a number between 000 and 999, 
 sensorID as a number between 000 and 999 and 
@@ -117,7 +116,7 @@ temperature as a number between -50 and 250 (degrees celsius). It is possible to
 See the example below.
 
     {
-    "sensorID": "####1",
+    "SensorID": "####1",
     "value": 25.3,
     }
     
@@ -131,7 +130,6 @@ and the structure of the sensorData is as follows:
 
 Where the ControlledItemID is the same as the ID for the sensor used to control the output. The value can ether be a binary representation (true/false)
 or in percentage (0-100). 
-
 
 ## Server
 ### Configuration of units/sensors
@@ -271,15 +269,16 @@ Where getData is the event and sensorSettings is a JSON object formatted as a st
 the following settings:
 
 - startTime: the start time in ms
-- stopTime: the stop time in ms (set to 0 to get all records)
-- sensorID: the ID of the sensor to get information for
+- stopTime: the stop time in ms (set to 0 to get all records from start time to now)
+- sensorID: the ID of the sensor or controlled item
+- dataType: What to get data from (e.g. SensorID or ControlledItemID), default is SensorID
 
 An example for the sensorSettings can be as follows:
  
             {
             "startTime": 1604669200206,
             "stopTime": 1704669200206
-            "sensorIDs": "#####1"
+            "sensorID": "#####1"
+            "dataType": "SensorID"
             }
             
-
