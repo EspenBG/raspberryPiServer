@@ -64,12 +64,15 @@ const adminNamespace = io.of('/admin');
 const serverPort = 3000;
 
 // TODO add the ability to logg other datasets
+// TODO: Add compatibility for Firebase
 
 /*********************************************************************
  * MAIN PROGRAM
  *********************************************************************/
 // TODO: Add a main program?
 // TODO: Refactor the program to use constants for SensorID and ControlledItemID //add to server config
+// TODO: Add function to print connected webclients and robots
+// TODO: Print message on webclient disconnect
 
 webserverNamespace.use((socket, next) => {
     // ensure the user has sufficient rights
