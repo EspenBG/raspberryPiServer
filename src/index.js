@@ -121,7 +121,12 @@ webserverNamespace.on('connection', socket => {
 
 
 // If there in an connection from a robot this runs
-robotNamespace.on('connect', (socket) => {
+robotNamespace.on('connect', testFunction);
+
+// This is what runs on all the connections that is NOT in the admin namespace
+io.on('connection', testFunction);
+
+function testFunction(socket) {
     // Only robots in the robot namespace can send data to the server
     // When a client connects to the server it gets sent to the room for unsafe clients
     let clientID = socket.id;
@@ -129,7 +134,7 @@ robotNamespace.on('connect', (socket) => {
     robotsConnected[clientID] = {};
     console.log("Client connected with ID: " + clientID);
 
-    socket.on('authentication', (passcode) => {
+    socket.on('0authentication', (passcode) => {
         if (unusedPasscodes.includes(passcode)) {
             // Remove the passcode so no one else can use the same passcode
             unusedPasscodes = _.without(unusedPasscodes, passcode);
@@ -147,7 +152,7 @@ robotNamespace.on('connect', (socket) => {
         }
     });
 
-    socket.on('robotID', (robotID) => {
+    socket.on('0robotID', (robotID) => {
         // TODO: check if all the sensors is in the sensor config and if they have a setpoint
         // Store the robot id together with the clientID
         robotsConnected[clientID]['robotID'] = robotID;
@@ -160,21 +165,21 @@ robotNamespace.on('connect', (socket) => {
             let setpoint = sensorConfig['sensor-config'][sensor].setpoint;
             setpointsToSend[sensor] = setpoint;
 
-        })
+        });
         // Send the setpoints as a JSON object to the robot
         socket.emit('setpoints', JSON.stringify(setpointsToSend));
 
     })
 
     // TODO: Change the structure of the event, to make it more uniform
-    socket.on('sensorData', (data) => {
+    socket.on('0sensorData', (data) => {
         // TODO: check if the unit that is sending data are sending for a sensor that is on the robot
         // Check if the client is authenticated
         // Only log the data if the robot is authenticated and the clientId is valid and in use
         if (socket.rooms[safeRobotRoom] === safeRobotRoom && robotsConnected[clientID] !== undefined) {
             console.log("Received data from: " + clientID);
             // The data from the unit get parsed from JSON to a JS object
-            let parsedData = JSON.parse(data);
+            let parsedData = parseFromJSON(data);
             let sensorID;
             let dataType;
 
@@ -224,19 +229,9 @@ robotNamespace.on('connect', (socket) => {
         delete robotsConnected[clientID];
         console.log('Removed all information for client: ' + clientID);
 
-    })
-
-})
-
-// This is what runs on all the connections that is NOT in the admin namespace
-io.on('connection', (socket) => {
-
-    io.on('test', data => {
-        console.log(data);
-
     });
+}
 
-});
 
 // Write new sensor data to the database every 60 seconds
 let var1 = setInterval(addSensorsToDB, 60000);
@@ -462,4 +457,12 @@ function addDataToDB(databasePath, newData, dataType, callback) {
         // Callback after the database has been updated, if it is in use
         if (callback) callback(deletedRecords);
     });
+}
+
+function parseFromJSON(dataToParse){
+    // Replace all single quotes to double quotes
+    let JSONString = dataToParse.split("'").join('"');
+    //console.log(JSONString);
+
+    return JSON.parse(JSONString);
 }

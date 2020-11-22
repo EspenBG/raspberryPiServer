@@ -30,7 +30,7 @@ let sensors = {
         'controlledItem': false,
     },
 }
-const serverURI = 'http://localhost:3000/robot'; // Alternative: http://localhost/admin:3000
+const serverURI = 'http://localhost:3000'; // Alternative: http://localhost/admin:3000
 const sendingOfRandomData = true;
 const sendingData = true;
 const admin = false;
@@ -53,7 +53,8 @@ socket.on('connect', () => {
     if (admin) {
         let myVarNew = setInterval(getData, 3000);
     }
-    socket.emit('authentication', 123456789);
+    socket.emit('0robot', true);
+    socket.emit('0authentication', 123456789);
     if (sendingData) {
         if (sendingOfRandomData) {
             let myVar = setInterval(sendTemperature, 3000);
@@ -63,19 +64,20 @@ socket.on('connect', () => {
                 let record = 0;
                 for (record = 0; record < numberOfRecords; record++) {
                     let stringToSend = '{ "sensorID": "' + sensor + '", "value": ' + record + '}';
-                    socket.emit('sensorData', stringToSend);
+                    socket.emit('0sensorData', stringToSend);
                     console.log('sending data for sensor: ' + sensor + ' Value: ' + record);
                 }
             });
         }
     }
+    socket.emit('test', 'testtes')
 });
 
 
 socket.on('authentication', (feedback) => {
     // Send the robot ID to the server if authentication is successfully
     if (feedback) {
-        socket.emit('robotID', robotID);
+        socket.emit('0robotID', robotID);
     } else {
         // Else disconnect from the server
         socket.disconnect();
@@ -117,7 +119,7 @@ function sendTemperature() {
     // numberOfSensors(randomNum) round to closest int...
     let sensorNumber = Math.floor(Math.random() * Object.keys(sensors).length);
     let sensorID = Object.keys(sensors)[sensorNumber];
-    let stringToSend = '{ "sensorID": "' + sensorID + '", "value": ' + temperatureToSend.toFixed(2) + '}';
+    let stringToSend = '{ \'sensorID\': \'' + sensorID + '\', \'value\': ' + temperatureToSend.toFixed(2) + '}';
 
     // check if the sensorValue is over or below the setpoint
     let controlItem = true;
@@ -133,14 +135,14 @@ function sendTemperature() {
         }
         let controlString = JSON.stringify(controlObject);
 
-        socket.emit('sensorData', controlString);
+        socket.emit('0sensorData', controlString);
         console.log("Sending control data: " + controlString);
 
     } else {
 
     }
 
-    socket.emit('sensorData', stringToSend);
+    socket.emit('0sensorData', stringToSend);
     console.log("Sending temperature data: " + stringToSend);
 };
 
