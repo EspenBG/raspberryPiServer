@@ -134,7 +134,7 @@ function testFunction(socket) {
     robotsConnected[clientID] = {};
     console.log("Client connected with ID: " + clientID);
 
-    socket.on('0authentication', (passcode) => {
+    socket.on('authentication', (passcode) => {
         if (unusedPasscodes.includes(passcode)) {
             // Remove the passcode so no one else can use the same passcode
             unusedPasscodes = _.without(unusedPasscodes, passcode);
@@ -152,7 +152,7 @@ function testFunction(socket) {
         }
     });
 
-    socket.on('0robotID', (robotID) => {
+    socket.on('robotID', (robotID) => {
         // TODO: check if all the sensors is in the sensor config and if they have a setpoint
         // Store the robot id together with the clientID
         robotsConnected[clientID]['robotID'] = robotID;
@@ -172,7 +172,7 @@ function testFunction(socket) {
     })
 
     // TODO: Change the structure of the event, to make it more uniform
-    socket.on('0sensorData', (data) => {
+    socket.on('sensorData', (data) => {
         // TODO: check if the unit that is sending data are sending for a sensor that is on the robot
         // Check if the client is authenticated
         // Only log the data if the robot is authenticated and the clientId is valid and in use
@@ -183,13 +183,13 @@ function testFunction(socket) {
             let sensorID;
             let dataType;
 
-            if (parsedData['controlledItemID'] !== undefined) {
+            if (parsedData['0controlledItemID'] !== undefined) {
                 // if the data is for the controlled item set the sensorID from that
-                sensorID = parsedData['controlledItemID'];
+                sensorID = parsedData['0controlledItemID'];
                 dataType = 'ControlledItemID';
-            } else if (parsedData['sensorID'] !== undefined) {
+            } else if (parsedData['0sensorID'] !== undefined) {
                 // Else the data is from a sensor and the id is the sensorID
-                sensorID = parsedData['sensorID'];
+                sensorID = parsedData['0sensorID'];
                 dataType = 'SensorID';
             }
 

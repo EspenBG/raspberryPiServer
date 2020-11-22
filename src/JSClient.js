@@ -53,8 +53,8 @@ socket.on('connect', () => {
     if (admin) {
         let myVarNew = setInterval(getData, 3000);
     }
-    socket.emit('0robot', true);
-    socket.emit('0authentication', 123456789);
+    socket.emit('robot', true);
+    socket.emit('authentication', 123456789);
     if (sendingData) {
         if (sendingOfRandomData) {
             let myVar = setInterval(sendTemperature, 3000);
@@ -77,7 +77,7 @@ socket.on('connect', () => {
 socket.on('authentication', (feedback) => {
     // Send the robot ID to the server if authentication is successfully
     if (feedback) {
-        socket.emit('0robotID', robotID);
+        socket.emit('robotID', robotID);
     } else {
         // Else disconnect from the server
         socket.disconnect();
