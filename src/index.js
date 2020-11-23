@@ -124,7 +124,8 @@ webserverNamespace.on('connection', socket => {
     });
     socket.on('sensorInfo', (sensorID) => {
         //console.log(sensorID);
-        let sensorInfo = sensorConfig['sensor-config'][sensorID];
+        let sensorInfo = {};
+        sensorInfo[sensorID] = sensorConfig['sensor-config'][sensorID]
 
         socket.emit('sensorInfo', JSON.stringify(sensorInfo));
     });
