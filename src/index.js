@@ -9,6 +9,7 @@
  *********************************************************************/
 
 // TODO Add some of the options to the server-config
+// TODO Change unit in sensor-config to robot
 /*
  * Options for the server-config
  * Port number

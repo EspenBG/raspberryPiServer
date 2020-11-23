@@ -12,21 +12,21 @@
       "type": "co2",
       "controlType": "reversed",
       "controlledItem": true,
-      "setpoint": 24.8
+      "setpoint": 600
     },
     "#####3": {
-      "unit": "unit1",
-      "type": "co2",
-      "controlType": "reversed",
+      "unit": "unit2",
+      "type": "temperature",
+      "controlType": "direct",
       "controlledItem": true,
-      "setpoint": 25.0
+      "setpoint": 23.5
     },
     "#####4": {
-      "unit": "unit1",
+      "unit": "unit2",
       "type": "co2",
       "controlType": "reversed",
       "controlledItem": true,
-      "setpoint": 25.2
+      "setpoint": 400
     }
   }
 }
