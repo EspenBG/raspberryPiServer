@@ -285,7 +285,7 @@ function printRoomClients(roomName) {
 
 /**
  * Function to get data from the database and form newSensorData, and returns the data as an object
- * The time interval for teh search is controlled by the start time and the stop time.
+ * The time interval for the search is controlled by the start time and the stop time.
  * If the stop time is 0 the search return all the sensor data from the start time to the time of the search.
  * @param startTime     start time of the search (time in ms from 01.01.1970)
  * @param stopTime      stop time for the search (time in ms from 01.01.1970)
