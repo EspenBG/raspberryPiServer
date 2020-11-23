@@ -122,12 +122,12 @@ webserverNamespace.on('connection', socket => {
             });
         }
     });
-    socket.on('sensorInfo', (sensorID) => {
+    socket.on('sensorInfo', (sensorID, callback) => {
         //console.log(sensorID);
         let sensorInfo = {};
         sensorInfo[sensorID] = sensorConfig['sensor-config'][sensorID]
 
-        socket.emit('sensorInfo', JSON.stringify(sensorInfo));
+        socket.emit('sensorInfo', JSON.stringify(sensorInfo), callback);
     });
     socket.on('allSensors', (call) => {
         // Send all the sensors to the client
