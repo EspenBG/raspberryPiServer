@@ -54,7 +54,7 @@ socket.on('connect', () => {
         let myVarNew = setInterval(getData, 3000);
     }
     socket.emit('robot', true);
-    socket.emit('authentication', 123456789);
+    socket.emit('authentication', "123456789");
     if (sendingData) {
         if (sendingOfRandomData) {
             let myVar = setInterval(sendTemperature, 3000);

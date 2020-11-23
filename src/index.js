@@ -55,7 +55,7 @@ let newSensorData = {       // Object for storing data received from robots in t
 };
 
 const safeRobotRoom = 'safeRobots';
-let unusedPasscodes = [123456789, 123456788];   //TODO: move passcodes to a config file to add the ability to change them
+let unusedPasscodes = ["123456789", "123456788"];   //TODO: move passcodes to a config file to add the ability to change them
 let robotsConnected = {};
 let webserverNamespace = io.of('/webserver');
 let robotNamespace = io.of('/robot');
