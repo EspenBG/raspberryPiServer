@@ -46,8 +46,10 @@ const databasePaths = {
 
 
 // Import config files
-const robotConfig = getDatabaseSync('config/robot-config.json');
-const sensorConfig = getDatabaseSync('config/sensor-config.json');
+const sensorConfigPath = 'config/sensor-config.json';
+const robotConfigPath = 'config/robot-config.json';
+const robotConfig = getDatabaseSync(robotConfigPath);
+const sensorConfig = getDatabaseSync(sensorConfigPath);
 
 let newSensorData = {       // Object for storing data received from robots in the same structure as the database
     SensorID: {},           // Make the SensorID object
@@ -118,6 +120,28 @@ webserverNamespace.on('connection', socket => {
                 let encodedData = JSON.stringify(dataToSend);
                 socket.emit('dataResponse', encodedData);
             });
+        }
+    });
+    socket.on('sensorInfo', (sensorID) => {
+        //console.log(sensorID);
+        let sensorInfo = sensorConfig['sensor-config'][sensorID];
+
+        socket.emit('sensorInfo', JSON.stringify(sensorInfo));
+    });
+    socket.on('allSensors', (call) => {
+        // Send all the sensors to the client
+        if (call) {
+            console.log(call);
+            // Variable to store all the sensorIDs
+            let sensorNames = [];
+            // Loop thru all the sensors to add all the names
+            Object.keys(sensorConfig['sensor-config']).map((sensor) => {
+                // Add all sensorIDs to the array
+                sensorNames.push(sensor);
+            });
+            // Send all the sensorIDs to the client that asked
+            let sensorNamesToSend = JSON.stringify(sensorNames)
+            socket.emit('allSensors', sensorNamesToSend);
         }
     });
 });
