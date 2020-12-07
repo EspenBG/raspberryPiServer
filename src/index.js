@@ -459,10 +459,18 @@ function addDataToDB(databasePath, newData, dataType, callback) {
     });
 }
 
+/**
+ * Function to parse data from JSON to a JS object.
+ * If it occurs an error the object returned is the same as the object given
+ * @param dataToParse - The object to parse
+ * @return {*}
+ */
 function parseFromJSON(dataToParse){
-    // Replace all single quotes to double quotes
-    let JSONString = dataToParse.split("'").join('"');
-    //console.log(JSONString);
-
-    return JSON.parse(JSONString);
+    let data = dataToParse;
+    // Try to parse the data from JSON,
+    try {
+        data = JSON.parse(dataToParse);
+    } finally {
+        return data;
+    }
 }
