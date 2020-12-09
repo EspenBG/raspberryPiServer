@@ -1,11 +1,11 @@
 {
   "sensor-config": {
     "#####1": {
-      "unit": "unit1",
+      "robot": "unit1",
       "type": "temperature",
-      "controlType": "reversed",
+      "controlType": "direct",
       "controlledItem": true,
-      "setpoint": 24.5
+      "setpoint": 23.5
     },
     "#####2": {
       "unit": "unit1",

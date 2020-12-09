@@ -3,6 +3,7 @@ This explains how to setup a raspberry pi as a server,
 running both a httpserver (more info: [here](https://github.com/EspenBG/webserver/blob/master/README.md)) and the socket.io.
 
 Setup of the raspberry pi
+
 Recommended:
 - Make new account and delete the default user (pi)
 - Set a static ip address for Pi

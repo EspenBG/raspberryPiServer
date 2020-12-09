@@ -53,10 +53,10 @@ socket.on('connect', () => {
     if (admin) {
         let myVarNew = setInterval(getData, 3000);
     }
-    socket.emit('authentication', 123456789);
+    socket.emit('authentication', 123456788);
     if (sendingData) {
         if (sendingOfRandomData) {
-            let myVar = setInterval(sendTemperature, 3000);
+            let myVar = setInterval(sendTemperature, 10000);
         } else {
             let numberOfRecords = 100;
             Object.keys(sensors).map((sensor) => {
@@ -115,7 +115,8 @@ function sendTemperature() {
 
     // Select a random sensor ID
     // numberOfSensors(randomNum) round to closest int...
-    let sensorNumber = Math.floor(Math.random() * Object.keys(sensors).length);
+    // let sensorNumber = Math.floor(Math.random() * Object.keys(sensors).length);
+    let sensorNumber = 0;
     let sensorID = Object.keys(sensors)[sensorNumber];
     let stringToSend = '{ "sensorID": "' + sensorID + '", "value": ' + temperatureToSend.toFixed(2) + '}';
 
