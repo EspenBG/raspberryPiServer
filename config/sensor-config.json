@@ -3,9 +3,9 @@
     "#####1": {
       "robot": "unit1",
       "type": "temperature",
-      "controlType": "direct",
+      "controlType": "reverse",
       "controlledItem": true,
-      "setpoint": 23.5
+      "setpoint": "25"
     },
     "#####2": {
       "unit": "unit1",
@@ -22,6 +22,20 @@
       "setpoint": 23.5
     },
     "#####4": {
+      "unit": "unit2",
+      "type": "co2",
+      "controlType": "reversed",
+      "controlledItem": true,
+      "setpoint": 400
+    },
+    "dsf": {
+      "unit": "unit2",
+      "type": "co2",
+      "controlType": "reversed",
+      "controlledItem": true,
+      "setpoint": 400
+    },
+    "aaa": {
       "unit": "unit2",
       "type": "co2",
       "controlType": "reversed",

@@ -130,6 +130,13 @@ webserverNamespace.on('connection', socket => {
 
         socket.emit('sensorInfo', JSON.stringify(sensorInfo), callback);
     });
+    socket.on('robotInfo', (robotID, callback) => {
+        //console.log(robotID);
+        let robotInfo = {};
+        robotInfo[robotID] = robotConfig['robot-config'][robotID]
+
+        socket.emit('robotInfo', JSON.stringify(robotInfo), callback);
+    });
     socket.on('allSensors', (call) => {
         // Send all the sensors to the client
         if (call) {
@@ -142,8 +149,25 @@ webserverNamespace.on('connection', socket => {
                 sensorNames.push(sensor);
             });
             // Send all the sensorIDs to the client that asked
-            let sensorNamesToSend = JSON.stringify(sensorNames)
-            socket.emit('allSensors', sensorNamesToSend);
+
+            let sensorNamesToSend = _.sortBy(sensorNames);
+            socket.emit('allSensors', JSON.stringify(sensorNamesToSend));
+        }
+    });
+    socket.on('allRobots', (call) => {
+        // Send all the sensors to the client
+        if (call) {
+            console.log(call);
+            // Variable to store all the sensorIDs
+            let robotNames = [];
+            // Loop thru all the sensors to add all the names
+            Object.keys(robotConfig['robot-config']).map((robot) => {
+                // Add all sensorIDs to the array
+                robotNames.push(robot);
+            });
+            // Send all the sensorIDs to the client that asked
+            let robotNamesToSend = JSON.stringify(robotNames)
+            socket.emit('allRobots', robotNamesToSend);
         }
     });
     socket.on('newSensorSettings', (settings, callback) => {
@@ -176,19 +200,60 @@ webserverNamespace.on('connection', socket => {
             socket.emit('newSensorSettings', false, callback);
         }
     });
+    socket.on('newRobotSettings', (settings, callback) => {
+        console.log(JSON.parse(settings));
+        let newSettings = JSON.parse(settings);
+        let robotIDs = Object.keys(newSettings);
+        let settingsNotCorrect = false;
+
+        robotIDs.forEach( robotID =>{
+            let robotSettings = newSettings[robotID];
+            let settingsOK = checkRobotSettings(robotID, robotSettings);
+            if (!settingsOK) {
+                // If there is any settings not correct for any of the sensors
+                settingsNotCorrect = true;
+            }
+        });
+
+        if (!settingsNotCorrect && (robotIDs.length !== 0)) {
+            robotIDs.forEach((robot) => {
+                robotConfig['robot-config'][robot] = newSettings[robot];
+            })
+
+            // uses sync db to make the writing to the DB more secure and less prone to mistakes
+            writeDatabaseSync(robotConfigPath, robotConfig);
+            socket.emit('newRobotSettings', true, callback);
+        } else {
+            socket.emit('newRobotSettings', false, callback);
+        }
+    });
 });
+
+function checkRobotSettings(robot, sensors){
+    let regexForID = new RegExp('^[a-zA-Z0-9#]+$'); // Ids can only contain letters and numbers (and #)
+    let robotOK = false;
+    let sensorsOK = true;
+
+    if (regexForID.test(robot)) robotOK = true;
+    sensors.forEach(sensor => {
+        if (!regexForID.test(sensor)) sensorsOK = false;
+    });
+    return robotOK && sensorsOK;
+}
 
 function checkSensorSettings(sensorID, settings) {
     let regexControlType = new RegExp('^reverse$|^direct$|^none$'); // Valid control types are: direct, reverse, none
     let regexSensorType = new RegExp('^temperature$|^co2$'); // Valid types are: temperature, co2
     let regexForID = new RegExp('^[a-zA-Z0-9#]+$'); // Ids can only contain letters and numbers (and #)
     let regexSetpoint = new RegExp('^[0-9]+[.][0-9]+$|^[0-9]+$')
+    let regexControlledItem = new RegExp('^false$|^true$');
 
     let sensorIdOK = false;
     let controlTypeOK = false;
     let robotIdOK = false;
     let sensorTypeOK = false;
     let setpointOK = false;
+    let controlledItemOK = false;
 
     if (regexForID.test(sensorID)) {
         sensorIdOK = true;
@@ -202,10 +267,13 @@ function checkSensorSettings(sensorID, settings) {
     if (regexSensorType.test(settings['type'])) {
         sensorTypeOK = true;
         // console.log('type ok')
-
     }
     if (regexForID.test(settings['robot'])) {
         robotIdOK = true;
+        // console.log('robot ok')
+    }
+    if (regexControlledItem.test(settings['controlledItem'])) {
+        controlledItemOK = true;
         // console.log('robot ok')
 
     }
@@ -213,15 +281,13 @@ function checkSensorSettings(sensorID, settings) {
         if (regexSetpoint.test(settings['setpoint'])) {
             setpointOK = true;
             // console.log('setpoint ok')
-
         }
     } else {
         // If there is no setpoint it is automatically ok
         setpointOK = true;
         // console.log('no setpoint ok')
-
     }
-    return (sensorIdOK && controlTypeOK && sensorTypeOK && robotIdOK && setpointOK);
+    return (sensorIdOK && controlTypeOK && sensorTypeOK && robotIdOK && setpointOK && controlledItemOK);
 }
 
 // If there in an connection from a robot this runs
