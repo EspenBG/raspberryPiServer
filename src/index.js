@@ -57,7 +57,7 @@ let newSensorData = {       // Object for storing data received from robots in t
 };
 
 const safeRobotRoom = 'safeRobots';
-let unusedPasscodes = [123456789, 123456788, 123456779];   //TODO: move passcodes to a config file to add the ability to change them
+let unusedPasscodes = ["123456789", "123456788"];   //TODO: move passcodes to a config file to add the ability to change them
 let robotsConnected = {};
 let webserverNamespace = io.of('/webserver');
 let robotNamespace = io.of('/robot');
@@ -191,7 +191,7 @@ webserverNamespace.on('connection', socket => {
         if (!settingsNotCorrect && (sensorIDs.length !== 0)) {
             sensorIDs.forEach((sensor) => {
                 sensorConfig['sensor-config'][sensor] = newSettings[sensor];
-
+                sendNewSetpoints(newSettings[sensor]['robot']);
             })
 
             // uses sync db to make the writing to the DB more secure and less prone to mistakes
@@ -298,6 +298,37 @@ robotNamespace.on('connect', testFunction);
 // This is what runs on all the connections that is NOT in the admin namespace
 io.on('connection', testFunction);
 
+function sendNewSetpoints(robotID) {
+
+    let sensorConnected = robotConfig['robot-config'][robotID];
+    // let test = _.where(robotsConnected, {RobotID: robotID})
+    let robotClient;
+    // Collect all the setpoints for the sensors
+    Object.keys(robotsConnected).map((client) => {
+       if (robotsConnected[client]["robotID"] === robotID) {
+           robotClient = client;
+       }
+    });
+    let socket = io.sockets.sockets[robotClient];
+    let setpointsToSend = {};
+
+    try {
+        sensorConnected.forEach(sensor => {
+            console.log(sensor);
+            if (sensorConfig['sensor-config']['controlledItem'] === true) {
+                setpointsToSend[sensor] = sensorConfig['sensor-config'][sensor].setpoint;
+            } else {
+                setpointsToSend[sensor] = "none";
+            }
+        })
+    } catch (TypeError) {
+        setpointsToSend = {}
+        console.log('There is no setpoints for this robot!')
+    }
+    // Send the setpoints as a JSON object to the robot
+    socket.emit('setpoints', JSON.stringify(setpointsToSend));
+}
+
 function testFunction(socket) {
     // Only robots in the robot namespace can send data to the server
     // When a client connects to the server it gets sent to the room for unsafe clients
@@ -326,19 +357,10 @@ function testFunction(socket) {
 
     socket.on('robotID', (robotID) => {
         // TODO: check if all the sensors is in the sensor config and if they have a setpoint
-        // Store the robot id together with the clientID
         robotsConnected[clientID]['robotID'] = robotID;
         // Check the database for the sensors connected to the robot
-        let sensorConnected = robotConfig['robot-config'][robotID];
-        // Collect all the setpoints for the sensors
-        let setpointsToSend = {};
-        sensorConnected.forEach(sensor => {
-            console.log(sensor);
-            setpointsToSend[sensor] = sensorConfig['sensor-config'][sensor].setpoint;
-
-        })
-        // Send the setpoints as a JSON object to the robot
-        socket.emit('setpoints', JSON.stringify(setpointsToSend));
+        // Store the robot id together with the clientID
+        sendNewSetpoints(robotID);
 
     })
 
@@ -354,13 +376,13 @@ function testFunction(socket) {
             let sensorID;
             let dataType;
 
-            if (parsedData['controlledItemID'] !== undefined) {
+            if (parsedData['ControlledItemID'] !== undefined) {
                 // if the data is for the controlled item set the sensorID from that
-                sensorID = parsedData['controlledItemID'];
+                sensorID = parsedData['ControlledItemID'];
                 dataType = 'ControlledItemID';
-            } else if (parsedData['sensorID'] !== undefined) {
+            } else if (parsedData['SensorID'] !== undefined) {
                 // Else the data is from a sensor and the id is the sensorID
-                sensorID = parsedData['sensorID'];
+                sensorID = parsedData['SensorID'];
                 dataType = 'SensorID';
             }
 

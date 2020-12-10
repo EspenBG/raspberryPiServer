@@ -41,6 +41,20 @@
       "controlType": "reversed",
       "controlledItem": true,
       "setpoint": 400
+    },
+    "000001": {
+      "robot": "000003",
+      "type": "temperature",
+      "controlType": "reverse",
+      "controlledItem": true,
+      "setpoint": "30"
+    },
+    "000002": {
+      "robot": "000003",
+      "type": "co2",
+      "controlType": "direct",
+      "controlledItem": true,
+      "setpoint": "400"
     }
   }
 }
