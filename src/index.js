@@ -302,13 +302,14 @@ function sendNewSetpoints(robotID) {
 
     let sensorConnected = robotConfig['robot-config'][robotID];
     // let test = _.where(robotsConnected, {RobotID: robotID})
-    let robotClient;
+    let robotClient = "none";
     // Collect all the setpoints for the sensors
     Object.keys(robotsConnected).map((client) => {
        if (robotsConnected[client]["robotID"] === robotID) {
            robotClient = client;
        }
     });
+    if (robotClient !== "none"){
     let socket = io.sockets.sockets[robotClient];
     let setpointsToSend = {};
 
@@ -327,6 +328,7 @@ function sendNewSetpoints(robotID) {
     }
     // Send the setpoints as a JSON object to the robot
     socket.emit('setpoints', JSON.stringify(setpointsToSend));
+}
 }
 
 function testFunction(socket) {
