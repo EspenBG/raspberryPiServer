@@ -9,7 +9,6 @@
  *********************************************************************/
 
 // TODO Add some of the options to the server-config
-// TODO Change unit in sensor-config to robot
 /*
  * Options for the server-config
  * Port number
@@ -294,7 +293,12 @@ function checkSensorSettings(sensorID, settings) {
 }
 
 // If there in an connection from a robot this runs
-robotNamespace.on('connect', (socket) => {
+robotNamespace.on('connect', testFunction);
+
+// This is what runs on all the connections that is NOT in the admin namespace
+io.on('connection', testFunction);
+
+function testFunction(socket) {
     // Only robots in the robot namespace can send data to the server
     // When a client connects to the server it gets sent to the room for unsafe clients
     let clientID = socket.id;
@@ -346,7 +350,7 @@ robotNamespace.on('connect', (socket) => {
         if (socket.rooms[safeRobotRoom] === safeRobotRoom && robotsConnected[clientID] !== undefined) {
             console.log("Received data from: " + clientID);
             // The data from the unit get parsed from JSON to a JS object
-            let parsedData = JSON.parse(data);
+            let parsedData = parseFromJSON(data);
             let sensorID;
             let dataType;
 
@@ -365,6 +369,8 @@ robotNamespace.on('connect', (socket) => {
                 'value': parsedData.value,
                 'time': Date.now(),
             };
+            let sensorData = {};
+            sensorData[sensorID] = dataObject;
 
             // Creates the sensor name object in the new sensor array if it doesn't exist, and adds the new measurement
             newSensorData[dataType][sensorID] = newSensorData[dataType][sensorID] || [];
@@ -400,7 +406,7 @@ robotNamespace.on('connect', (socket) => {
         socket.leave(safeRobotRoom);
         console.log('Removed all information for client: ' + clientID);
     });
-})
+}
 
 // This is what runs on all the connections that is NOT in the admin namespace
 io.on('connection', (socket) => {
@@ -409,6 +415,7 @@ io.on('connection', (socket) => {
         console.log(data);
 
     });
+
 
 });
 
@@ -464,7 +471,7 @@ function printRoomClients(roomName) {
 
 /**
  * Function to get data from the database and form newSensorData, and returns the data as an object
- * The time interval for teh search is controlled by the start time and the stop time.
+ * The time interval for the search is controlled by the start time and the stop time.
  * If the stop time is 0 the search return all the sensor data from the start time to the time of the search.
  * @param startTime     start time of the search (time in ms from 01.01.1970)
  * @param stopTime      stop time for the search (time in ms from 01.01.1970)
@@ -660,4 +667,20 @@ function addDataToDB(databasePath, newData, dataType, callback) {
         // Callback after the database has been updated, if it is in use
         if (callback) callback(deletedRecords);
     });
+}
+
+/**
+ * Function to parse data from JSON to a JS object.
+ * If it occurs an error the object returned is the same as the object given
+ * @param dataToParse - The object to parse
+ * @return {*}
+ */
+function parseFromJSON(dataToParse){
+    let data = dataToParse;
+    // Try to parse the data from JSON,
+    try {
+        data = JSON.parse(dataToParse);
+    } finally {
+        return data;
+    }
 }
