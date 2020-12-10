@@ -53,8 +53,7 @@ socket.on('connect', () => {
     if (admin) {
         let myVarNew = setInterval(getData, 3000);
     }
-    socket.emit('robot', true);
-    socket.emit('authentication', "123456789");
+    socket.emit('authentication', 123456789);
     if (sendingData) {
         if (sendingOfRandomData) {
             let myVar = setInterval(sendTemperature, 3000);
@@ -70,7 +69,6 @@ socket.on('connect', () => {
             });
         }
     }
-    socket.emit('test', 'testtes')
 });
 
 
@@ -119,7 +117,7 @@ function sendTemperature() {
     // numberOfSensors(randomNum) round to closest int...
     let sensorNumber = Math.floor(Math.random() * Object.keys(sensors).length);
     let sensorID = Object.keys(sensors)[sensorNumber];
-    let stringToSend = '{ \'0sensorID\': \'' + sensorID + '\', \'value\': ' + temperatureToSend.toFixed(2) + '}';
+    let stringToSend = '{ "sensorID": "' + sensorID + '", "value": ' + temperatureToSend.toFixed(2) + '}';
 
     // check if the sensorValue is over or below the setpoint
     let controlItem = true;
@@ -130,7 +128,7 @@ function sendTemperature() {
     if (controlItem !== sensors[sensorID].controlledItem) {
         sensors[sensorID].controlledItem = controlItem;
         let controlObject = {
-            '0controlledItemID': sensorID,
+            'controlledItemID': sensorID,
             'value': controlItem
         }
         let controlString = JSON.stringify(controlObject);

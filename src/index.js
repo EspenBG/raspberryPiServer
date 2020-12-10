@@ -46,8 +46,10 @@ const databasePaths = {
 
 
 // Import config files
-const robotConfig = getDatabaseSync('config/robot-config.json');
-const sensorConfig = getDatabaseSync('config/sensor-config.json');
+const sensorConfigPath = 'config/sensor-config.json';
+const robotConfigPath = 'config/robot-config.json';
+const robotConfig = getDatabaseSync(robotConfigPath);
+const sensorConfig = getDatabaseSync(sensorConfigPath);
 
 let newSensorData = {       // Object for storing data received from robots in the same structure as the database
     SensorID: {},           // Make the SensorID object
@@ -55,7 +57,7 @@ let newSensorData = {       // Object for storing data received from robots in t
 };
 
 const safeRobotRoom = 'safeRobots';
-let unusedPasscodes = ["123456789", "123456788"];   //TODO: move passcodes to a config file to add the ability to change them
+let unusedPasscodes = [123456789, 123456788, 123456779];   //TODO: move passcodes to a config file to add the ability to change them
 let robotsConnected = {};
 let webserverNamespace = io.of('/webserver');
 let robotNamespace = io.of('/robot');
@@ -64,12 +66,15 @@ const adminNamespace = io.of('/admin');
 const serverPort = 3000;
 
 // TODO add the ability to logg other datasets
+// TODO: Add compatibility for Firebase
 
 /*********************************************************************
  * MAIN PROGRAM
  *********************************************************************/
 // TODO: Add a main program?
 // TODO: Refactor the program to use constants for SensorID and ControlledItemID //add to server config
+// TODO: Add function to print connected webclients and robots
+// TODO: Print message on webclient disconnect
 
 webserverNamespace.use((socket, next) => {
     // ensure the user has sufficient rights
@@ -117,8 +122,175 @@ webserverNamespace.on('connection', socket => {
             });
         }
     });
+    socket.on('sensorInfo', (sensorID, callback) => {
+        //console.log(sensorID);
+        let sensorInfo = {};
+        sensorInfo[sensorID] = sensorConfig['sensor-config'][sensorID]
+
+        socket.emit('sensorInfo', JSON.stringify(sensorInfo), callback);
+    });
+    socket.on('robotInfo', (robotID, callback) => {
+        //console.log(robotID);
+        let robotInfo = {};
+        robotInfo[robotID] = robotConfig['robot-config'][robotID]
+
+        socket.emit('robotInfo', JSON.stringify(robotInfo), callback);
+    });
+    socket.on('allSensors', (call) => {
+        // Send all the sensors to the client
+        if (call) {
+            console.log(call);
+            // Variable to store all the sensorIDs
+            let sensorNames = [];
+            // Loop thru all the sensors to add all the names
+            Object.keys(sensorConfig['sensor-config']).map((sensor) => {
+                // Add all sensorIDs to the array
+                sensorNames.push(sensor);
+            });
+            // Send all the sensorIDs to the client that asked
+
+            let sensorNamesToSend = _.sortBy(sensorNames);
+            socket.emit('allSensors', JSON.stringify(sensorNamesToSend));
+        }
+    });
+    socket.on('allRobots', (call) => {
+        // Send all the sensors to the client
+        if (call) {
+            console.log(call);
+            // Variable to store all the sensorIDs
+            let robotNames = [];
+            // Loop thru all the sensors to add all the names
+            Object.keys(robotConfig['robot-config']).map((robot) => {
+                // Add all sensorIDs to the array
+                robotNames.push(robot);
+            });
+            // Send all the sensorIDs to the client that asked
+            let robotNamesToSend = JSON.stringify(robotNames)
+            socket.emit('allRobots', robotNamesToSend);
+        }
+    });
+    socket.on('newSensorSettings', (settings, callback) => {
+
+        console.log(JSON.parse(settings));
+        let newSettings = JSON.parse(settings);
+        let sensorIDs = Object.keys(newSettings);
+        let settingsNotCorrect = false;
+
+        sensorIDs.forEach( sensorID =>{
+            let sensorSettings = newSettings[sensorID];
+            // sensorSettings = _.uniq(sensorSettings, 'name') // Not needed, I think...
+
+            let settingsOK = checkSensorSettings(sensorID, sensorSettings);
+            if (!settingsOK) {
+                // If there is any settings not correct for any of the sensors
+                settingsNotCorrect = true;
+            }
+            console.log(settingsOK);
+        });
+
+        if (!settingsNotCorrect && (sensorIDs.length !== 0)) {
+            sensorIDs.forEach((sensor) => {
+                sensorConfig['sensor-config'][sensor] = newSettings[sensor];
+
+            })
+
+            // uses sync db to make the writing to the DB more secure and less prone to mistakes
+            writeDatabaseSync(sensorConfigPath, sensorConfig);
+            socket.emit('newSensorSettings', true, callback);
+        } else {
+            socket.emit('newSensorSettings', false, callback);
+        }
+    });
+    socket.on('newRobotSettings', (settings, callback) => {
+        console.log(JSON.parse(settings));
+        let newSettings = JSON.parse(settings);
+        let robotIDs = Object.keys(newSettings);
+        let settingsNotCorrect = false;
+
+        robotIDs.forEach( robotID =>{
+            let robotSettings = newSettings[robotID];
+            let settingsOK = checkRobotSettings(robotID, robotSettings);
+            if (!settingsOK) {
+                // If there is any settings not correct for any of the sensors
+                settingsNotCorrect = true;
+            }
+        });
+
+        if (!settingsNotCorrect && (robotIDs.length !== 0)) {
+            robotIDs.forEach((robot) => {
+                // Remove duplicates before saving to the robot config
+                robotConfig['robot-config'][robot] = _.uniq(newSettings[robot]);
+            })
+
+            // uses sync db to make the writing to the DB more secure and less prone to mistakes
+            writeDatabaseSync(robotConfigPath, robotConfig);
+            socket.emit('newRobotSettings', true, callback);
+        } else {
+            socket.emit('newRobotSettings', false, callback);
+        }
+    });
 });
 
+function checkRobotSettings(robot, sensors){
+    let regexForID = new RegExp('^[a-zA-Z0-9#]+$'); // Ids can only contain letters and numbers (and #)
+    let robotOK = false;
+    let sensorsOK = true;
+
+    if (regexForID.test(robot)) robotOK = true;
+    sensors.forEach(sensor => {
+        if (!regexForID.test(sensor)) sensorsOK = false;
+    });
+    return robotOK && sensorsOK;
+}
+
+function checkSensorSettings(sensorID, settings) {
+    let regexControlType = new RegExp('^reverse$|^direct$|^none$'); // Valid control types are: direct, reverse, none
+    let regexSensorType = new RegExp('^temperature$|^co2$'); // Valid types are: temperature, co2
+    let regexForID = new RegExp('^[a-zA-Z0-9#]+$'); // Ids can only contain letters and numbers (and #)
+    let regexSetpoint = new RegExp('^[0-9]+[.][0-9]+$|^[0-9]+$')
+    let regexControlledItem = new RegExp('^false$|^true$');
+
+    let sensorIdOK = false;
+    let controlTypeOK = false;
+    let robotIdOK = false;
+    let sensorTypeOK = false;
+    let setpointOK = false;
+    let controlledItemOK = false;
+
+    if (regexForID.test(sensorID)) {
+        sensorIdOK = true;
+        // console.log('sensor ok')
+    }
+    if (regexControlType.test(settings['controlType'])) {
+        // console.log('fdsfsd')
+        controlTypeOK = true;
+        // console.log('control type ok')
+    }
+    if (regexSensorType.test(settings['type'])) {
+        sensorTypeOK = true;
+        // console.log('type ok')
+    }
+    if (regexForID.test(settings['robot'])) {
+        robotIdOK = true;
+        // console.log('robot ok')
+    }
+    if (regexControlledItem.test(settings['controlledItem'])) {
+        controlledItemOK = true;
+        // console.log('robot ok')
+
+    }
+    if (settings['setpoint']) {
+        if (regexSetpoint.test(settings['setpoint'])) {
+            setpointOK = true;
+            // console.log('setpoint ok')
+        }
+    } else {
+        // If there is no setpoint it is automatically ok
+        setpointOK = true;
+        // console.log('no setpoint ok')
+    }
+    return (sensorIdOK && controlTypeOK && sensorTypeOK && robotIdOK && setpointOK && controlledItemOK);
+}
 
 // If there in an connection from a robot this runs
 robotNamespace.on('connect', testFunction);
@@ -145,7 +317,7 @@ function testFunction(socket) {
             // Send feedback to the robot
             socket.emit('authentication', true);
 
-            printRoomClients(safeRobotRoom); // Used to debug
+            //printRoomClients(safeRobotRoom); // Used to debug
         } else {
             // Send feedback to the robot that the authentication failed
             socket.emit('authentication', false);
@@ -162,10 +334,9 @@ function testFunction(socket) {
         let setpointsToSend = {};
         sensorConnected.forEach(sensor => {
             console.log(sensor);
-            let setpoint = sensorConfig['sensor-config'][sensor].setpoint;
-            setpointsToSend[sensor] = setpoint;
+            setpointsToSend[sensor] = sensorConfig['sensor-config'][sensor].setpoint;
 
-        });
+        })
         // Send the setpoints as a JSON object to the robot
         socket.emit('setpoints', JSON.stringify(setpointsToSend));
 
@@ -183,13 +354,13 @@ function testFunction(socket) {
             let sensorID;
             let dataType;
 
-            if (parsedData['0controlledItemID'] !== undefined) {
+            if (parsedData['controlledItemID'] !== undefined) {
                 // if the data is for the controlled item set the sensorID from that
-                sensorID = parsedData['0controlledItemID'];
+                sensorID = parsedData['controlledItemID'];
                 dataType = 'ControlledItemID';
-            } else if (parsedData['0sensorID'] !== undefined) {
+            } else if (parsedData['sensorID'] !== undefined) {
                 // Else the data is from a sensor and the id is the sensorID
-                sensorID = parsedData['0sensorID'];
+                sensorID = parsedData['sensorID'];
                 dataType = 'SensorID';
             }
 
@@ -210,6 +381,11 @@ function testFunction(socket) {
                 ', Value ' + dataObject['value']);
 
 
+            let newData = {}
+            newData[dataType] = {};
+            newData[dataType][sensorID] = dataObject;
+            //Send the new sensor data to all connected webclients
+            webserverNamespace.emit('newSensorValue', JSON.stringify(newData));
             //TODO 2: Make function for sending of the data to the database
             //console.log(parsedData.temperature);
         }
@@ -227,11 +403,21 @@ function testFunction(socket) {
 
         // Delete the client
         delete robotsConnected[clientID];
+        socket.leave(safeRobotRoom);
         console.log('Removed all information for client: ' + clientID);
-
     });
 }
 
+// This is what runs on all the connections that is NOT in the admin namespace
+io.on('connection', (socket) => {
+
+    io.on('test', data => {
+        console.log(data);
+
+    });
+
+
+});
 
 // Write new sensor data to the database every 60 seconds
 let var1 = setInterval(addSensorsToDB, 60000);
@@ -275,7 +461,7 @@ function addSensorsToDB() {
  * @param roomName
  */
 function printRoomClients(roomName) {
-    let clients = io.in(roomName).connected;
+    let clients = io.of(roomName).connected;
     console.log('Clients in room ' + roomName)
     for (const socket in clients) {
         console.log('   ' + socket);
@@ -297,7 +483,12 @@ function getData(startTime, stopTime, sensorID, dataType, callback) {
     // TODO: check for the correct datatype and add the possibility to get data from different data types
     // let dataType = "SensorID";
     let sensorData = [];    // Variable to store all the sensor data
-
+    let databasePath;
+    if (dataType === 'ControlledItemID') {
+        databasePath = controlledItemDatabase;
+    } else {
+        databasePath = sensorDatabase;
+    }
     // If there are no specified stop time, the stoptime is set to the time of the search
     if (stopTime === 0 || stopTime === undefined) {
         stopTime = Date.now();
@@ -315,7 +506,7 @@ function getData(startTime, stopTime, sensorID, dataType, callback) {
     }
 
     // Get all the records in the correct time interval from the database
-    getDatabase(sensorDatabase, (database) => {
+    getDatabase(databasePath, (database) => {
         let sensorDataFromDB = database[dataType][sensorID];
         // Check if there are any sensor data for the sensor in the DB
         if (sensorDataFromDB !== undefined) {
@@ -402,6 +593,25 @@ function getDatabaseSync(pathToDb, error) {
     } catch (SyntaxError) {
         //Run error code if there is a SyntaxError in the DB. E.g. DB is not in JSON format
         console.error('Error loading database. No changes has been made to the file.');
+        if (error) error();
+    }
+}
+
+/**
+ * Function that retrieves a JSON database from a file path.
+ * This is an synchronous function, and returns the database as a JS object.
+ * @param pathToDb  Path to the database
+ * @param dataToWrite
+ * @return databse Returned as a JS object
+ */
+function writeDatabaseSync(pathToDb, dataToWrite, error) {
+    //  Write to the database path as a JSON file.
+    try {
+        //  Write to the database path as a JSON file.
+        fs.writeFileSync(pathToDb, JSON.stringify(dataToWrite, null, 2));
+    } catch (e) {
+        //Run error if there was a problem writing to the DB
+        console.error('Error writing database.');
         if (error) error();
     }
 }
