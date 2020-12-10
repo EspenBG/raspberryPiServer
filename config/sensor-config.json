@@ -3,9 +3,9 @@
     "#####1": {
       "robot": "unit1",
       "type": "temperature",
-      "controlType": "reverse",
-      "controlledItem": true,
-      "setpoint": "25"
+      "controlType": "none",
+      "controlledItem": false,
+      "setpoint": 0
     },
     "#####2": {
       "unit": "unit1",

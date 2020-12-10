@@ -43,7 +43,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/robot-config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/robot-config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/sensor-config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/sensor-config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/sensor-data.json" beforeDir="false" afterPath="$PROJECT_DIR$/database/sensor-data.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -143,7 +142,7 @@
       <workItem from="1605212480248" duration="16075000" />
       <workItem from="1605699339400" duration="375000" />
       <workItem from="1607431635729" duration="6871000" />
-      <workItem from="1607503908815" duration="21794000" />
+      <workItem from="1607503908815" duration="23728000" />
     </task>
     <task id="LOCAL−00001" summary="Added a README.md to the project">
       <created>1602863413421</created>
@@ -329,7 +328,13 @@
       <option name="presentableId" value="LOCAL−00029" />
       <updated>1607517633536</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL−00030" summary="The server can now write new settings for robots to the robot-config.json file.">
+      <created>1607548487178</created>
+      <option name="number" value="LOCAL−00030" />
+      <option name="presentableId" value="LOCAL−00030" />
+      <updated>1607548487178</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -379,7 +384,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Merge remote-tracking branch 'origin/master'" />
     <MESSAGE value="Added example code to the project" />
     <MESSAGE value="Fixed TODOs in README.md" />
     <MESSAGE value="Added branches to the README.md" />
@@ -404,7 +408,8 @@
     <MESSAGE value="Deleted files not in use" />
     <MESSAGE value="Started on functions to send data to the webpage" />
     <MESSAGE value="The server can now write new settings for sensors to the sensor-config.json file." />
-    <option name="LAST_COMMIT_MESSAGE" value="The server can now write new settings for sensors to the sensor-config.json file." />
+    <MESSAGE value="The server can now write new settings for robots to the robot-config.json file." />
+    <option name="LAST_COMMIT_MESSAGE" value="The server can now write new settings for robots to the robot-config.json file." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -179,6 +179,8 @@ webserverNamespace.on('connection', socket => {
 
         sensorIDs.forEach( sensorID =>{
             let sensorSettings = newSettings[sensorID];
+            // sensorSettings = _.uniq(sensorSettings, 'name') // Not needed, I think...
+
             let settingsOK = checkSensorSettings(sensorID, sensorSettings);
             if (!settingsOK) {
                 // If there is any settings not correct for any of the sensors
@@ -217,7 +219,8 @@ webserverNamespace.on('connection', socket => {
 
         if (!settingsNotCorrect && (robotIDs.length !== 0)) {
             robotIDs.forEach((robot) => {
-                robotConfig['robot-config'][robot] = newSettings[robot];
+                // Remove duplicates before saving to the robot config
+                robotConfig['robot-config'][robot] = _.uniq(newSettings[robot]);
             })
 
             // uses sync db to make the writing to the DB more secure and less prone to mistakes
