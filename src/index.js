@@ -315,7 +315,7 @@ function sendNewSetpoints(robotID) {
     try {
         sensorConnected.forEach(sensor => {
             console.log(sensor);
-            if (sensorConfig['sensor-config']['controlledItem'] === true) {
+            if (sensorConfig['sensor-config'][sensor]['controlledItem'] === true) {
                 setpointsToSend[sensor] = sensorConfig['sensor-config'][sensor].setpoint;
             } else {
                 setpointsToSend[sensor] = "none";
