@@ -30,7 +30,7 @@ let sensors = {
         'controlledItem': false,
     },
 }
-const serverURI = 'http://localhost:3000/robot'; // Alternative: http://localhost/admin:3000
+const serverURI = 'http://10.0.0.66:3000'; // Alternative: http://localhost/admin:3000
 const sendingOfRandomData = true;
 const sendingData = true;
 const admin = false;
@@ -53,7 +53,7 @@ socket.on('connect', () => {
     if (admin) {
         let myVarNew = setInterval(getData, 3000);
     }
-    socket.emit('authentication', 123456789);
+    socket.emit('authentication', "123456789");
     if (sendingData) {
         if (sendingOfRandomData) {
             let myVar = setInterval(sendTemperature, 3000);
@@ -117,7 +117,7 @@ function sendTemperature() {
     // numberOfSensors(randomNum) round to closest int...
     let sensorNumber = Math.floor(Math.random() * Object.keys(sensors).length);
     let sensorID = Object.keys(sensors)[sensorNumber];
-    let stringToSend = '{ "sensorID": "' + sensorID + '", "value": ' + temperatureToSend.toFixed(2) + '}';
+    let stringToSend = '{ "SensorID": "' + sensorID + '", "value": ' + temperatureToSend.toFixed(2) + '}';
 
     // check if the sensorValue is over or below the setpoint
     let controlItem = true;
@@ -128,12 +128,12 @@ function sendTemperature() {
     if (controlItem !== sensors[sensorID].controlledItem) {
         sensors[sensorID].controlledItem = controlItem;
         let controlObject = {
-            'controlledItemID': sensorID,
+            'ControlledItemID': sensorID,
             'value': controlItem
         }
         let controlString = JSON.stringify(controlObject);
 
-        socket.emit('sensorData', controlString);
+        socket.emit('SensorData', controlString);
         console.log("Sending control data: " + controlString);
 
     } else {

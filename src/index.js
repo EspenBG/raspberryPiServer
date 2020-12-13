@@ -15,7 +15,7 @@
  * database paths
  * Passcodes / May be moved to a DB, then the path goes in the server-config
  * Passcode for WebServer
- * automatic storing of data to the database true/false
+ * automatic storing of data to the database true/false (and how often)
  *
  */
 
@@ -25,16 +25,16 @@
  */
 
 
-const EventEmitter = require('eventemitter3');
-const emitter = new EventEmitter();
+// const EventEmitter = require('eventemitter3');
+// const emitter = new EventEmitter();
 const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io').listen(server);
 const _ = require('underscore');
 const fs = require('fs');
 //const jQuery = require('jQuery') // NOT USED ANYMORE
-const session = require('express-session');
-const passport = require('passport');
+// const session = require('express-session');
+// const passport = require('passport');
 
 const sensorDatabase = 'database/sensor-data.json'; // This is the path to the sensor database //TODO move to server-config
 const controlledItemDatabase = 'database/controlled-item-data.json'; // This is the path to the controlled item database //TODO move to server-config
@@ -77,8 +77,9 @@ const serverPort = 3000;
 // TODO: Print message on webclient disconnect
 
 webserverNamespace.use((socket, next) => {
+    // This happens before the 'connection' event, you can add authentication for web clients here
     // ensure the user has sufficient rights
-    console.log("Client from webserver connected")
+    console.log("Client from webserver connected");
     next();
 });
 
@@ -176,7 +177,7 @@ webserverNamespace.on('connection', socket => {
         let sensorIDs = Object.keys(newSettings);
         let settingsNotCorrect = false;
 
-        sensorIDs.forEach( sensorID =>{
+        sensorIDs.forEach(sensorID => {
             let sensorSettings = newSettings[sensorID];
             // sensorSettings = _.uniq(sensorSettings, 'name') // Not needed, I think...
 
@@ -207,7 +208,7 @@ webserverNamespace.on('connection', socket => {
         let robotIDs = Object.keys(newSettings);
         let settingsNotCorrect = false;
 
-        robotIDs.forEach( robotID =>{
+        robotIDs.forEach(robotID => {
             let robotSettings = newSettings[robotID];
             let settingsOK = checkRobotSettings(robotID, robotSettings);
             if (!settingsOK) {
@@ -231,7 +232,7 @@ webserverNamespace.on('connection', socket => {
     });
 });
 
-function checkRobotSettings(robot, sensors){
+function checkRobotSettings(robot, sensors) {
     let regexForID = new RegExp('^[a-zA-Z0-9#]+$'); // Ids can only contain letters and numbers (and #)
     let robotOK = false;
     let sensorsOK = true;
@@ -305,30 +306,30 @@ function sendNewSetpoints(robotID) {
     let robotClient = "none";
     // Collect all the setpoints for the sensors
     Object.keys(robotsConnected).map((client) => {
-       if (robotsConnected[client]["robotID"] === robotID) {
-           robotClient = client;
-       }
+        if (robotsConnected[client]["robotID"] === robotID) {
+            robotClient = client;
+        }
     });
-    if (robotClient !== "none"){
-    let socket = io.sockets.sockets[robotClient];
-    let setpointsToSend = {};
+    if (robotClient !== "none") {
+        let socket = io.sockets.sockets[robotClient];
+        let setpointsToSend = {};
 
-    try {
-        sensorConnected.forEach(sensor => {
-            console.log(sensor);
-            if (sensorConfig['sensor-config'][sensor]['controlledItem'] === true) {
-                setpointsToSend[sensor] = sensorConfig['sensor-config'][sensor].setpoint;
-            } else {
-                setpointsToSend[sensor] = "none";
-            }
-        })
-    } catch (TypeError) {
-        setpointsToSend = {}
-        console.log('There is no setpoints for this robot!')
+        try {
+            sensorConnected.forEach(sensor => {
+                console.log(sensor);
+                if (sensorConfig['sensor-config'][sensor]['controlledItem'] === true) {
+                    setpointsToSend[sensor] = sensorConfig['sensor-config'][sensor].setpoint;
+                } else {
+                    setpointsToSend[sensor] = "none";
+                }
+            })
+        } catch (TypeError) {
+            setpointsToSend = {}
+            console.log('There is no setpoints for this robot!')
+        }
+        // Send the setpoints as a JSON object to the robot
+        socket.emit('setpoints', JSON.stringify(setpointsToSend));
     }
-    // Send the setpoints as a JSON object to the robot
-    socket.emit('setpoints', JSON.stringify(setpointsToSend));
-}
 }
 
 function testFunction(socket) {
@@ -699,7 +700,7 @@ function addDataToDB(databasePath, newData, dataType, callback) {
  * @param dataToParse - The object to parse
  * @return {*}
  */
-function parseFromJSON(dataToParse){
+function parseFromJSON(dataToParse) {
     let data = dataToParse;
     // Try to parse the data from JSON,
     try {
