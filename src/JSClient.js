@@ -9,7 +9,7 @@ const io = require('socket.io-client');
 /***********************************************************************************************************************
  * TEST PARAMETERS
  ***********************************************************************************************************************/
-//const sensorIDs = ['#####1', '#####2','#####3', '#####4'];
+// const sensorIDs = ['#####1', '#####2','#####3', '#####4'];
 // These setpoints are what the robot uses if it can't connect to the server!!!
 let sensors = {
     '#####1': {
@@ -30,7 +30,7 @@ let sensors = {
         'controlledItem': false,
     },
 }
-const serverURI = 'http://10.0.0.66:3000'; // Alternative: http://localhost/admin:3000
+const serverURI = 'http://192.168.137.105:3000'; // Alternative: http://localhost:3000/webserver
 const sendingOfRandomData = true;
 const sendingData = true;
 const admin = false;
@@ -56,6 +56,7 @@ socket.on('connect', () => {
     socket.emit('authentication', "123456789");
     if (sendingData) {
         if (sendingOfRandomData) {
+            // The interval is how often the function is executed in ms
             let myVar = setInterval(sendTemperature, 3000);
         } else {
             let numberOfRecords = 100;
@@ -131,9 +132,9 @@ function sendTemperature() {
             'ControlledItemID': sensorID,
             'value': controlItem
         }
-        let controlString = JSON.stringify(controlObject);
+        let controlString =  JSON.stringify(controlObject);
 
-        socket.emit('SensorData', controlString);
+        socket.emit('sensorData',controlString);
         console.log("Sending control data: " + controlString);
 
     } else {

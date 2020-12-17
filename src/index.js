@@ -61,7 +61,7 @@ let unusedPasscodes = ["123456789", "123456788"];   //TODO: move passcodes to a 
 let robotsConnected = {};
 let webserverNamespace = io.of('/webserver');
 let robotNamespace = io.of('/robot');
-const adminNamespace = io.of('/admin');
+// const adminNamespace = io.of('/admin'); //Not used, there is no admin rights at the moment
 
 const serverPort = 3000;
 
@@ -248,7 +248,7 @@ function checkSensorSettings(sensorID, settings) {
     let regexControlType = new RegExp('^reverse$|^direct$|^none$'); // Valid control types are: direct, reverse, none
     let regexSensorType = new RegExp('^temperature$|^co2$'); // Valid types are: temperature, co2
     let regexForID = new RegExp('^[a-zA-Z0-9#]+$'); // Ids can only contain letters and numbers (and #)
-    let regexSetpoint = new RegExp('^[0-9]+[.][0-9]+$|^[0-9]+$')
+    let regexSetpoint = new RegExp('^[0-9]+[.][0-9]+$|^[0-9]+$');
     let regexControlledItem = new RegExp('^false$|^true$');
 
     let sensorIdOK = false;
@@ -277,7 +277,7 @@ function checkSensorSettings(sensorID, settings) {
     }
     if (regexControlledItem.test(settings['controlledItem'])) {
         controlledItemOK = true;
-        // console.log('robot ok')
+        // console.log('controlled item ok')
 
     }
     if (settings['setpoint']) {

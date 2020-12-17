@@ -52,14 +52,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f105291f-2a0b-4d27-a81b-b5b77c2c2a5c" name="Default Changelist" comment="Fixed bug in printing of data received from robot&#10;- Prints now the datatype, time and value">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/controlled-item-data.json" beforeDir="false" afterPath="$PROJECT_DIR$/database/controlled-item-data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/sensor-data.json" beforeDir="false" afterPath="$PROJECT_DIR$/database/sensor-data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/sensor-data1.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/JSClient.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/JSClient.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/passwordTest.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,11 +99,13 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="12.13.1" />
     <property name="javascript.nodejs.core.library.typings.version" value="12.19.8" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/JSClient.js" />
     <property name="nodejs_interpreter_path" value="$APPLICATION_CONFIG_DIR$/node/node-v12.13.1-win-x64/node" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/src/JSClient.js" />
+    <property name="two.files.diff.last.used.folder" value="$USER_HOME$/Desktop/server/server/raspberry_pi_server/src" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -160,7 +157,9 @@
       <workItem from="1607431635729" duration="6871000" />
       <workItem from="1607503908815" duration="23728000" />
       <workItem from="1607772524076" duration="4381000" />
-      <workItem from="1607853724761" duration="4165000" />
+      <workItem from="1607853724761" duration="7758000" />
+      <workItem from="1607936944169" duration="7609000" />
+      <workItem from="1608196023321" duration="3832000" />
     </task>
     <task id="LOCAL−00001" summary="Added a README.md to the project">
       <created>1602863413421</created>
@@ -352,7 +351,13 @@
       <option name="presentableId" value="LOCAL−00030" />
       <updated>1607548487178</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL−00031" summary="Removed dependencies not in use, and started on the refactoring of the code.&#10;The package.json is now anonymous.">
+      <created>1607860352317</created>
+      <option name="number" value="LOCAL−00031" />
+      <option name="presentableId" value="LOCAL−00031" />
+      <updated>1607860352317</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -402,7 +407,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fixed TODOs in README.md" />
     <MESSAGE value="Added branches to the README.md" />
     <MESSAGE value="Added FunctionsToAdd.md" />
     <MESSAGE value="Added admin users, that can ask for data from the server&#10;- it is now possible to send data to the server&#10;- There is no logging at this point in time" />
@@ -427,24 +431,15 @@
     <MESSAGE value="The server can now write new settings for sensors to the sensor-config.json file." />
     <MESSAGE value="The server can now write new settings for robots to the robot-config.json file." />
     <MESSAGE value="When testing the communication between robot and server there was varius issues:" />
-    <option name="LAST_COMMIT_MESSAGE" value="When testing the communication between robot and server there was varius issues:" />
+    <MESSAGE value="Removed dependencies not in use, and started on the refactoring of the code.&#10;The package.json is now anonymous." />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed dependencies not in use, and started on the refactoring of the code.&#10;The package.json is now anonymous." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/JSClient.js</url>
-          <line>87</line>
-          <option name="timeStamp" value="49" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/JSClient.js</url>
-          <line>95</line>
-          <option name="timeStamp" value="50" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/JSClient.js</url>
-          <line>135</line>
+          <line>136</line>
           <option name="timeStamp" value="58" />
         </line-breakpoint>
       </breakpoints>
