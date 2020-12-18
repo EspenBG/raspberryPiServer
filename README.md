@@ -378,7 +378,7 @@ The event is structured as follows:
 
     "newSensorSettings", sensorSettings
 
-Where sensorSetting is an JSON object in the same format as the reply from the server for the [sensorInfo](#sensorInfo serverwebclient) event
+Where sensorSetting is an JSON object in the same format as the reply from the server for the [sensorInfo](#sensorInfo-serverwebclient) event
 
 ### newRobotSettings [server/webclient]
 
