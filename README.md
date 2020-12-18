@@ -100,14 +100,14 @@ The commands that are required are: authentication
 
 This is a brief description of the communication protocol used between units and the robot server.
 
-The communication between a unit (ESP-32) and the main server are using socket.io.
+The communication between a unit (ESP-32) and the main server are using [socket.io](https://github.com/socketio/socket.io).
 
 ____
 The events are sorted by the recommended flow.
 
 Recipient for the event is in the square bracket - e.g. [server] is a message from the robot to the server.
 
-Anything inside parenthesis is a descriptor for the datatype - e.g. foo (bool), means that _foo_ is a bool variable.
+Parenthesis are used as a descriptor for the datatype - e.g. foo (bool), means that _foo_ is a bool variable.
 ____
 
 ### authentication [server/robot]
@@ -192,7 +192,11 @@ and the structure of the sensorData is as follows:
 Where the ControlledItemID is the same as the ID for the sensor used to control the output. 
 The value can be a binary value (true/false), or a number (0-100).
 Note: There may be some webclients that only has support for a binary representation (e.g. true/false or 1/0).
+
 ## Protocol for communication between webclients and the server
+
+The communication between webclients and the main server are using [socket.io](https://github.com/socketio/socket.io).
+
 The following events can be used by the webclient:
 - getData
 - sensorInfo
@@ -215,6 +219,13 @@ The following events are sent from the server:
 
 Some of these command are required, and some are merely a suggestion for easier implementation and expanded functionality.
 
+____
+The events are sorted by the recommended flow.
+
+Recipient for the event is in the square bracket - e.g. [server] is a message from the webclient to the server.
+
+Parenthesis are used as a descriptor for the datatype - e.g. foo (bool), means that _foo_ is a bool variable.
+____
 
 ### getData [server]
 There needs to be a place to show what sensors the user has access to. The table/graph needs to be generated from a user selection
@@ -275,28 +286,99 @@ This example is only to show the structure, the message that is sent is more com
 Note: If the data is for a controlled item "SensorID" is replaced by "ControlledItemID".
 
 ### allSensors [server/webclient]
+This event can be used to retrieve all the sensorIDs that are stored in the sensor-config. 
+This means that all sensors needs to be in the sensor-config, even if they are only used for monitoring.
+The event is structured as follows:
 
-    "allSensors", true
+    "allSensors", true (bool)
+
+It is important to include the true variable, as this is used for a validation for that the correct protocol is followed.
+The response from the server will use the same event and is structured like this:
+
+    "allSensors", sensorIDs
+
+Where sensorIDs is an JSON object containing an array of all the sensorIDs an example of this is:
+
+    ["#####1","#####2","#####3","#####4"]
+
 
 ### allRobots [server/webclient]
+This event can be used to retrieve all the robotIDs that are stored in the robot-config.
+This means that all robots needs to be in the robot-config.
+The event is structured as follows:
 
-    "allRobots", true
+    "allRobots", true (bool)
+
+It is important to include the true variable, as this is used for a validation for that the correct protocol is followed.
+The response from the server will use the same event and is structured like this:
+
+    "allRobots", robotIDs
+
+Where sensorIDs is an JSON object containing an array of all the sensorIDs an example of this is:
+
+    ["unit1","unit2"]
 
 
 ### sensorInfo [server/webclient]
 This event can be used by webclients to retrieve the configuration for a single sensor. The following format need to be used:
 
-        "sensorInfo", sensorID (str), callback
+    "sensorInfo", sensorID (str), callback
 
-The sensorID for the sensor
+The sensorID for the sensor should be sent as a string. The response from the server will be:
+
+    "sensorInfo", sensorConfig, callback
+
+Where the callback is exactly the same as the callback that was sent by the webclient. This can be used if there is a 
+need for passing a function that are to be executed when the reply from the server is received. The sensorConfig object is in the same 
+JSON format as the sensor-config database. An example of this is:
+
+    {
+        "#####1": {
+          "robot": "unit1",
+          "type": "temperature",
+          "controlType": "reverse",
+          "controlledItem": true,
+          "setpoint": "25"
+        }
+    }
+
+
 
 ### robotInfo [server/webclient]
+This event can be used by webclients to retrieve the configuration for a single robot (i.e. get all the sensors connected to a robot). 
+The following format are to be used:
 
-    "robotInfo", sensorSettings
+    "robotInfo", robotID (str), callback
+
+The robotID for the sensor should be sent as a string. The response from the server will be:
+
+    "robotInfo", srobotConfig, callback
+
+Where the callback is exactly the same as the callback that was sent by the webclient. This can be used if there is a
+need for passing a function that are to be executed when the reply from the server is received. The robotConfig object is in the same
+JSON format as the sensor-config database. An example of this is:
+
+    {
+        "unit1": [
+            "#####1",
+            "#####2",
+            "#####3",
+            "#####4",
+        ]
+    }
+
 
 
 ### newSensorSettings [server/webclient]
+This is an event that can be used by webclients to add a new configuration for a sensor or set new parameters to an existing one.
+
+Proceed with caution the new parameters will _overwrite_ any existing parameters for the sensor!
+
+The event is structured as follows: 
+
     "newSensorSettings", sensorSettings
+
+Where sensorSetting is an JSON object in the same format as the reply from the server for the [sensorInfo](#sensorInfo) event
 
 ### newRobotSettings [server/webclient]
 
