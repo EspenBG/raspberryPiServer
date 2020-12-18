@@ -27,7 +27,8 @@ the passcode is deleted, and the user needs to generate a new one from the webpa
 This is only for communication to the robot server, not the webserver that is running on a different port.
 
 An alternative is to have one passcode per user. This can produce a security hole, unless all the "links" are secure (ssl).
-###Database
+
+### Database
 test
 
 #### Storing of the sensor data
