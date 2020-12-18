@@ -128,20 +128,20 @@ ____
 If a robot is not authenticated the server will ignore all other messages from the robot!
 The first message from the robot should therefore be the passcode in the following format:
 
-```JavaScript
-    'authentication', passcode(str)
+```
+'authentication', passcode(str)
 ```
 
 The robot will receive the following message as replay if the passcode is correct:
 
-```JavaScript
-    'authentication', true(bool)
+```
+'authentication', true(bool)
 ```
 
 And if the passcode is wrong:
 
-```JavaScript
-    'authentication', false(bool)
+```
+'authentication', false(bool)
 ```
 
 These responses can be used as a verification, or as a listening event for triggering the next message. E.g., can be
@@ -151,8 +151,8 @@ used to trigger the unitID event.
 
 After the unit has been authenticated it needs to send the unitID in the following format:
 
-```JavaScript
-    'robotID', "####1"
+```
+'robotID', "####1"
 ```
 
 The robotID do not _have_ to be unique. There may occur some problems if it is not, and it is therefore strongly
@@ -166,25 +166,25 @@ sent after the unitID have been received for first time setup. It will also be s
 (e.g. sets a new setpoint for a server). Setpoints for all the sensors are sent every time. The server sends the
 setpoint to the unit in the following format:
 
-```JavaScript
-    "setpoint", setpointMessage
+```
+"setpoint", setpointMessage
 ```
 
 Setpoint is the event, and the setpointMessage is a string in JSON format, with one line per sensors, like this:
 
 ```JSON
-    {
+{
   "uniqeSensorID": setpoint,
   "uniqeSensorID2": setpoint2
 }
 ```
 
 Where uniqeSensorID is replaced by the sensorID of the first sensor for the unit, and setpoint is replaced by the value
-of the setpoint for that sensor. E.g. if the configuration of the unit has only one sensor, the ID of this sensor is "#####1", 
-and the setpoint is 23.5 degrees the JSON message would be as follows with the event tag setpoint:
+of the setpoint for that sensor. E.g. if the configuration of the unit has only one sensor, the ID of this sensor is "
+#####1", and the setpoint is 23.5 degrees the JSON message would be as follows with the event tag setpoint:
 
 ```JSON
-     {
+{
   "#####1": 23.5
 }
 ```
@@ -208,7 +208,7 @@ have the ability to disable the control loop.
 
 When the unit has received the setpoints it can start transmitting sensor data to the server in the following format:
 
-```JavaScript
+```
     'sensorData', sensorData
 ```
 
@@ -280,7 +280,7 @@ selection of sensors and timeperiod.
 
 The communication between the client and the robot server to get sensor data is in the following format:
 
-```JavaScript
+```
     "getData", sensorSettings
 ```
 
@@ -309,7 +309,7 @@ The server will respond with the dataResponse event explained in the next part.
 
 The response from the server for the event getData, is in the following format:
 
-```JavaScript
+```
     "dataResponse", sensorData
 ```
 
@@ -348,15 +348,15 @@ This example is only to show the structure, the message that is sent is more com
 This event can be used to retrieve all the sensorIDs that are stored in the sensor-config. This means that all sensors
 needs to be in the sensor-config, even if they are only used for monitoring. The event is structured as follows:
 
-```JavaScript
-    "allSensors", true(bool)
+```
+"allSensors", true(bool)
 ```
 
 It is important to include the true variable, as this is used for a validation for that the correct protocol is
 followed. The response from the server will use the same event and is structured like this:
 
-```JavaScript
-    "allSensors", sensorIDs
+```
+"allSensors", sensorIDs
 ```
 
 Where sensorIDs is an JSON object containing an array of all the sensorIDs an example of this is:
@@ -375,15 +375,15 @@ Where sensorIDs is an JSON object containing an array of all the sensorIDs an ex
 This event can be used to retrieve all the robotIDs that are stored in the robot-config. This means that all robots
 needs to be in the robot-config. The event is structured as follows:
 
-```JavaScript
-    "allRobots", true(bool)
+```
+"allRobots", true(bool)
 ```
 
 It is important to include the true variable, as this is used for a validation for that the correct protocol is
 followed. The response from the server will use the same event and is structured like this:
 
-```JavaScript
-    "allRobots", robotIDs
+```
+"allRobots", robotIDs
 ```
 
 Where sensorIDs is an JSON object containing an array of all the sensorIDs an example of this is:
@@ -400,14 +400,14 @@ Where sensorIDs is an JSON object containing an array of all the sensorIDs an ex
 This event can be used by webclients to retrieve the configuration for a single sensor. The following format need to be
 used:
 
-```JavaScript
-    "sensorInfo", sensorID(str), callback
+```
+"sensorInfo", sensorID(str), callback
 ```
 
 The sensorID for the sensor should be sent as a string. The response from the server will be:
 
-```JavaScript
-    "sensorInfo", sensorConfig, callback
+```
+"sensorInfo", sensorConfig, callback
 ```
 
 Where the callback is exactly the same as the callback that was sent by the webclient. This can be used if there is a
@@ -431,14 +431,14 @@ is in the same JSON format as the sensor-config database. An example of this is:
 This event can be used by webclients to retrieve the configuration for a single robot (i.e. get all the sensors
 connected to a robot). The following format are to be used:
 
-```JavaScript
-    "robotInfo", robotID(str), callback
+```
+"robotInfo", robotID(str), callback
 ```
 
 The robotID for the sensor should be sent as a string. The response from the server will be:
 
-```JavaScript
-    "robotInfo", srobotConfig, callback
+```
+"robotInfo", robotConfig, callback
 ```
 
 Where the callback is exactly the same as the callback that was sent by the webclient. This can be used if there is a
@@ -465,8 +465,8 @@ Proceed with caution the new parameters will _overwrite_ any existing parameters
 
 The event is structured as follows:
 
-```JavaScript
-    "newSensorSettings", sensorSettings
+```
+"newSensorSettings", sensorSettings
 ```
 
 Where sensorSetting is an JSON object in the same format as the reply from the server for
@@ -474,13 +474,12 @@ the [sensorInfo](#sensorInfo-serverwebclient) event
 
 ### newRobotSettings [server/webclient]
 
-```JavaScript
-    "newRobotSettings", sensorSettings
+```
+"newRobotSettings", sensorSettings
 ```
 
 ## Contributing
 
-[//]: # (TODO: Describe how to contribute to the program)
 If you want to contribute to this project you need to use the same structure and guidelines followed by this project.
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
