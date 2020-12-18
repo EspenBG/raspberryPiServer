@@ -52,10 +52,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f105291f-2a0b-4d27-a81b-b5b77c2c2a5c" name="Default Changelist" comment="Fixed bug in printing of data received from robot&#10;- Prints now the datatype, time and value">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/robot-config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/robot-config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/sensor-config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/sensor-config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/sensor-data.json" beforeDir="false" afterPath="$PROJECT_DIR$/database/sensor-data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FunctionsToAdd.md" beforeDir="false" afterPath="$PROJECT_DIR$/FunctionsToAdd.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,11 +98,13 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="12.13.1" />
     <property name="javascript.nodejs.core.library.typings.version" value="12.19.8" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/JSClient.js" />
     <property name="nodejs_interpreter_path" value="$APPLICATION_CONFIG_DIR$/node/node-v12.13.1-win-x64/node" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/src/JSClient.js" />
+    <property name="two.files.diff.last.used.folder" value="$USER_HOME$/Desktop/server/server/raspberry_pi_server/src" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -112,6 +112,8 @@
       <recent name="C:\Users\Espen\WebstormProjects\server_raspberry_pi" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Espen\WebstormProjects\server_raspberry_pi\database" />
+      <recent name="C:\Users\Espen\WebstormProjects\server_raspberry_pi\config" />
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
@@ -119,7 +121,7 @@
     <configuration name="JSClient.js" type="NodeJSConfigurationType" singleton="false" temporary="true" path-to-node="$APPLICATION_CONFIG_DIR$/node/node-v12.13.1-win-x64/node" nameIsGenerated="true" path-to-js-file="src/JSClient.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
-    <configuration name="index.js" type="NodeJSConfigurationType" singleton="false" temporary="true" path-to-node="$APPLICATION_CONFIG_DIR$/node/node-v12.13.1-darwin-x64/bin/node" nameIsGenerated="true" path-to-js-file="src/index.js" working-dir="$PROJECT_DIR$">
+    <configuration name="index.js" type="NodeJSConfigurationType" singleton="false" temporary="true" path-to-node="$APPLICATION_CONFIG_DIR$/node/node-v12.13.1-win-x64/node" nameIsGenerated="true" path-to-js-file="src/index.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
     <list>
@@ -155,6 +157,10 @@
       <workItem from="1605699339400" duration="375000" />
       <workItem from="1607431635729" duration="6871000" />
       <workItem from="1607503908815" duration="23728000" />
+      <workItem from="1607772524076" duration="4381000" />
+      <workItem from="1607853724761" duration="7758000" />
+      <workItem from="1607936944169" duration="7609000" />
+      <workItem from="1608196023321" duration="25965000" />
     </task>
     <task id="LOCAL−00001" summary="Added a README.md to the project">
       <created>1602863413421</created>
@@ -346,7 +352,55 @@
       <option name="presentableId" value="LOCAL−00030" />
       <updated>1607548487178</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL−00031" summary="Removed dependencies not in use, and started on the refactoring of the code.&#10;The package.json is now anonymous.">
+      <created>1607860352317</created>
+      <option name="number" value="LOCAL−00031" />
+      <option name="presentableId" value="LOCAL−00031" />
+      <updated>1607860352317</updated>
+    </task>
+    <task id="LOCAL−00032" summary="Source from Raspberry Pi added">
+      <created>1608234364579</created>
+      <option name="number" value="LOCAL−00032" />
+      <option name="presentableId" value="LOCAL−00032" />
+      <updated>1608234364579</updated>
+    </task>
+    <task id="LOCAL−00033" summary="Rev 1 of the README.md. Still some information that is missing that needs to be added.">
+      <created>1608253790624</created>
+      <option name="number" value="LOCAL−00033" />
+      <option name="presentableId" value="LOCAL−00033" />
+      <updated>1608253790624</updated>
+    </task>
+    <task id="LOCAL−00034" summary="test update">
+      <created>1608254305499</created>
+      <option name="number" value="LOCAL−00034" />
+      <option name="presentableId" value="LOCAL−00034" />
+      <updated>1608254305499</updated>
+    </task>
+    <task id="LOCAL−00035" summary="test 2">
+      <created>1608254366031</created>
+      <option name="number" value="LOCAL−00035" />
+      <option name="presentableId" value="LOCAL−00035" />
+      <updated>1608254366031</updated>
+    </task>
+    <task id="LOCAL−00036" summary="test 3">
+      <created>1608260637361</created>
+      <option name="number" value="LOCAL−00036" />
+      <option name="presentableId" value="LOCAL−00036" />
+      <updated>1608260637361</updated>
+    </task>
+    <task id="LOCAL−00037" summary="test 4">
+      <created>1608260877509</created>
+      <option name="number" value="LOCAL−00037" />
+      <option name="presentableId" value="LOCAL−00037" />
+      <updated>1608260877509</updated>
+    </task>
+    <task id="LOCAL−00038" summary="test 5">
+      <created>1608261043192</created>
+      <option name="number" value="LOCAL−00038" />
+      <option name="presentableId" value="LOCAL−00038" />
+      <updated>1608261043192</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -366,7 +420,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="bug/package-cleanup" />
                       </list>
                     </value>
                   </entry>
@@ -396,14 +450,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fixed TODOs in README.md" />
-    <MESSAGE value="Added branches to the README.md" />
-    <MESSAGE value="Added FunctionsToAdd.md" />
-    <MESSAGE value="Added admin users, that can ask for data from the server&#10;- it is now possible to send data to the server&#10;- There is no logging at this point in time" />
-    <MESSAGE value="Added the possibility to send data to the webpage&#10;- It does not send the correct data&#10;- Sends place holder data now&#10;- Started a draft of how the data can be stored in firebase" />
-    <MESSAGE value="Started on exporting of data to a JSON database&#10;- Can read the json file&#10;- Can not write to the file yet&#10;- Added more text to multiple READMEs" />
-    <MESSAGE value="Can now store sensor data in a local JSON database.&#10;- added a server-config.json, not used yet." />
-    <MESSAGE value="It is now possible to ask the server for data for a sensor or a controlled item" />
     <MESSAGE value="Added sensor-config.json to store the configuration for the sensors&#10;-Contains to example sensors" />
     <MESSAGE value="Added robot-config.json to store the configuration for the robots/units&#10;-Contains two example robots" />
     <MESSAGE value="Robots can now be authenticated and joins the correct room with the correct passcode&#10;- There is no functionality for the authenticated clients" />
@@ -421,123 +467,37 @@
     <MESSAGE value="The server can now write new settings for sensors to the sensor-config.json file." />
     <MESSAGE value="The server can now write new settings for robots to the robot-config.json file." />
     <MESSAGE value="When testing the communication between robot and server there was varius issues:" />
-    <option name="LAST_COMMIT_MESSAGE" value="When testing the communication between robot and server there was varius issues:" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state width="629" height="466" key="DebuggerActiveHint" timestamp="1607602209948">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="629" height="466" key="DebuggerActiveHint/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607602209948" />
-    <state width="3819" height="376" key="GridCell.Tab.0.bottom" timestamp="1607611283744">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="3819" height="376" key="GridCell.Tab.0.bottom/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611283744" />
-    <state width="1419" height="237" key="GridCell.Tab.0.bottom/0.25.1440.875/-1160.-2135.3840.2074@0.25.1440.875" timestamp="1607602105412" />
-    <state width="3819" height="376" key="GridCell.Tab.0.center" timestamp="1607611283743">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="3819" height="376" key="GridCell.Tab.0.center/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611283743" />
-    <state width="1419" height="237" key="GridCell.Tab.0.center/0.25.1440.875/-1160.-2135.3840.2074@0.25.1440.875" timestamp="1607602105411" />
-    <state width="3819" height="376" key="GridCell.Tab.0.left" timestamp="1607611283743">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="3819" height="376" key="GridCell.Tab.0.left/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611283743" />
-    <state width="1419" height="237" key="GridCell.Tab.0.left/0.25.1440.875/-1160.-2135.3840.2074@0.25.1440.875" timestamp="1607602105410" />
-    <state width="3819" height="376" key="GridCell.Tab.0.right" timestamp="1607611283744">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="3819" height="376" key="GridCell.Tab.0.right/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611283744" />
-    <state width="1419" height="237" key="GridCell.Tab.0.right/0.25.1440.875/-1160.-2135.3840.2074@0.25.1440.875" timestamp="1607602105411" />
-    <state width="3819" height="376" key="GridCell.Tab.1.bottom" timestamp="1607611283609">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="3819" height="376" key="GridCell.Tab.1.bottom/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611283609" />
-    <state width="1419" height="237" key="GridCell.Tab.1.bottom/0.25.1440.875/-1160.-2135.3840.2074@0.25.1440.875" timestamp="1607602106880" />
-    <state width="3819" height="376" key="GridCell.Tab.1.center" timestamp="1607611283608">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="3819" height="376" key="GridCell.Tab.1.center/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611283608" />
-    <state width="1419" height="237" key="GridCell.Tab.1.center/0.25.1440.875/-1160.-2135.3840.2074@0.25.1440.875" timestamp="1607602106880" />
-    <state width="3819" height="376" key="GridCell.Tab.1.left" timestamp="1607611283608">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="3819" height="376" key="GridCell.Tab.1.left/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611283608" />
-    <state width="1419" height="237" key="GridCell.Tab.1.left/0.25.1440.875/-1160.-2135.3840.2074@0.25.1440.875" timestamp="1607602106879" />
-    <state width="3819" height="376" key="GridCell.Tab.1.right" timestamp="1607611283609">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="3819" height="376" key="GridCell.Tab.1.right/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611283609" />
-    <state width="1419" height="237" key="GridCell.Tab.1.right/0.25.1440.875/-1160.-2135.3840.2074@0.25.1440.875" timestamp="1607602106880" />
-    <state width="3819" height="376" key="GridCell.Tab.2.bottom" timestamp="1607611283610">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="3819" height="376" key="GridCell.Tab.2.bottom/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611283610" />
-    <state width="1419" height="237" key="GridCell.Tab.2.bottom/0.25.1440.875/-1160.-2135.3840.2074@0.25.1440.875" timestamp="1607602105242" />
-    <state width="3819" height="376" key="GridCell.Tab.2.center" timestamp="1607611283610">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="3819" height="376" key="GridCell.Tab.2.center/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611283610" />
-    <state width="1419" height="237" key="GridCell.Tab.2.center/0.25.1440.875/-1160.-2135.3840.2074@0.25.1440.875" timestamp="1607602105242" />
-    <state width="3819" height="376" key="GridCell.Tab.2.left" timestamp="1607611283609">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="3819" height="376" key="GridCell.Tab.2.left/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611283609" />
-    <state width="1419" height="237" key="GridCell.Tab.2.left/0.25.1440.875/-1160.-2135.3840.2074@0.25.1440.875" timestamp="1607602105241" />
-    <state width="3819" height="376" key="GridCell.Tab.2.right" timestamp="1607611283610">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="3819" height="376" key="GridCell.Tab.2.right/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611283610" />
-    <state width="1419" height="237" key="GridCell.Tab.2.right/0.25.1440.875/-1160.-2135.3840.2074@0.25.1440.875" timestamp="1607602105242" />
-    <state width="3819" height="376" key="GridCell.Tab.3.bottom" timestamp="1607611283611">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="3819" height="376" key="GridCell.Tab.3.bottom/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611283611" />
-    <state width="1419" height="237" key="GridCell.Tab.3.bottom/0.25.1440.875/-1160.-2135.3840.2074@0.25.1440.875" timestamp="1607602105244" />
-    <state width="3819" height="376" key="GridCell.Tab.3.center" timestamp="1607611283610">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="3819" height="376" key="GridCell.Tab.3.center/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611283610" />
-    <state width="1419" height="237" key="GridCell.Tab.3.center/0.25.1440.875/-1160.-2135.3840.2074@0.25.1440.875" timestamp="1607602105243" />
-    <state width="3819" height="376" key="GridCell.Tab.3.left" timestamp="1607611283610">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="3819" height="376" key="GridCell.Tab.3.left/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611283610" />
-    <state width="1419" height="237" key="GridCell.Tab.3.left/0.25.1440.875/-1160.-2135.3840.2074@0.25.1440.875" timestamp="1607602105243" />
-    <state width="3819" height="376" key="GridCell.Tab.3.right" timestamp="1607611283611">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state width="3819" height="376" key="GridCell.Tab.3.right/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611283611" />
-    <state width="1419" height="237" key="GridCell.Tab.3.right/0.25.1440.875/-1160.-2135.3840.2074@0.25.1440.875" timestamp="1607602105244" />
-    <state x="-307" y="-1788" key="Vcs.Push.Dialog.v2" timestamp="1607611145898">
-      <screen x="-1160" y="-2135" width="3840" height="2074" />
-    </state>
-    <state x="320" y="157" key="Vcs.Push.Dialog.v2/0.25.1440.790/-1160.-2135.3840.2135@0.25.1440.790" timestamp="1607601717877" />
-    <state x="-307" y="-1788" key="Vcs.Push.Dialog.v2/0.25.1440.875/-1160.-2135.3840.2074@-1160.-2135.3840.2074" timestamp="1607611145898" />
-    <state x="521" y="338" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1607601792696">
-      <screen x="0" y="25" width="1440" height="790" />
-    </state>
-    <state x="521" y="338" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1440.790/-1160.-2135.3840.2135@0.25.1440.790" timestamp="1607601792696" />
+    <MESSAGE value="Removed dependencies not in use, and started on the refactoring of the code.&#10;The package.json is now anonymous." />
+    <MESSAGE value="Source from Raspberry Pi added" />
+    <MESSAGE value="Rev 1 of the README.md. Still some information that is missing that needs to be added." />
+    <MESSAGE value="test update" />
+    <MESSAGE value="test 2" />
+    <MESSAGE value="test 3" />
+    <MESSAGE value="test 4" />
+    <MESSAGE value="test 5" />
+    <option name="LAST_COMMIT_MESSAGE" value="test 5" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/JSClient.js</url>
-          <line>87</line>
-          <option name="timeStamp" value="49" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/JSClient.js</url>
-          <line>95</line>
-          <option name="timeStamp" value="50" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/JSClient.js</url>
-          <line>135</line>
+          <line>136</line>
           <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/index.js</url>
+          <line>153</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="62" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="NodeJSConfigurationType">
+        <watch expression="encodedData" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
