@@ -52,9 +52,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f105291f-2a0b-4d27-a81b-b5b77c2c2a5c" name="Default Changelist" comment="Fixed bug in printing of data received from robot&#10;- Prints now the datatype, time and value">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/JSClient.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/JSClient.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FunctionsToAdd.md" beforeDir="false" afterPath="$PROJECT_DIR$/FunctionsToAdd.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,10 +112,12 @@
       <recent name="C:\Users\Espen\WebstormProjects\server_raspberry_pi" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Espen\WebstormProjects\server_raspberry_pi\database" />
+      <recent name="C:\Users\Espen\WebstormProjects\server_raspberry_pi\config" />
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.JSClient.js">
+  <component name="RunManager" selected="Node.js.index.js">
     <configuration name="JSClient.js" type="NodeJSConfigurationType" singleton="false" temporary="true" path-to-node="$APPLICATION_CONFIG_DIR$/node/node-v12.13.1-win-x64/node" nameIsGenerated="true" path-to-js-file="src/JSClient.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
@@ -129,8 +130,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Node.js.JSClient.js" />
         <item itemvalue="Node.js.index.js" />
+        <item itemvalue="Node.js.JSClient.js" />
         <item itemvalue="Node.js.index.js" />
         <item itemvalue="Node.js.JSClient.js" />
         <item itemvalue="Node.js.index.js" />
@@ -159,7 +160,7 @@
       <workItem from="1607772524076" duration="4381000" />
       <workItem from="1607853724761" duration="7758000" />
       <workItem from="1607936944169" duration="7609000" />
-      <workItem from="1608196023321" duration="3832000" />
+      <workItem from="1608196023321" duration="25965000" />
     </task>
     <task id="LOCAL−00001" summary="Added a README.md to the project">
       <created>1602863413421</created>
@@ -357,7 +358,49 @@
       <option name="presentableId" value="LOCAL−00031" />
       <updated>1607860352317</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL−00032" summary="Source from Raspberry Pi added">
+      <created>1608234364579</created>
+      <option name="number" value="LOCAL−00032" />
+      <option name="presentableId" value="LOCAL−00032" />
+      <updated>1608234364579</updated>
+    </task>
+    <task id="LOCAL−00033" summary="Rev 1 of the README.md. Still some information that is missing that needs to be added.">
+      <created>1608253790624</created>
+      <option name="number" value="LOCAL−00033" />
+      <option name="presentableId" value="LOCAL−00033" />
+      <updated>1608253790624</updated>
+    </task>
+    <task id="LOCAL−00034" summary="test update">
+      <created>1608254305499</created>
+      <option name="number" value="LOCAL−00034" />
+      <option name="presentableId" value="LOCAL−00034" />
+      <updated>1608254305499</updated>
+    </task>
+    <task id="LOCAL−00035" summary="test 2">
+      <created>1608254366031</created>
+      <option name="number" value="LOCAL−00035" />
+      <option name="presentableId" value="LOCAL−00035" />
+      <updated>1608254366031</updated>
+    </task>
+    <task id="LOCAL−00036" summary="test 3">
+      <created>1608260637361</created>
+      <option name="number" value="LOCAL−00036" />
+      <option name="presentableId" value="LOCAL−00036" />
+      <updated>1608260637361</updated>
+    </task>
+    <task id="LOCAL−00037" summary="test 4">
+      <created>1608260877509</created>
+      <option name="number" value="LOCAL−00037" />
+      <option name="presentableId" value="LOCAL−00037" />
+      <updated>1608260877509</updated>
+    </task>
+    <task id="LOCAL−00038" summary="test 5">
+      <created>1608261043192</created>
+      <option name="number" value="LOCAL−00038" />
+      <option name="presentableId" value="LOCAL−00038" />
+      <updated>1608261043192</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -407,13 +450,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Added branches to the README.md" />
-    <MESSAGE value="Added FunctionsToAdd.md" />
-    <MESSAGE value="Added admin users, that can ask for data from the server&#10;- it is now possible to send data to the server&#10;- There is no logging at this point in time" />
-    <MESSAGE value="Added the possibility to send data to the webpage&#10;- It does not send the correct data&#10;- Sends place holder data now&#10;- Started a draft of how the data can be stored in firebase" />
-    <MESSAGE value="Started on exporting of data to a JSON database&#10;- Can read the json file&#10;- Can not write to the file yet&#10;- Added more text to multiple READMEs" />
-    <MESSAGE value="Can now store sensor data in a local JSON database.&#10;- added a server-config.json, not used yet." />
-    <MESSAGE value="It is now possible to ask the server for data for a sensor or a controlled item" />
     <MESSAGE value="Added sensor-config.json to store the configuration for the sensors&#10;-Contains to example sensors" />
     <MESSAGE value="Added robot-config.json to store the configuration for the robots/units&#10;-Contains two example robots" />
     <MESSAGE value="Robots can now be authenticated and joins the correct room with the correct passcode&#10;- There is no functionality for the authenticated clients" />
@@ -432,7 +468,14 @@
     <MESSAGE value="The server can now write new settings for robots to the robot-config.json file." />
     <MESSAGE value="When testing the communication between robot and server there was varius issues:" />
     <MESSAGE value="Removed dependencies not in use, and started on the refactoring of the code.&#10;The package.json is now anonymous." />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed dependencies not in use, and started on the refactoring of the code.&#10;The package.json is now anonymous." />
+    <MESSAGE value="Source from Raspberry Pi added" />
+    <MESSAGE value="Rev 1 of the README.md. Still some information that is missing that needs to be added." />
+    <MESSAGE value="test update" />
+    <MESSAGE value="test 2" />
+    <MESSAGE value="test 3" />
+    <MESSAGE value="test 4" />
+    <MESSAGE value="test 5" />
+    <option name="LAST_COMMIT_MESSAGE" value="test 5" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -442,8 +485,19 @@
           <line>136</line>
           <option name="timeStamp" value="58" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/index.js</url>
+          <line>153</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="62" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="NodeJSConfigurationType">
+        <watch expression="encodedData" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
