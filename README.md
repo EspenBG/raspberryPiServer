@@ -358,15 +358,16 @@ Where the callback is exactly the same as the callback that was sent by the webc
 need for passing a function that are to be executed when the reply from the server is received. The robotConfig object is in the same
 JSON format as the sensor-config database. An example of this is:
 
-    {
-        "unit1": [
-            "#####1",
-            "#####2",
-            "#####3",
-            "#####4",
-        ]
-    }
-
+'''
+{
+    "unit1": [
+        "#####1",
+        "#####2",
+        "#####3",
+        "#####4",
+    ]
+}
+'''
 
 
 ### newSensorSettings [server/webclient]
