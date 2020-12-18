@@ -13,7 +13,7 @@ configuration fails the verification they are deleted, and a message is sent to 
 
 1. [Installation](#Installation)
 2. [Usage](#Usage)
-    1. [Authentication and security](#Authentication and security)
+    1. [Authentication and security](#authentication-and-security)
     2. [Database](#database)
         1. [Storing of the sensor data](#storing-of-the-sensor-data)
         2. [Configuration of sensors/robots](#configuration-of-sensorsrobots)
