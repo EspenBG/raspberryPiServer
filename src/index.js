@@ -302,19 +302,20 @@ io.on('connection', testFunction);
 function sendNewSetpoints(robotID) {
 
     let sensorConnected = robotConfig['robot-config'][robotID];
-    // let test = _.where(robotsConnected, {RobotID: robotID})
     let robotClient = "none";
-    // Collect all the setpoints for the sensors
+    // Get the client id for the socket used by the robot
     Object.keys(robotsConnected).map((client) => {
         if (robotsConnected[client]["robotID"] === robotID) {
             robotClient = client;
         }
     });
+    // Check if the robot is connected
     if (robotClient !== "none") {
         let socket = io.sockets.sockets[robotClient];
         let setpointsToSend = {};
 
         try {
+            // Retrieve all the setpoints for the sensors connected to the sensor
             sensorConnected.forEach(sensor => {
                 console.log(sensor);
                 if (sensorConfig['sensor-config'][sensor]['controlledItem'] === true) {
@@ -448,7 +449,6 @@ io.on('connection', (socket) => {
 let var1 = setInterval(addSensorsToDB, 60000);
 
 // Start the server on port specified in the server-config
-// TODO: Add port to server-config
 server.listen(serverPort);
 
 
