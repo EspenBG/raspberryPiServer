@@ -84,7 +84,7 @@ userIDs for the server and what sensors each user can monitor and control.
       "setpoint": 23.0
     },
     "uniqeSensorID2": {
-      "robot": "unit1"
+      "robot": "unit1",
       "type": "co2",
       "controlType": "reversed",
       "output": true,
