@@ -22,7 +22,7 @@ Describe how to use the program and different Testcases for the program
 ### Authentication and security
 
 Every robot that connects to the server needs to use a passcode to be authenticated.
-All the passcode needs to be predefinded and added to main program. This can be done by adding randomly generated
+All the passcode needs to be predefined and added to main program. This can be done by adding randomly generated
 passcodes. See example below (please don't use these codes):
 
 ```JavaScript
@@ -328,7 +328,6 @@ The response from the server for the event getData, is in the following format:
 "dataResponse", sensorData
 ```
 
-[//]: # (TODO: add link to database definiton)
 Where sensorData is structured in the same way as the database, and is an JSON object. Depending on if the data is for a
 SensorID or ControlledItemID the data is stored under a tag of the same name. All the sensor data is stored in an array
 with the sensorID/controlledItemID of the sensor as the tag. An example of this is shown below where #####1 is the
@@ -472,7 +471,6 @@ is in the same JSON format as the sensor-config database. An example of this is:
 ```
 
 ### newSensorSettings [server/webclient]
-
 This is an event that can be used by webclients to add a new configuration for a sensor or set new parameters to an
 existing one.
 
@@ -485,13 +483,78 @@ The event is structured as follows:
 ```
 
 Where sensorSetting is an JSON object in the same format as the reply from the server for
-the [sensorInfo](#sensorInfo-serverwebclient) event
+the [sensorInfo](#sensorInfo-serverwebclient) event, it is possible to append multiple configurations in the same object.
+Here is an example of the structure with multiple sensors:
+
+```JSON
+{
+  "#####1": {
+    "robot": "unit1",
+    "type": "temperature",
+    "controlType": "reverse",
+    "controlledItem": true,
+    "setpoint": "25"
+  },
+  "#####2": {
+    "robot": "unit3",
+    "type": "co2",
+    "controlType": "direct",
+    "controlledItem": true,
+    "setpoint": "25"
+  }
+}
+```
+If the configuration is successfully validated by the server, and successfully added to the database the server responds with:
+
+```
+"newSensorSettings", true (bool)
+```
+And if there was a problem in the configuration the server respond with:
+```
+"newSensorSettings", false (bool)
+```
+There are no changes made to the configuration if this is the reply.
 
 ### newRobotSettings [server/webclient]
+This is an event that can be used by webclients to add a new configuration for a robot or set new parameters to an exiting one 
+
+Proceed with caution the new parameters will _overwrite_ any existing parameters for the robot!
+
+The event is structured as follows:
+```
+"newRobotSettings", robotSettings
+```
+Where sensorSetting is an JSON object in the same format as the reply from the server for
+the [robotInfo](#robotInfo-serverwebclient) event. It is possible to append multiple configurations in the same object.
+Here is an example of the structure with multiple robots:
+
+```JSON
+{
+  "unit1": [
+    "#####1",
+    "#####2",
+    "#####3",
+    "#####4"
+  ],
+  "unit2": [
+    "#####5",
+    "#####6",
+    "#####7",
+    "#####8"
+  ]
+}
+```
+If the configuration is successfully validated by the server, and successfully added to the database the server responds with:
 
 ```
-"newRobotSettings", sensorSettings
+"newSensorSettings", true (bool)
 ```
+And if there was a problem in the configuration the server respond with:
+```
+"newSensorSettings", false (bool)
+```
+There are no changes made to the configuration if this is the reply.
+
 
 ## Contributing
 
