@@ -9,45 +9,76 @@ request the data. The webclient can send new configurations for sensors and robo
 in databases. Any new configurations from webclients are verified before they are stored and sent to robots. If the
 configuration fails the verification they are deleted, and a message is sent to the webclient.
 
+## Table of Contents
+
+1. [Installation](#Installation)
+2. [Usage](#Usage)
+    1. [Authentication and security](#Authentication and security)
+    2. [Database](#database)
+        1. [Storing of the sensor data](#storing-of-the-sensor-data)
+        2. [Configuration of sensors/robots](#configuration-of-sensorsrobots)
+3. [Protocol for communication between the robot and server](#Protocol for communication between the robot and server)
+    1. [authentication [server/robot]](#authentication-serverrobot)
+    2. [unitID [server]](#unitid-server)
+    3. [setpoint [robot]](#setpoint-robot)
+    4. [sensorData [server]](#sensordata-server)
+4. [Protocol for communication between webclients and the server](#Protocol for communication between webclients and the server)
+    1. [getData [server]](#getdata-server)
+    2. [dataResponse [webclient]](#dataresponse-webclient)
+    3. [allSensors [server/webclient]](#allsensors-serverwebclient)
+    4. [allRobots [server/webclient]](#allrobots-serverwebclient)
+    5. [sensorInfo [server/webclient]](#sensorinfo-serverwebclient)
+    6. [robotInfo [server/webclient]](#robotinfo-serverwebclient)
+    7. [newSensorSettings [server/webclient]](#newsensorsettings-serverwebclient)
+    8. [newRobotSettings [server/webclient]](#newrobotsettings-serverwebclient)
+5. [Contributing](#contributing)
+6. [Branches](#branches)
+7. [License](#license)
 
 ## Installation
 
 Describe the installation process for the program.
 
+````shell
+git clone https://github.com/datakom10030/raspberry_pi_server.git
+npm install webserver
+````
+
 ## Usage
 
-[//]: # (TODO: Describe the usage of the program and different usecases)
-Describe how to use the program and different Testcases for the program
+This program is made to be used in conjunction with the [robot program](https://github.com/datakom10030/ESP32Client),
+and the [webserver/websites](https://github.com/datakom10030/webserver)
+
+There is one [main program](src/index.js) and one [robot client](src/JSClient.js) that can be used to simulate or test
+the main program.
 
 ### Authentication and security
 
-Every robot that connects to the server needs to use a passcode to be authenticated.
-All the passcode needs to be predefined and added to main program. This can be done by adding randomly generated
-passcodes. See example below (please don't use these codes):
+Every robot that connects to the server needs to use a passcode to be authenticated. All the passcode needs to be
+predefined and added to main program. This can be done by adding randomly generated passcodes. See example below (please
+don't use these codes):
 
 ```JavaScript
 let unusedPasscodes = ["123456789", "123456788"];   
 ```
 
-This means the first communication from a robot (ESP-32) to the server has to be the 'passcode'. Or else the
-server will block (blacklist) the communication from that ip. If the passcode is not used for a certain time period it
-needs to be deleted. E.g. if the passcode has not been used for 1 week the passcode is deleted, and the user needs to
-generate a new one from the webpage if the unit is going to be used again later.
+This means the first communication from a robot (ESP-32) to the server has to be the 'passcode'. Or else the server will
+block (blacklist) the communication from that ip. If the passcode is not used for a certain time period it needs to be
+deleted. E.g. if the passcode has not been used for 1 week the passcode is deleted, and the user needs to generate a new
+one from the webpage if the unit is going to be used again later.
 
 This is only for communication from a robot to the server.
 
-
 ### Database
 
-This server implements four databases. Two of these are for storing of historical data received from the robots, and the other two 
-are for storing configurations for the sensors and robots.
+This server implements four databases. Two of these are for storing of historical data received from the robots, and the
+other two are for storing configurations for the sensors and robots.
 
 #### Storing of the sensor data
 
-The sensor data should be stored in a local .json file. The structure of the
-database is a hierarchy were the top-level is sensorID or ControlledItemID. Every unique sensorID has an entry under sensorID, that stores
-all the sensor data. Every data entry contains the value of the sensor and a timestamp. See example below for the
-database setup. 
+The sensor data should be stored in a local .json file. The structure of the database is a hierarchy were the top-level
+is sensorID or ControlledItemID. Every unique sensorID has an entry under sensorID, that stores all the sensor data.
+Every data entry contains the value of the sensor and a timestamp. See example below for the database setup.
 
 ```JSON
 {
@@ -65,12 +96,14 @@ database setup.
   }
 }
 ```
-This is an example for storing of the sensor data. for the controlled item the structure is the same, but  ```"SensorID"``` is replaced by ```"ControlledItemID"```.
+
+This is an example for storing of the sensor data. for the controlled item the structure is the same,
+but  ```"SensorID"``` is replaced by ```"ControlledItemID"```.
 
 #### Configuration of sensors/robots
 
 The sensor-config.json in the config directory is the setup file for the sensors, and contains all the configuration for
-the sensors and what the sensors control. An example of the structure is shown below. 
+the sensors and what the sensors control. An example of the structure is shown below.
 
 ```JSON
 {
@@ -93,8 +126,8 @@ the sensors and what the sensors control. An example of the structure is shown b
 }
 ```
 
-The robot-config.json in the config directory is the setup file for the robots, and contains information on what sensors that is connected to the robot. 
-An example of the structure is shown below.
+The robot-config.json in the config directory is the setup file for the robots, and contains information on what sensors
+that is connected to the robot. An example of the structure is shown below.
 
 ```JSON
 {
@@ -114,8 +147,9 @@ An example of the structure is shown below.
 ```
 
 ## Protocol for communication between the robot and server
-The communication between a unit (ESP-32) and the main server are using [socket.io](https://github.com/socketio/socket.io).
-The following events can be used by the robot client:
+
+The communication between a unit (ESP-32) and the main server are
+using [socket.io](https://github.com/socketio/socket.io). The following events can be used by the robot client:
 
 - authentication
 - unitID
@@ -126,7 +160,7 @@ The events sent from the server:
 - authentication
 - setpoint
 
-Some of these command are required, and some are merely a suggestion for easier implementation. 
+Some of these command are required, and some are merely a suggestion for easier implementation.
 
 This is a brief description of the communication protocol used between units and the robot server.
 
@@ -194,9 +228,9 @@ Setpoint is the event, and the setpointMessage is a string in JSON format, with 
 }
 ```
 
-Where uniqeSensorID is replaced by the sensorID of the first sensor for the unit, and 25.3 is replaced by the value
-of the setpoint for that sensor. E.g. if the configuration of the unit has only one sensor, the ID of this sensor is ```#####1```, 
-and the setpoint is 23.5 degrees the JSON message would be as follows with the event tag setpoint:
+Where uniqeSensorID is replaced by the sensorID of the first sensor for the unit, and 25.3 is replaced by the value of
+the setpoint for that sensor. E.g. if the configuration of the unit has only one sensor, the ID of this sensor
+is ```#####1```, and the setpoint is 23.5 degrees the JSON message would be as follows with the event tag setpoint:
 
 ```JSON
 {
@@ -471,6 +505,7 @@ is in the same JSON format as the sensor-config database. An example of this is:
 ```
 
 ### newSensorSettings [server/webclient]
+
 This is an event that can be used by webclients to add a new configuration for a sensor or set new parameters to an
 existing one.
 
@@ -483,8 +518,8 @@ The event is structured as follows:
 ```
 
 Where sensorSetting is an JSON object in the same format as the reply from the server for
-the [sensorInfo](#sensorInfo-serverwebclient) event, it is possible to append multiple configurations in the same object.
-Here is an example of the structure with multiple sensors:
+the [sensorInfo](#sensorinfo-serverwebclient) event, it is possible to append multiple configurations in the same
+object. Here is an example of the structure with multiple sensors:
 
 ```JSON
 {
@@ -504,28 +539,37 @@ Here is an example of the structure with multiple sensors:
   }
 }
 ```
-If the configuration is successfully validated by the server, and successfully added to the database the server responds with:
+
+If the configuration is successfully validated by the server, and successfully added to the database the server responds
+with:
 
 ```
 "newSensorSettings", true (bool)
 ```
+
 And if there was a problem in the configuration the server respond with:
+
 ```
 "newSensorSettings", false (bool)
 ```
+
 There are no changes made to the configuration if this is the reply.
 
 ### newRobotSettings [server/webclient]
-This is an event that can be used by webclients to add a new configuration for a robot or set new parameters to an exiting one 
+
+This is an event that can be used by webclients to add a new configuration for a robot or set new parameters to an
+exiting one
 
 Proceed with caution the new parameters will _overwrite_ any existing parameters for the robot!
 
 The event is structured as follows:
+
 ```
 "newRobotSettings", robotSettings
 ```
+
 Where sensorSetting is an JSON object in the same format as the reply from the server for
-the [robotInfo](#robotInfo-serverwebclient) event. It is possible to append multiple configurations in the same object.
+the [robotInfo](#robotinfo-serverwebclient) event. It is possible to append multiple configurations in the same object.
 Here is an example of the structure with multiple robots:
 
 ```JSON
@@ -544,17 +588,21 @@ Here is an example of the structure with multiple robots:
   ]
 }
 ```
-If the configuration is successfully validated by the server, and successfully added to the database the server responds with:
+
+If the configuration is successfully validated by the server, and successfully added to the database the server responds
+with:
 
 ```
 "newSensorSettings", true (bool)
 ```
+
 And if there was a problem in the configuration the server respond with:
+
 ```
 "newSensorSettings", false (bool)
 ```
-There are no changes made to the configuration if this is the reply.
 
+There are no changes made to the configuration if this is the reply.
 
 ## Contributing
 
